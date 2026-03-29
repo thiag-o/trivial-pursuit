@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-2: Frontend Base — implementação (Phase 3/4 done: T1-T10)
+**Current Work:** MVP-2: Frontend Base — completo (T1-T13 done, all 4 phases)
 
 ---
 
@@ -95,7 +95,7 @@ _Nenhuma lição registrada ainda._
 - [x] Especificar MVP-2: Frontend Base
 - [x] Design MVP-2: Frontend Base
 - [x] Tasks MVP-2: Frontend Base
-- [ ] Implementar MVP-2: Frontend Base
+- [x] Implementar MVP-2: Frontend Base
 
 ---
 
