@@ -78,8 +78,8 @@ T14
 
 **Done when**:
 
-- [ ] `pixi.js` listed in `frontend/package.json` dependencies
-- [ ] `npm run build` succeeds without errors
+- [x] `pixi.js` listed in `frontend/package.json` dependencies
+- [x] `npm run build` succeeds without errors
 
 **Verify**:
 
@@ -113,9 +113,9 @@ cd frontend && grep pixi package.json && npm run build
 
 **Done when**:
 
-- [ ] File `frontend/src/game/types.ts` exists with all 7 type/interface definitions
-- [ ] All types exported
-- [ ] No TypeScript errors (`npx tsc --noEmit`)
+- [x] File `frontend/src/game/types.ts` exists with all 7 type/interface definitions
+- [x] All types exported
+- [x] No TypeScript errors (`npx tsc --noEmit`)
 
 **Verify**:
 
@@ -145,9 +145,9 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] File `frontend/src/game/constants.ts` exists with `CATEGORY_COLORS`, `PLAYER_COLORS`, `PLAYER_COLOR_LIST`, and dimension constants
-- [ ] All constants exported
-- [ ] No TypeScript errors
+- [x] File `frontend/src/game/constants.ts` exists with `CATEGORY_COLORS`, `PLAYER_COLORS`, `PLAYER_COLOR_LIST`, and dimension constants
+- [x] All constants exported
+- [x] No TypeScript errors
 
 **Verify**:
 
@@ -178,10 +178,10 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] File exports `BOARD_TILES` with exactly 73 entries
-- [ ] Tile 0 is type `'hub'`, tile 5 is type `'hq'` with category `'geography'`, tile 3 is type `'rollAgain'`
-- [ ] Category cycle matches backend: geography, entertainment, history, art, science, sports
-- [ ] No TypeScript errors
+- [x] File exports `BOARD_TILES` with exactly 73 entries
+- [x] Tile 0 is type `'hub'`, tile 5 is type `'hq'` with category `'geography'`, tile 3 is type `'rollAgain'`
+- [x] Category cycle matches backend: geography, entertainment, history, art, science, sports
+- [x] No TypeScript errors
 
 **Verify**:
 
@@ -210,11 +210,11 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] `calculateBoardLayout(800)` returns a `BoardLayout` with 73 `TileLayout` entries
-- [ ] Tile 0 position is at (400, 400) — center
-- [ ] Tile 1 position is at top of circle (400, 80) approximately
-- [ ] All ring tiles are evenly spaced at 5° intervals
-- [ ] No TypeScript errors
+- [x] `calculateBoardLayout(800)` returns a `BoardLayout` with 73 `TileLayout` entries
+- [x] Tile 0 position is at (400, 400) — center
+- [x] Tile 1 position is at top of circle (400, 80) approximately
+- [x] All ring tiles are evenly spaced at 5° intervals
+- [x] No TypeScript errors
 
 **Verify**:
 
@@ -246,13 +246,13 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] Class exports `BoardRenderer` with `render()` and `destroy()` methods
-- [ ] Hub rendered as hexagon at center
-- [ ] 6 spokes drawn from center to HQ positions (5,10,15,20,25,30)
-- [ ] 72 ring tiles drawn with correct category colors
-- [ ] HQ tiles visually distinct (larger + gold border)
-- [ ] Roll Again tiles visually distinct
-- [ ] No TypeScript errors
+- [x] Class exports `BoardRenderer` with `render()` and `destroy()` methods
+- [x] Hub rendered as hexagon at center
+- [x] 6 spokes drawn from center to HQ positions (5,10,15,20,25,30)
+- [x] 72 ring tiles drawn with correct category colors
+- [x] HQ tiles visually distinct (larger + gold border)
+- [x] Roll Again tiles visually distinct
+- [x] No TypeScript errors
 
 **Verify**:
 
@@ -283,11 +283,11 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] Class exports `TokenRenderer` with `renderTokens()`, `updateTokenPositions()`, `destroy()`
-- [ ] Tokens rendered with correct player colors
-- [ ] Human token has white border
-- [ ] Multiple tokens on same tile are offset (not fully overlapping)
-- [ ] No TypeScript errors
+- [x] Class exports `TokenRenderer` with `renderTokens()`, `updateTokenPositions()`, `destroy()`
+- [x] Tokens rendered with correct player colors
+- [x] Human token has white border
+- [x] Multiple tokens on same tile are offset (not fully overlapping)
+- [x] No TypeScript errors
 
 **Verify**:
 
@@ -318,11 +318,11 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] Hook creates PixiJS Application on mount
-- [ ] Hook destroys Application on unmount (no WebGL leak)
-- [ ] ResizeObserver scales canvas via CSS transform
-- [ ] Returns error string if WebGL init fails
-- [ ] No TypeScript errors
+- [x] Hook creates PixiJS Application on mount
+- [x] Hook destroys Application on unmount (no WebGL leak)
+- [x] ResizeObserver scales canvas via CSS transform
+- [x] Returns error string if WebGL init fails
+- [x] No TypeScript errors
 
 **Verify**:
 
@@ -352,10 +352,10 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] Component renders 6 distinct color buttons
-- [ ] Clicking a button calls `onSelect` with the correct `PlayerColor`
-- [ ] Styled consistently with existing pages (dark theme, Tailwind)
-- [ ] No TypeScript errors
+- [x] Component renders 6 distinct color buttons
+- [x] Clicking a button calls `onSelect` with the correct `PlayerColor`
+- [x] Styled consistently with existing pages (dark theme, Tailwind)
+- [x] No TypeScript errors
 
 **Verify**:
 
@@ -385,12 +385,12 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] Displays human nickname
-- [ ] Lists all players with their token colors
-- [ ] Indicates current player's turn
-- [ ] Shows category color legend
-- [ ] Styled with Tailwind dark theme
-- [ ] No TypeScript errors
+- [x] Displays human nickname
+- [x] Lists all players with their token colors
+- [x] Indicates current player's turn
+- [x] Shows category color legend
+- [x] Styled with Tailwind dark theme
+- [x] No TypeScript errors
 
 **Verify**:
 
@@ -422,12 +422,12 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] Component renders PixiJS canvas inside a container div
-- [ ] Board tiles, hub, spokes visible on mount
-- [ ] Player tokens visible on hub
-- [ ] Shows fallback message if WebGL unavailable
-- [ ] Canvas scales on container resize
-- [ ] No TypeScript errors
+- [x] Component renders PixiJS canvas inside a container div
+- [x] Board tiles, hub, spokes visible on mount
+- [x] Player tokens visible on hub
+- [x] Shows fallback message if WebGL unavailable
+- [x] Canvas scales on container resize
+- [x] No TypeScript errors
 
 **Verify**:
 
@@ -455,9 +455,9 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] `navigate('/game', { state: res.data })` replaces `navigate('/game')`
-- [ ] Game state (players, gameId, etc.) is passed via location state
-- [ ] No TypeScript errors
+- [x] `navigate('/game', { state: res.data })` replaces `navigate('/game')`
+- [x] Game state (players, gameId, etc.) is passed via location state
+- [x] No TypeScript errors
 
 **Verify**:
 
@@ -489,12 +489,12 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] Redirects to `/start` if no location state
-- [ ] Shows ColorPicker before board
-- [ ] After color selection, renders BoardCanvas + GameHUD side by side
-- [ ] Human player gets selected color, opponents get auto-assigned distinct colors
-- [ ] Flex layout: board 75%, HUD 25%
-- [ ] No TypeScript errors
+- [x] Redirects to `/start` if no location state
+- [x] Shows ColorPicker before board
+- [x] After color selection, renders BoardCanvas + GameHUD side by side
+- [x] Human player gets selected color, opponents get auto-assigned distinct colors
+- [x] Flex layout: board 75%, HUD 25%
+- [x] No TypeScript errors
 
 **Verify**:
 
@@ -521,9 +521,9 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] `npx tsc --noEmit` passes with zero errors
-- [ ] `npm run build` succeeds
-- [ ] `npm run lint` passes
+- [x] `npx tsc --noEmit` passes with zero errors
+- [x] `npm run build` succeeds
+- [x] `npm run lint` passes
 
 **Verify**:
 

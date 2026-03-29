@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-3: Tabuleiro PixiJS — implementação
+**Current Work:** MVP-3: Tabuleiro PixiJS — implementação completa (14/14 tasks)
 
 ---
 
@@ -141,7 +141,7 @@ _Nenhuma lição registrada ainda._
 - [x] Especificar MVP-3: Tabuleiro PixiJS
 - [x] Design MVP-3: Tabuleiro PixiJS
 - [x] Tasks MVP-3: Tabuleiro PixiJS
-- [ ] Implementar MVP-3: Tabuleiro PixiJS
+- [x] Implementar MVP-3: Tabuleiro PixiJS
 
 ---
 

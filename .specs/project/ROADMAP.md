@@ -20,7 +20,7 @@
 - JWT guard protegendo todas as rotas (exceto login)
 - CORS configurado para origem do frontend
 
-**MVP-2: Frontend Base** — IN PROGRESS
+**MVP-2: Frontend Base** — COMPLETE
 
 - Tela de Login (campo apelido, validação, POST /auth/login, armazenamento JWT)
 - Tela de Iniciar Jogo (botão centralizado, POST /game/start)
@@ -28,7 +28,7 @@
 - Axios com interceptor JWT
 - Redirect para login em caso de 401
 
-**MVP-3: Tabuleiro PixiJS** — PLANNED
+**MVP-3: Tabuleiro PixiJS** — IN PROGRESS
 
 - Renderização do tabuleiro circular (hub central hexagonal, 6 raios, trilha circular)
 - Casas coloridas por categoria, 6 casas HQ, 12 casas Roll Again
