@@ -484,11 +484,11 @@ T16
 
 **Done when**:
 
-- [ ] Phase badge displays correct text/emoji for each turnPhase value
-- [ ] Dice value shown in badge during waitingMove
-- [ ] Wedge dots displayed per player (color-coded)
-- [ ] Existing HUD layout and styling preserved
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] Phase badge displays correct text/emoji for each turnPhase value
+- [x] Dice value shown in badge during waitingMove
+- [x] Wedge dots displayed per player (color-coded)
+- [x] Existing HUD layout and styling preserved
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
