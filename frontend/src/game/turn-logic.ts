@@ -57,3 +57,10 @@ export function getBotsToSkip(
   }
   return bots;
 }
+
+export function filterHubIfMustLeave(
+  destinations: number[],
+  mustLeaveHub: boolean,
+): number[] {
+  return destinations.filter((d) => !(mustLeaveHub && d === 0));
+}
