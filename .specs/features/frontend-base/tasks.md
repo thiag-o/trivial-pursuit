@@ -406,11 +406,11 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] Todas as telas usam dark theme consistente (bg-gray-900 base)
-- [ ] Cards com padding, rounded, shadow
-- [ ] Botões com hover states e disabled styling
-- [ ] Erros em vermelho abaixo dos inputs
-- [ ] Visual polido e profissional (inspeção visual)
+- [x] Todas as telas usam dark theme consistente (bg-gray-900 base)
+- [x] Cards com padding, rounded, shadow
+- [x] Botões com hover states e disabled styling
+- [x] Erros em vermelho abaixo dos inputs
+- [x] Visual polido e profissional (inspeção visual)
 
 **Verify**:
 
