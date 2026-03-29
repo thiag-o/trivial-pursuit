@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-4: Lógica de Turno — design
+**Current Work:** MVP-4: Lógica de Turno — tasks
 
 ---
 
@@ -98,6 +98,55 @@
 **Trade-off:** Jogo parece single-player até MVP-6 ser implementado.
 **Impact:** Frontend precisa de lógica de skip de turnos de bot, chamando advanceTurn no backend ou gerenciando localmente.
 
+### AD-015: Token animation via PixiJS Ticker (2026-03-29)
+
+**Decision:** Animação de movimentação de token usando `app.ticker.add()` (interpolação linear), sem lib externa como GSAP.
+**Reason:** PixiJS Ticker já está disponível, lerp simples de 500ms não justifica dependência extra.
+**Trade-off:** Sem easing curves sofisticadas (linear only), mas suficiente para MVP.
+**Impact:** Zero dependências adicionais. TokenRenderer ganha método `animateToken()`.
+
+### AD-016: Valid destinations computed on frontend (2026-03-29)
+
+**Decision:** Frontend calcula destinos válidos localmente (espelhando `BoardConfig.getValidDestinations`) para feedback imediato. Backend valida no POST /game/move.
+**Reason:** Evita API call extra. Frontend já espelha board data (AD-007). Resultado idêntico ao backend.
+**Trade-off:** Lógica duplicada (frontend + backend), mas é simples (< 20 linhas) e já havia precedente com AD-007.
+**Impact:** Novo arquivo `turn-logic.ts` com função `getValidDestinations()`. Highlights aparecem instantaneamente após rolagem.
+
+### AD-017: Bot skip via backend advanceTurn + frontend visual sequence (2026-03-29)
+
+**Decision:** Backend `advanceTurn` pula automaticamente jogadores bot (loop until human). Frontend mostra sequência visual dos nomes dos bots sendo pulados.
+**Reason:** Abordagem mais simples: 1 mudança no backend, 0 API calls extra. Frontend faz animação local com dados que já possui.
+**Trade-off:** `advanceTurn` precisará ser revertido/modificado no MVP-6 quando bots jogarem de verdade.
+**Impact:** Backend: modificar `advanceTurn` com do-while. Frontend: mostrar nomes de bots em sequência (0.5s cada).
+
+### AD-018: Game state managed via useState in GamePage (2026-03-29)
+
+**Decision:** Estado do jogo gerenciado via `useState<GamePageState>` no GamePage, atualizado a partir de cada resposta da API.
+**Reason:** Consistente com AD-004 (sem estado global). GamePage é o único componente que precisa do estado completo. Sub-componentes recebem dados via props.
+**Trade-off:** Se futuro componente fora da árvore do GamePage precisar do estado, será necessário levantar para Context/store.
+**Impact:** GamePage é o orquestrador central. Nenhuma nova lib de estado necessária.
+
+### AD-019: Dice animation as React component (2026-03-29)
+
+**Decision:** Componente de dado implementado em React/Tailwind (não como parte do canvas PixiJS).
+**Reason:** Dado é texto + botão — HTML/CSS é mais natural que canvas para isso. Estilo consistente com resto da UI.
+**Trade-off:** Dado visualmente separado do tabuleiro (não sobreposto nele).
+**Impact:** Novo componente `DiceRoller.tsx` usando React + Tailwind.
+
+### AD-020: Question modal and notifications as React overlays (2026-03-29)
+
+**Decision:** Modal de pergunta e notificações implementados como overlays React (não PixiJS).
+**Reason:** Texto longo, botões de resposta, feedback visual — tudo mais natural em HTML/CSS. Acessibilidade e i18n muito melhores em React.
+**Trade-off:** Overlay React sobre canvas PixiJS (z-index layering, mas funciona bem).
+**Impact:** Novos componentes: `QuestionModal.tsx`, `CategoryPickerModal.tsx`, `TurnNotification.tsx`.
+
+### AD-021: Enhance answer endpoint to return full player data (2026-03-29)
+
+**Decision:** Enriquecer resposta do `POST /questions/:id/answer` para incluir array `players[]` completo (com wedges) no `gameState`.
+**Reason:** Resposta atual só retorna currentPlayer e turnPhase. Frontend precisa de wedges atualizados para exibir no HUD imediatamente após acerto em casa HQ.
+**Trade-off:** Resposta levemente maior (inclui todos os jogadores), mas são apenas 4 objetos pequenos.
+**Impact:** Modificar `questions.controller.ts` para incluir `players` no `gameState` do response.
+
 ### AD-002: Validar suposições S1-S8 com valores sugeridos (2026-03-29)
 
 **Decision:** Todas as 8 suposições do PRD aceitas com os valores sugeridos:
@@ -157,7 +206,7 @@ _Nenhuma lição registrada ainda._
 - [x] Tasks MVP-3: Tabuleiro PixiJS
 - [x] Implementar MVP-3: Tabuleiro PixiJS
 - [x] Especificar MVP-4: Lógica de Turno
-- [ ] Design MVP-4: Lógica de Turno
+- [x] Design MVP-4: Lógica de Turno
 - [ ] Tasks MVP-4: Lógica de Turno
 - [ ] Implementar MVP-4: Lógica de Turno
 
