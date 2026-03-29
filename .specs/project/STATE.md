@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-3: Tabuleiro PixiJS — implementação completa (14/14 tasks)
+**Current Work:** MVP-4: Lógica de Turno — design
 
 ---
 
@@ -84,6 +84,20 @@
 **Trade-off:** 12 cores no total para o jogador memorizar, mas as paletas são contextualmente distintas (tokens vs tiles).
 **Impact:** Dois conjuntos de constantes de cores no frontend.
 
+### AD-013: Spoke navigation not implemented — circular-only movement (2026-03-29)
+
+**Decision:** O backend `getValidDestinations` só suporta movimento circular (forward/backward wrap-around) e saída do hub central. Spokes (raios) são elementos visuais apenas — o jogador não navega por eles. O movimento é: do hub → posições 1-6 diretas, do anel → forward/backward.
+**Reason:** O board.config.ts existente implementa anel circular simples sem grafo de adjacência spoke. Implementar spokes navegáveis seria uma mudança significativa no backend e não é necessário para uma versão jogável.
+**Trade-off:** Menos opções estratégicas que o jogo físico (onde spokes permitem atalhos).
+**Impact:** Frontend calcula destinos com a mesma lógica simples do backend. Spokes são decorativos.
+
+### AD-014: Bot turns skipped temporarily in MVP-4 (2026-03-29)
+
+**Decision:** No MVP-4, quando o turno passa para um bot, o frontend pula automaticamente todos os bots e retorna ao jogador humano. Nenhuma ação de bot é simulada.
+**Reason:** A lógica de oponentes simulados é escopo do MVP-6. MVP-4 foca exclusivamente na jogabilidade do humano.
+**Trade-off:** Jogo parece single-player até MVP-6 ser implementado.
+**Impact:** Frontend precisa de lógica de skip de turnos de bot, chamando advanceTurn no backend ou gerenciando localmente.
+
 ### AD-002: Validar suposições S1-S8 com valores sugeridos (2026-03-29)
 
 **Decision:** Todas as 8 suposições do PRD aceitas com os valores sugeridos:
@@ -142,6 +156,10 @@ _Nenhuma lição registrada ainda._
 - [x] Design MVP-3: Tabuleiro PixiJS
 - [x] Tasks MVP-3: Tabuleiro PixiJS
 - [x] Implementar MVP-3: Tabuleiro PixiJS
+- [x] Especificar MVP-4: Lógica de Turno
+- [ ] Design MVP-4: Lógica de Turno
+- [ ] Tasks MVP-4: Lógica de Turno
+- [ ] Implementar MVP-4: Lógica de Turno
 
 ---
 
