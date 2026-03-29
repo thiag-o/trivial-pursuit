@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-4: Lógica de Turno — Phase 4/6 done (T10-T14: DiceRoller, QuestionModal, CategoryPickerModal, TurnNotification, GameHUD enhancements)
+**Current Work:** MVP-4: Lógica de Turno — Phase 5/6 done (T15: GamePage turn orchestrator)
 
 ---
 

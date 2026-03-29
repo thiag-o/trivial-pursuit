@@ -535,14 +535,14 @@ T16
 
 **Done when**:
 
-- [ ] Full turn cycle works: roll → pick destination → token animates → question appears → answer → feedback → next roll (or pass turn)
-- [ ] Roll Again tiles skip question and return to roll phase
-- [ ] Hub Central shows category picker before question
-- [ ] Bot turns are skipped with visual notification sequence
-- [ ] API errors show notification without breaking state
-- [ ] Double-click prevention works (buttons/tiles disabled during loading)
-- [ ] HUD shows current phase and wedges
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] Full turn cycle works: roll → pick destination → token animates → question appears → answer → feedback → next roll (or pass turn)
+- [x] Roll Again tiles skip question and return to roll phase
+- [x] Hub Central shows category picker before question
+- [x] Bot turns are skipped with visual notification sequence
+- [x] API errors show notification without breaking state
+- [x] Double-click prevention works (buttons/tiles disabled during loading)
+- [x] HUD shows current phase and wedges
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
