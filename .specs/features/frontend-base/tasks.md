@@ -159,8 +159,8 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] Todas as 7 funções exportadas
-- [ ] Sem erros de TypeScript (`npx tsc --noEmit`)
+- [x] Todas as 7 funções exportadas
+- [x] Sem erros de TypeScript (`npx tsc --noEmit`)
 
 **Verify**:
 
