@@ -62,9 +62,9 @@ T11 → T12 → T13
 
 **Done when**:
 
-- [ ] `frontend/package.json` contém `react`, `react-dom`, `axios`, `react-router-dom`
-- [ ] `npm run dev` inicia sem erros
-- [ ] TypeScript strict mode ativo em `tsconfig.json`
+- [x] `frontend/package.json` contém `react`, `react-dom`, `axios`, `react-router-dom`
+- [x] `npm run dev` inicia sem erros
+- [x] TypeScript strict mode ativo em `tsconfig.json`
 
 **Verify**:
 
@@ -93,9 +93,9 @@ cd frontend && npm run dev -- --port 3000
 
 **Done when**:
 
-- [ ] `tailwindcss` e `@tailwindcss/vite` presentes no `devDependencies`
-- [ ] `src/index.css` contém diretiva `@import "tailwindcss"`
-- [ ] Classes Tailwind aplicadas corretamente (visível no browser)
+- [x] `tailwindcss` e `@tailwindcss/vite` presentes no `devDependencies`
+- [x] `src/index.css` contém diretiva `@import "tailwindcss"`
+- [x] Classes Tailwind aplicadas corretamente (visível no browser)
 
 **Verify**:
 
@@ -124,10 +124,10 @@ cd frontend && npm run build
 
 **Done when**:
 
-- [ ] `.env` contém `VITE_API_URL=http://localhost:3001`
-- [ ] Pastas `services/`, `components/`, `pages/` existem
-- [ ] `main.tsx` usa `BrowserRouter` wrapping `<App />`
-- [ ] Sem erros de TypeScript (`npx tsc --noEmit`)
+- [x] `.env` contém `VITE_API_URL=http://localhost:3001`
+- [x] Pastas `services/`, `components/`, `pages/` existem
+- [x] `main.tsx` usa `BrowserRouter` wrapping `<App />`
+- [x] Sem erros de TypeScript (`npx tsc --noEmit`)
 
 **Verify**:
 

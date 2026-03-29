@@ -12,7 +12,7 @@
 
 ### Features
 
-**MVP-1: Backend Base** — IN PROGRESS
+**MVP-1: Backend Base** — COMPLETE
 
 - AuthModule: endpoint POST /auth/login, geração/validação JWT
 - QuestionsModule: JSON estático, GET /questions/:category, POST /questions/:id/answer
@@ -20,7 +20,7 @@
 - JWT guard protegendo todas as rotas (exceto login)
 - CORS configurado para origem do frontend
 
-**MVP-2: Frontend Base** — PLANNED
+**MVP-2: Frontend Base** — IN PROGRESS
 
 - Tela de Login (campo apelido, validação, POST /auth/login, armazenamento JWT)
 - Tela de Iniciar Jogo (botão centralizado, POST /game/start)
