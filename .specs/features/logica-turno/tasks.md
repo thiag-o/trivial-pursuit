@@ -85,9 +85,9 @@ T16
 
 **Done when**:
 
-- [ ] All 7 types/interfaces defined and exported
-- [ ] Existing types (`PlayerToken`, `TileDef`, etc.) unchanged
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] All 7 types/interfaces defined and exported
+- [x] Existing types (`PlayerToken`, `TileDef`, etc.) unchanged
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
@@ -110,8 +110,8 @@ T16
 
 **Done when**:
 
-- [ ] `CATEGORY_NAMES` exported with all 6 categories
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] `CATEGORY_NAMES` exported with all 6 categories
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
@@ -139,9 +139,9 @@ T16
 
 **Done when**:
 
-- [ ] 4 exported async functions with correct types
-- [ ] Each function calls the correct endpoint with correct method/body
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] 4 exported async functions with correct types
+- [x] Each function calls the correct endpoint with correct method/body
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
@@ -168,11 +168,11 @@ T16
 
 **Done when**:
 
-- [ ] `getValidDestinations(0, 3)` returns `[3]` (hub → forward only)
-- [ ] `getValidDestinations(70, 4)` returns `[2, 66]` (wrap forward + backward)
-- [ ] `isHumanTurn` returns true only when currentPlayer matches humanNickname
-- [ ] `getBotsToSkip` returns correct bot names in order
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] `getValidDestinations(0, 3)` returns `[3]` (hub → forward only)
+- [x] `getValidDestinations(70, 4)` returns `[2, 66]` (wrap forward + backward)
+- [x] `isHumanTurn` returns true only when currentPlayer matches humanNickname
+- [x] `getBotsToSkip` returns correct bot names in order
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 

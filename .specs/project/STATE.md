@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-4: Lógica de Turno — implementação
+**Current Work:** MVP-4: Lógica de Turno — Phase 1/6 done (T1-T4: types, constants, game-api, turn-logic)
 
 ---
 
