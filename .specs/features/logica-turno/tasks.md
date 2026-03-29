@@ -258,11 +258,11 @@ T16
 
 **Done when**:
 
-- [ ] `highlightTiles([3, 5])` creates visible pulsing highlights on tiles 3 and 5
-- [ ] Clicking a highlighted tile fires the registered callback with the position
-- [ ] `clearHighlights()` removes all highlights and disables click events
-- [ ] Non-highlighted tiles ignore clicks
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] `highlightTiles([3, 5])` creates visible pulsing highlights on tiles 3 and 5
+- [x] Clicking a highlighted tile fires the registered callback with the position
+- [x] `clearHighlights()` removes all highlights and disables click events
+- [x] Non-highlighted tiles ignore clicks
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 

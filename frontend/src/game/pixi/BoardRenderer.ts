@@ -1,4 +1,4 @@
-import { Application, Container, Graphics } from 'pixi.js';
+import { Application, Container, Graphics, Ticker } from 'pixi.js';
 import type { TileDef, BoardLayout } from '../types';
 import { CATEGORY_COLORS, HQ_TILE_RADIUS, TILE_RADIUS } from '../constants';
 import { HQ_POSITIONS, ROLL_AGAIN_POSITIONS } from '../board-data';
@@ -6,15 +6,22 @@ import { HQ_POSITIONS, ROLL_AGAIN_POSITIONS } from '../board-data';
 export class BoardRenderer {
   private container: Container;
   private app: Application;
+  private tileGraphics: Map<number, Graphics> = new Map();
+  private highlightContainer: Container;
+  private onTileClickCallback: ((position: number) => void) | null = null;
+  private highlightTicker: ((ticker: Ticker) => void) | null = null;
 
   constructor(app: Application) {
     this.app = app;
     this.container = new Container();
+    this.highlightContainer = new Container();
     this.app.stage.addChild(this.container);
+    this.app.stage.addChild(this.highlightContainer);
   }
 
   render(tiles: TileDef[], layout: BoardLayout): void {
     this.container.removeChildren();
+    this.tileGraphics.clear();
 
     const scale = layout.ringRadius / 320;
 
@@ -98,10 +105,70 @@ export class BoardRenderer {
       }
 
       this.container.addChild(g);
+      this.tileGraphics.set(i, g);
+    }
+  }
+
+  setOnTileClick(callback: (position: number) => void): void {
+    this.onTileClickCallback = callback;
+  }
+
+  highlightTiles(positions: number[]): void {
+    this.clearHighlights();
+
+    const highlights: Graphics[] = [];
+
+    for (const pos of positions) {
+      const tileG = this.tileGraphics.get(pos);
+      if (!tileG) continue;
+
+      const bounds = tileG.getBounds();
+      const cx = bounds.x + bounds.width / 2;
+      const cy = bounds.y + bounds.height / 2;
+      const radius = Math.max(bounds.width, bounds.height) / 2 + 4;
+
+      const overlay = new Graphics();
+      overlay.circle(cx, cy, radius);
+      overlay.fill({ color: 0xffffff, alpha: 0.4 });
+      overlay.eventMode = 'static';
+      overlay.cursor = 'pointer';
+
+      const capturedPos = pos;
+      overlay.on('pointerdown', () => {
+        if (this.onTileClickCallback) {
+          this.onTileClickCallback(capturedPos);
+        }
+      });
+
+      this.highlightContainer.addChild(overlay);
+      highlights.push(overlay);
+    }
+
+    // Pulsing animation
+    let elapsed = 0;
+    const tickerFn = (ticker: Ticker) => {
+      elapsed += ticker.deltaMS;
+      const alpha = 0.3 + 0.4 * (0.5 + 0.5 * Math.sin((elapsed / 1000) * Math.PI * 2));
+      for (const h of highlights) {
+        h.alpha = alpha;
+      }
+    };
+
+    this.highlightTicker = tickerFn;
+    this.app.ticker.add(tickerFn);
+  }
+
+  clearHighlights(): void {
+    this.highlightContainer.removeChildren();
+    if (this.highlightTicker) {
+      this.app.ticker.remove(this.highlightTicker);
+      this.highlightTicker = null;
     }
   }
 
   destroy(): void {
+    this.clearHighlights();
+    this.highlightContainer.destroy({ children: true });
     this.container.destroy({ children: true });
   }
 }
