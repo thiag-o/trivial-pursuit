@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-5: Fatias e Vitória — tasks
+**Current Work:** MVP-5: Fatias e Vitória — implementação
 
 ---
 
@@ -253,7 +253,7 @@ _Nenhuma lição registrada ainda._
 - [x] Implementar MVP-4: Lógica de Turno
 - [x] Especificar MVP-5: Fatias e Vitória
 - [x] Design MVP-5: Fatias e Vitória
-- [ ] Tasks MVP-5: Fatias e Vitória
+- [x] Tasks MVP-5: Fatias e Vitória
 - [ ] Implementar MVP-5: Fatias e Vitória
 
 ---
