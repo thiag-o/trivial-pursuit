@@ -451,10 +451,10 @@ T16
 
 **Done when**:
 
-- [ ] Shows message text when `message` is not null
-- [ ] Auto-hides after `duration` milliseconds
-- [ ] Renders nothing when `message === null`
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] Shows message text when `message` is not null
+- [x] Auto-hides after `duration` milliseconds
+- [x] Renders nothing when `message === null`
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
