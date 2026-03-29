@@ -292,10 +292,10 @@ T16
 
 **Done when**:
 
-- [ ] Component renders overlay with nickname, wedges, and button
-- [ ] Semi-transparent background, board visible behind
-- [ ] "Jogar Novamente" button fires `onPlayAgain` callback
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] Component renders overlay with nickname, wedges, and button
+- [x] Semi-transparent background, board visible behind
+- [x] "Jogar Novamente" button fires `onPlayAgain` callback
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
@@ -321,10 +321,10 @@ T16
 
 **Done when**:
 
-- [ ] Component renders overlay with winner info and button
-- [ ] Semi-transparent background, board visible behind
-- [ ] "Jogar Novamente" button fires `onPlayAgain` callback
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] Component renders overlay with winner info and button
+- [x] Semi-transparent background, board visible behind
+- [x] "Jogar Novamente" button fires `onPlayAgain` callback
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
@@ -348,10 +348,10 @@ T16
 
 **Done when**:
 
-- [ ] `isFinalChallenge` prop accepted
-- [ ] Gold theme renders when prop is true
-- [ ] Normal theme unchanged when prop is false/undefined
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] `isFinalChallenge` prop accepted
+- [x] Gold theme renders when prop is true
+- [x] Normal theme unchanged when prop is false/undefined
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
