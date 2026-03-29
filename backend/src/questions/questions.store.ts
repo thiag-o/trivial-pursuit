@@ -14,7 +14,7 @@ export class QuestionsStore implements OnModuleInit {
   }
 
   loadFromJson(): void {
-    const filePath = join(__dirname, '..', 'questions', 'data', 'questions.json');
+    const filePath = join(__dirname, 'data', 'questions.json');
     const raw = readFileSync(filePath, 'utf-8');
     this.questions = JSON.parse(raw);
   }
