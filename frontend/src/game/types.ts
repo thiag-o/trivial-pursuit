@@ -43,3 +43,69 @@ export interface BoardLayout {
   hubRadius: number;
   tiles: TileLayout[];
 }
+
+// --- Turn-related types (MVP-4) ---
+
+export type TurnPhase = 'waitingRoll' | 'waitingMove' | 'waitingAnswer';
+
+export interface PlayerData {
+  nickname: string;
+  position: number;
+  wedges: string[];
+  isHuman: boolean;
+}
+
+export interface QuestionData {
+  id: string;
+  category: Category;
+  question: string;
+  answers: { id: string; text: string }[];
+}
+
+export interface AnswerResult {
+  correct: boolean;
+  correctAnswer: string;
+}
+
+export interface GamePageState {
+  gameId: string;
+  players: PlayerData[];
+  playerTokens: PlayerToken[];
+  currentPlayerNickname: string;
+  turnPhase: TurnPhase;
+  lastDiceRoll: number | null;
+  validDestinations: number[];
+  currentTile: TileDef | null;
+  question: QuestionData | null;
+  answerResult: AnswerResult | null;
+  notification: string | null;
+  showCategoryPicker: boolean;
+  isLoading: boolean;
+}
+
+export interface RollDiceResponse {
+  value: number;
+}
+
+export interface MoveResponse {
+  gameId: string;
+  players: PlayerData[];
+  currentPlayer: string;
+  status: string;
+  turnPhase: TurnPhase;
+  lastDiceRoll: number | null;
+  tileType: TileType;
+  tileCategory: Category | null;
+}
+
+export interface AnswerResponse {
+  correct: boolean;
+  correctAnswer: string;
+  gameState: {
+    gameId: string;
+    players: PlayerData[];
+    currentPlayer: string;
+    turnPhase: TurnPhase;
+    status: string;
+  };
+}
