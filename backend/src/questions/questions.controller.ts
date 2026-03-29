@@ -1,7 +1,9 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators';
 import { QuestionsService } from './questions.service';
 import { GameService } from '../game/game.service';
+import { GameStateStore } from '../game/game-state.store';
+import { TurnPhase } from '../common/enums';
 import { AnswerDto } from './dto/answer.dto';
 
 @Controller('questions')
@@ -9,6 +11,7 @@ export class QuestionsController {
   constructor(
     private readonly questionsService: QuestionsService,
     private readonly gameService: GameService,
+    private readonly gameStateStore: GameStateStore,
   ) {}
 
   @Get(':category')
@@ -17,11 +20,21 @@ export class QuestionsController {
     @CurrentUser() nickname: string,
   ) {
     const game = this.gameService.getActiveGame(nickname);
-    return this.questionsService.getByCategory(
+
+    if (game.turnPhase !== TurnPhase.WAITING_ANSWER) {
+      throw new BadRequestException('Not in answering phase');
+    }
+
+    const question = this.questionsService.getByCategory(
       category,
       nickname,
       game.gameId,
     );
+
+    game.activeQuestionId = question.id;
+    this.gameStateStore.update(game.gameId, game);
+
+    return question;
   }
 
   @Post(':id/answer')
@@ -31,6 +44,11 @@ export class QuestionsController {
     @CurrentUser() nickname: string,
   ) {
     const game = this.gameService.getActiveGame(nickname);
+
+    if (game.activeQuestionId !== questionId) {
+      throw new BadRequestException('This question is not currently active');
+    }
+
     const result = this.questionsService.checkAnswer(questionId, dto.answerId);
     const updatedGame = this.gameService.processAnswer(
       game.gameId,
