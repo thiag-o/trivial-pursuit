@@ -18,9 +18,7 @@ export class GameService {
       throw new BadRequestException('Game already in progress');
     }
 
-    const players = [
-      { nickname, position: 0, wedges: [], isHuman: true },
-    ];
+    const players = [{ nickname, position: 0, wedges: [], isHuman: true }];
     for (let i = 1; i <= opponents; i++) {
       players.push({
         nickname: `Bot ${i}`,
@@ -142,8 +140,10 @@ export class GameService {
   }
 
   private advanceTurn(game: GameState): void {
-    game.currentPlayerIndex =
-      (game.currentPlayerIndex + 1) % game.players.length;
+    do {
+      game.currentPlayerIndex =
+        (game.currentPlayerIndex + 1) % game.players.length;
+    } while (!game.players[game.currentPlayerIndex].isHuman);
     game.turnPhase = TurnPhase.WAITING_ROLL;
     game.lastDiceRoll = null;
   }
