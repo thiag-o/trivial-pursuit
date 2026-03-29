@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-1: Backend Base — tasks (pronto para implementação)
+**Current Work:** MVP-2: Frontend Base — design
 
 ---
 
@@ -13,6 +13,13 @@
 **Reason:** O PRD já contém visão, objetivos, stack, escopo, restrições e roadmap detalhados.
 **Trade-off:** Nenhum — o PRD é suficientemente completo.
 **Impact:** Projeto inicializado rapidamente com documentação alinhada ao PRD.
+
+### AD-003: Frontend Base — decisões de escopo e infra (2026-03-29)
+
+**Decision:** JWT armazenado em localStorage (não sessionStorage/cookie); baseURL do Axios configurável via VITE_API_URL (default http://localhost:3001); seleção de número de oponentes adiada para MVP-4 (tela Start usa default 3); Vite como bundler; tela /game será placeholder até MVP-3.
+**Reason:** localStorage persiste entre abas (melhor UX), Vite é padrão React moderno, seleção de oponentes é lógica de turno e não de infra frontend.
+**Trade-off:** localStorage é vulnerável a XSS em produção, mas o projeto é local-only sem dados sensíveis.
+**Impact:** Spec fechada com 20 requirements (16 P1, 3 P2, 1 P3), pronta para design.
 
 ### AD-002: Validar suposições S1-S8 com valores sugeridos (2026-03-29)
 
@@ -63,7 +70,11 @@ _Nenhuma lição registrada ainda._
 - [x] Especificar MVP-1: Backend Base
 - [x] Design MVP-1: Backend Base
 - [x] Tasks MVP-1: Backend Base
-- [ ] Implementar MVP-1: Backend Base (20 tasks, 5 fases)
+- [x] Implementar MVP-1: Backend Base (20 tasks, 5 fases)
+- [x] Especificar MVP-2: Frontend Base
+- [ ] Design MVP-2: Frontend Base
+- [ ] Tasks MVP-2: Frontend Base
+- [ ] Implementar MVP-2: Frontend Base
 
 ---
 
