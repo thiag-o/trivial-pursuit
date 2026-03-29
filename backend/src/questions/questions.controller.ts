@@ -1,4 +1,11 @@
-import { BadRequestException, Body, Controller, Get, Param, Post } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+} from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators';
 import { QuestionsService } from './questions.service';
 import { GameService } from '../game/game.service';
@@ -64,6 +71,12 @@ export class QuestionsController {
           updatedGame.players[updatedGame.currentPlayerIndex].nickname,
         turnPhase: updatedGame.turnPhase,
         status: updatedGame.status,
+        players: updatedGame.players.map((p) => ({
+          nickname: p.nickname,
+          position: p.position,
+          wedges: p.wedges,
+          isHuman: p.isHuman,
+        })),
       },
     };
   }
