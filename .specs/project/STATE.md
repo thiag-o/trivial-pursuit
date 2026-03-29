@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-4: Lógica de Turno — tasks
+**Current Work:** MVP-4: Lógica de Turno — implementação
 
 ---
 
@@ -207,7 +207,7 @@ _Nenhuma lição registrada ainda._
 - [x] Implementar MVP-3: Tabuleiro PixiJS
 - [x] Especificar MVP-4: Lógica de Turno
 - [x] Design MVP-4: Lógica de Turno
-- [ ] Tasks MVP-4: Lógica de Turno
+- [x] Tasks MVP-4: Lógica de Turno
 - [ ] Implementar MVP-4: Lógica de Turno
 
 ---
