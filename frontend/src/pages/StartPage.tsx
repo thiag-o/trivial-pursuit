@@ -14,8 +14,8 @@ export default function StartPage() {
     setError('');
     setLoading(true);
     try {
-      await api.post('/game/start');
-      navigate('/game');
+      const res = await api.post('/game/start');
+      navigate('/game', { state: res.data });
     } catch (err: unknown) {
       if (err && typeof err === 'object' && 'response' in err) {
         const response = (err as { response?: { data?: { message?: string } } }).response;
