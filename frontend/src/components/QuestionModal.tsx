@@ -8,6 +8,7 @@ interface QuestionModalProps {
   onAnswer: (answerId: string) => void;
   answerResult: AnswerResult | null;
   isLoading: boolean;
+  isFinalChallenge?: boolean;
 }
 
 export default function QuestionModal({
@@ -16,6 +17,7 @@ export default function QuestionModal({
   onAnswer,
   answerResult,
   isLoading,
+  isFinalChallenge = false,
 }: QuestionModalProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
 
@@ -50,13 +52,17 @@ export default function QuestionModal({
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60">
-      <div className="w-full max-w-lg rounded-2xl bg-gray-800 overflow-hidden shadow-2xl">
+      <div
+        className={`w-full max-w-lg rounded-2xl bg-gray-800 overflow-hidden shadow-2xl ${
+          isFinalChallenge ? 'border-2 border-yellow-400 shadow-yellow-400/30' : ''
+        }`}
+      >
         {/* Category header */}
         <div
           className="px-6 py-3 text-center font-bold text-gray-900"
-          style={{ backgroundColor: categoryColor }}
+          style={{ backgroundColor: isFinalChallenge ? '#FFD700' : categoryColor }}
         >
-          {categoryName}
+          {isFinalChallenge ? '🏆 DESAFIO FINAL' : categoryName}
         </div>
 
         {/* Question body */}
