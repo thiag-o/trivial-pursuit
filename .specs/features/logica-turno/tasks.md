@@ -422,10 +422,10 @@ T16
 
 **Done when**:
 
-- [ ] Shows 6 colored category buttons when visible
-- [ ] Click calls `onSelect` with the selected category string
-- [ ] Hidden when `visible=false`
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] Shows 6 colored category buttons when visible
+- [x] Click calls `onSelect` with the selected category string
+- [x] Hidden when `visible=false`
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
