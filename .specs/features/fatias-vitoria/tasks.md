@@ -263,10 +263,10 @@ T16
 
 **Done when**:
 
-- [ ] Move response includes `isFinalChallenge: boolean`
-- [ ] Move response includes `finalCategory: string | null`
-- [ ] Normal moves return `isFinalChallenge: false`, `finalCategory: null`
-- [ ] No TypeScript errors: `cd backend && npx tsc --noEmit`
+- [x] Move response includes `isFinalChallenge: boolean`
+- [x] Move response includes `finalCategory: string | null`
+- [x] Normal moves return `isFinalChallenge: false`, `finalCategory: null`
+- [x] No TypeScript errors: `cd backend && npx tsc --noEmit`
 
 **Verify**: `cd backend && npx tsc --noEmit`
 

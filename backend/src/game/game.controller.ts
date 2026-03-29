@@ -1,5 +1,6 @@
 import { Body, Controller, Post } from '@nestjs/common';
 import { CurrentUser } from '../auth/decorators';
+import { TurnPhase } from '../common/enums';
 import { GameService } from './game.service';
 import { StartGameDto, MoveDto } from './dto';
 
@@ -50,6 +51,9 @@ export class GameController {
       lastDiceRoll: state.lastDiceRoll,
       tileType: tile.type,
       tileCategory: tile.category,
+      isFinalChallenge:
+        state.turnPhase === TurnPhase.WAITING_FINAL_ANSWER,
+      finalCategory: state.finalChallengeCategory,
     };
   }
 }
