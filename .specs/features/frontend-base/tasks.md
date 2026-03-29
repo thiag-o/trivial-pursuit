@@ -189,11 +189,11 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] Instância Axios exportada com baseURL configurável
-- [ ] Request interceptor adiciona header JWT quando token existe
-- [ ] Response interceptor trata 401 (limpa auth + redirect)
-- [ ] Interceptor NÃO redireciona em 401 do `/auth/login` (previne loop infinito)
-- [ ] Sem erros de TypeScript (`npx tsc --noEmit`)
+- [x] Instância Axios exportada com baseURL configurável
+- [x] Request interceptor adiciona header JWT quando token existe
+- [x] Response interceptor trata 401 (limpa auth + redirect)
+- [x] Interceptor NÃO redireciona em 401 do `/auth/login` (previne loop infinito)
+- [x] Sem erros de TypeScript (`npx tsc --noEmit`)
 
 **Verify**:
 
