@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-2: Frontend Base — design
+**Current Work:** MVP-2: Frontend Base — tasks
 
 ---
 
@@ -20,6 +20,27 @@
 **Reason:** localStorage persiste entre abas (melhor UX), Vite é padrão React moderno, seleção de oponentes é lógica de turno e não de infra frontend.
 **Trade-off:** localStorage é vulnerável a XSS em produção, mas o projeto é local-only sem dados sensíveis.
 **Impact:** Spec fechada com 20 requirements (16 P1, 3 P2, 1 P3), pronta para design.
+
+### AD-004: Frontend architecture — local state only, no global store (2026-03-29)
+
+**Decision:** Usar apenas `useState` local nos componentes, sem Redux/Zustand/Context global.
+**Reason:** MVP-2 tem apenas 3 telas simples com estado mínimo (nickname, error, loading). Estado global é overengineering neste ponto.
+**Trade-off:** Se MVP-3+ precisar de estado global (game state compartilhado), será adicionado naquela fase.
+**Impact:** Menos dependências, componentes mais simples, setup mais rápido.
+
+### AD-005: 401 redirect via window.location, não useNavigate (2026-03-29)
+
+**Decision:** O interceptor Axios de 401 usa `window.location.href = '/login'` em vez de React Router `navigate()`.
+**Reason:** O interceptor roda fora do React component tree, sem acesso ao Router context. `window.location` funciona universalmente.
+**Trade-off:** Full page reload no redirect de 401 (aceitável — é caso de erro, não navegação normal).
+**Impact:** Interceptor desacoplado do React Router, mais simples e robusto.
+
+### AD-006: Tailwind dark theme via classes, sem dark mode toggle (2026-03-29)
+
+**Decision:** Usar classes Tailwind diretamente (bg-gray-900, text-white) em vez de configurar dark mode system/class toggle.
+**Reason:** Projeto é tema fixo escuro (trivia/quiz vibe), sem necessidade de toggle claro/escuro.
+**Trade-off:** Sem suporte a tema claro.
+**Impact:** CSS mais simples, sem lógica de theme switching.
 
 ### AD-002: Validar suposições S1-S8 com valores sugeridos (2026-03-29)
 
@@ -72,7 +93,7 @@ _Nenhuma lição registrada ainda._
 - [x] Tasks MVP-1: Backend Base
 - [x] Implementar MVP-1: Backend Base (20 tasks, 5 fases)
 - [x] Especificar MVP-2: Frontend Base
-- [ ] Design MVP-2: Frontend Base
+- [x] Design MVP-2: Frontend Base
 - [ ] Tasks MVP-2: Frontend Base
 - [ ] Implementar MVP-2: Frontend Base
 
