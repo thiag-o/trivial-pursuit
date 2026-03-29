@@ -4,6 +4,8 @@
   "sourceRoot": "src",
   "compilerOptions": {
     "deleteOutDir": true,
-    "assets": ["questions/data/*.json"]
+    "assets": [
+      "questions/data/*.json"
+    ]
   }
 }
