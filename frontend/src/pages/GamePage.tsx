@@ -1,4 +1,4 @@
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { getNickname } from '../services/auth';
 import ColorPicker from '../components/ColorPicker';
@@ -54,7 +54,7 @@ export default function GamePage() {
   const boardRef = useRef<BoardCanvasHandle>(null);
 
   // Notification key forces TurnNotification to re-mount on repeated messages
-  const notifKeyRef = useRef(0);
+  const [notifKey, setNotifKey] = useState(0);
 
   const [state, setState] = useState<GamePageState | null>(null);
 
@@ -340,7 +340,7 @@ export default function GamePage() {
 
   // --- Notification helper ---
   const showNotification = (message: string) => {
-    notifKeyRef.current += 1;
+    setNotifKey((k) => k + 1);
     setState((prev) =>
       prev ? { ...prev, notification: message } : prev,
     );
@@ -399,7 +399,7 @@ export default function GamePage() {
         visible={state.showCategoryPicker}
       />
       <TurnNotification
-        key={notifKeyRef.current}
+        key={notifKey}
         message={state.notification}
       />
     </div>

@@ -84,6 +84,8 @@ export class BoardConfig {
   }
 
   isValidPosition(position: number): boolean {
-    return Number.isInteger(position) && position >= 0 && position < TOTAL_TILES;
+    return (
+      Number.isInteger(position) && position >= 0 && position < TOTAL_TILES
+    );
   }
 }

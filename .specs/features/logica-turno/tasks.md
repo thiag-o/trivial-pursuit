@@ -567,11 +567,11 @@ T16
 
 **Done when**:
 
-- [ ] Backend builds without errors
-- [ ] Backend lint passes
-- [ ] Frontend TypeScript check passes
-- [ ] Frontend Vite build succeeds
-- [ ] Frontend lint passes
+- [x] Backend builds without errors
+- [x] Backend lint passes
+- [x] Frontend TypeScript check passes
+- [x] Frontend Vite build succeeds
+- [x] Frontend lint passes
 
 **Verify**: `cd backend && npx nest build && npx eslint src/ && cd ../frontend && npx tsc --noEmit && npm run build && npx eslint src/`
 

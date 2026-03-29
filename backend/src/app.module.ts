@@ -7,7 +7,12 @@ import { GameModule } from './game/game.module';
 import { QuestionsModule } from './questions/questions.module';
 
 @Module({
-  imports: [ConfigModule.forRoot({ isGlobal: true }), AuthModule, GameModule, QuestionsModule],
+  imports: [
+    ConfigModule.forRoot({ isGlobal: true }),
+    AuthModule,
+    GameModule,
+    QuestionsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

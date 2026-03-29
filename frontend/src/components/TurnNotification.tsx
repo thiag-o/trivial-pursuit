@@ -9,20 +9,16 @@ export default function TurnNotification({
   message,
   duration = 1500,
 }: TurnNotificationProps) {
-  const [visible, setVisible] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
-    if (message === null) {
-      setVisible(false);
-      return;
-    }
+    if (message === null) return;
 
-    setVisible(true);
-    const timer = setTimeout(() => setVisible(false), duration);
+    const timer = setTimeout(() => setDismissed(true), duration);
     return () => clearTimeout(timer);
   }, [message, duration]);
 
-  if (!visible || message === null) return null;
+  if (dismissed || message === null) return null;
 
   return (
     <div className="fixed top-6 left-1/2 -translate-x-1/2 z-50 animate-fade-in">

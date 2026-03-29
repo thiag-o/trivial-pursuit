@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-4: Lógica de Turno — Phase 5/6 done (T15: GamePage turn orchestrator)
+**Current Work:** MVP-4: Lógica de Turno — COMPLETE (all 16 tasks done)
 
 ---
 
@@ -208,7 +208,7 @@ _Nenhuma lição registrada ainda._
 - [x] Especificar MVP-4: Lógica de Turno
 - [x] Design MVP-4: Lógica de Turno
 - [x] Tasks MVP-4: Lógica de Turno
-- [ ] Implementar MVP-4: Lógica de Turno
+- [x] Implementar MVP-4: Lógica de Turno
 
 ---
 

@@ -23,7 +23,7 @@ export class QuestionsService {
     }
 
     const cat = category as Category;
-    let questions = this.store.getByCategory(cat);
+    const questions = this.store.getByCategory(cat);
     const usedIds = this.store.getUsedIds(gameId, nickname);
 
     let available = questions.filter((q) => !usedIds.has(q.id));
@@ -36,6 +36,7 @@ export class QuestionsService {
     const selected = available[Math.floor(Math.random() * available.length)];
     this.store.markAsUsed(gameId, nickname, selected.id);
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { correctAnswer, ...questionWithoutAnswer } = selected;
     return questionWithoutAnswer;
   }
