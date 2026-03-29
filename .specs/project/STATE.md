@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-5: Fatias e Vitória — implementação
+**Current Work:** MVP-5: Fatias e Vitória — Phase 1 (T1-T4) complete, Phase 2 next (T5-T8 backend logic)
 
 ---
 

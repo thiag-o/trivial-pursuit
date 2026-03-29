@@ -35,7 +35,7 @@
 - Tokens dos jogadores posicionados no hub central
 - Seleção de peça/cor pelo jogador
 
-**MVP-4: Lógica de Turno** — IN PROGRESS
+**MVP-4: Lógica de Turno** — COMPLETE
 
 - Rolagem de dado d6 com animação e resultado do backend
 - Cálculo de destinos válidos (grafo de adjacência: circular + raios + hub)
@@ -44,7 +44,7 @@
 - Avaliação do tipo de casa (colorida, HQ, Roll Again, Hub Central)
 - Modal de pergunta com 4 alternativas, feedback acerto/erro
 
-**MVP-5: Fatias e Vitória** — PLANNED
+**MVP-5: Fatias e Vitória** — IN PROGRESS
 
 - Conquista de fatia ao acertar em casa HQ (sem duplicata)
 - Hub Central sem 6 fatias: escolha de categoria

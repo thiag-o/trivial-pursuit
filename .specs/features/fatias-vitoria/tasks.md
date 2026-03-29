@@ -77,8 +77,8 @@ T16
 
 **Done when**:
 
-- [ ] `TurnPhase.WAITING_FINAL_ANSWER` exists and equals `'waitingFinalAnswer'`
-- [ ] No TypeScript errors: `cd backend && npx tsc --noEmit`
+- [x] `TurnPhase.WAITING_FINAL_ANSWER` exists and equals `'waitingFinalAnswer'`
+- [x] No TypeScript errors: `cd backend && npx tsc --noEmit`
 
 **Verify**: `cd backend && npx tsc --noEmit`
 
@@ -103,10 +103,10 @@ T16
 
 **Done when**:
 
-- [ ] `Player.mustLeaveHub` field present in interface
-- [ ] `GameState.finalChallengeCategory` field present in interface
-- [ ] `createGame()` initializes both new fields
-- [ ] No TypeScript errors: `cd backend && npx tsc --noEmit`
+- [x] `Player.mustLeaveHub` field present in interface
+- [x] `GameState.finalChallengeCategory` field present in interface
+- [x] `createGame()` initializes both new fields
+- [x] No TypeScript errors: `cd backend && npx tsc --noEmit`
 
 **Verify**: `cd backend && npx tsc --noEmit`
 
@@ -133,9 +133,9 @@ T16
 
 **Done when**:
 
-- [ ] All new types/fields defined and exported
-- [ ] Existing types unchanged (except extensions)
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] All new types/fields defined and exported
+- [x] Existing types unchanged (except extensions)
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
@@ -158,9 +158,9 @@ T16
 
 **Done when**:
 
-- [ ] Function exported and filters position 0 when `mustLeaveHub=true`
-- [ ] Returns destinations unchanged when `mustLeaveHub=false`
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] Function exported and filters position 0 when `mustLeaveHub=true`
+- [x] Returns destinations unchanged when `mustLeaveHub=false`
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
