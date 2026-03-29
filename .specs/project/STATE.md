@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-5: Fatias e Vitória — design
+**Current Work:** MVP-5: Fatias e Vitória — tasks
 
 ---
 
@@ -147,6 +147,27 @@
 **Trade-off:** Resposta levemente maior (inclui todos os jogadores), mas são apenas 4 objetos pequenos.
 **Impact:** Modificar `questions.controller.ts` para incluir `players` no `gameState` do response.
 
+### AD-025: Wedge diff detection via frontend comparison (2026-03-29)
+
+**Decision:** Frontend detects newly earned wedges by comparing `players[].wedges.length` before and after the answer API response, rather than adding a dedicated `wedgeEarned` field to the backend response.
+**Reason:** Simpler approach — no backend API change needed. Frontend already has the before-state in `GamePageState.players` and the after-state from `AnswerResponse.gameState.players`.
+**Trade-off:** Slightly more logic on frontend (diff comparison), but avoids coupling backend response shape to notification concerns.
+**Impact:** Frontend `handleAnswer()` compares wedge arrays to detect new wedge and trigger `WedgeNotification`.
+
+### AD-026: PlayerToken extended with wedges for PixiJS rendering (2026-03-29)
+
+**Decision:** Add `wedges: string[]` to the frontend `PlayerToken` type so `TokenRenderer` can draw wedge segments without needing a separate data channel.
+**Reason:** `PlayerToken` is already the type passed to `BoardCanvas` → `TokenRenderer`. Adding wedges here keeps the data flow simple (props-only, no extra lookup).
+**Trade-off:** `buildPlayerTokens()` needs to map wedges from `PlayerData` to `PlayerToken`, adding one line.
+**Impact:** `TokenRenderer.renderTokens()` has direct access to each player's wedges for arc rendering.
+
+### AD-027: finalChallengeCategory stored in backend GameState (2026-03-29)
+
+**Decision:** Add `finalChallengeCategory: string | null` to `GameState` interface. Backend `move()` picks the random category and stores it. Frontend reads it from the move response to know which category to fetch.
+**Reason:** The random category must be determined server-side (AD-002/S4). Storing it in GameState ensures consistency if the frontend needs to re-fetch.
+**Trade-off:** One more field on GameState, but it's null most of the time.
+**Impact:** Backend `move()` populates when hub+6wedges; `GameController` returns it in move response.
+
 ### AD-022: mustLeaveHub re-roll policy (2026-03-29)
 
 **Decision:** When a player has `mustLeaveHub = true` and all valid destinations from dice roll include only position 0 (impossible in practice since hub exits to positions 1-6 and dice is 1-6, so at least one non-hub destination always exists), the scenario is effectively unreachable and no special handling is needed.
@@ -231,7 +252,7 @@ _Nenhuma lição registrada ainda._
 - [x] Tasks MVP-4: Lógica de Turno
 - [x] Implementar MVP-4: Lógica de Turno
 - [x] Especificar MVP-5: Fatias e Vitória
-- [ ] Design MVP-5: Fatias e Vitória
+- [x] Design MVP-5: Fatias e Vitória
 - [ ] Tasks MVP-5: Fatias e Vitória
 - [ ] Implementar MVP-5: Fatias e Vitória
 
