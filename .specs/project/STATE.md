@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-3: Tabuleiro PixiJS — design
+**Current Work:** MVP-3: Tabuleiro PixiJS — tasks
 
 ---
 
@@ -63,6 +63,27 @@
 **Trade-off:** Mais código boilerplate de integração React-PixiJS.
 **Impact:** Menos dependências, integração mais explícita e controlável.
 
+### AD-010: PixiJS v8, fixed canvas 800x800, CSS scale resize (2026-03-29)
+
+**Decision:** Usar PixiJS v8 (latest stable) com canvas lógico fixo de 800×800. Resize via CSS transform scale (não re-render). Tiles como círculos (Graphics.circle), hub como hexágono, spokes como linhas.
+**Reason:** Canvas fixo simplifica cálculos geométricos. CSS scale é zero-cost (GPU). Formas geométricas simples evitam necessidade de sprites/assets externos.
+**Trade-off:** Tiles circulares são menos fiéis ao tabuleiro físico (que usa quadrados), mas são mais simples de implementar e visualmente adequados.
+**Impact:** Zero assets externos necessários. Board inteiro renderizado com PixiJS Graphics primitives.
+
+### AD-011: Game state via React Router location state (2026-03-29)
+
+**Decision:** Passar o GameState do StartPage para GamePage via `navigate('/game', { state: gameState })`. Ler com `useLocation()` no GamePage.
+**Reason:** Evita estado global (mantém AD-004) e evita re-fetch desnecessário do backend. O GameState já está disponível no StartPage após POST /game/start.
+**Trade-off:** Se o jogador recarregar /game, perde o state e é redirecionado para /start. Aceitável para MVP.
+**Impact:** StartPage precisa de pequena modificação para passar state no navigate. GamePage lê de location.state.
+
+### AD-012: Player colors separate from category colors (2026-03-29)
+
+**Decision:** Cores de tokens (red, blue, green, yellow, purple, orange) são uma paleta separada das cores de categorias (azul geografia, rosa entretenimento, etc.).
+**Reason:** Evita confusão visual entre "meu token é azul" e "esta casa é azul (geografia)". Paletas distintas mantêm clareza.
+**Trade-off:** 12 cores no total para o jogador memorizar, mas as paletas são contextualmente distintas (tokens vs tiles).
+**Impact:** Dois conjuntos de constantes de cores no frontend.
+
 ### AD-002: Validar suposições S1-S8 com valores sugeridos (2026-03-29)
 
 **Decision:** Todas as 8 suposições do PRD aceitas com os valores sugeridos:
@@ -118,7 +139,7 @@ _Nenhuma lição registrada ainda._
 - [x] Tasks MVP-2: Frontend Base
 - [x] Implementar MVP-2: Frontend Base
 - [x] Especificar MVP-3: Tabuleiro PixiJS
-- [ ] Design MVP-3: Tabuleiro PixiJS
+- [x] Design MVP-3: Tabuleiro PixiJS
 - [ ] Tasks MVP-3: Tabuleiro PixiJS
 - [ ] Implementar MVP-3: Tabuleiro PixiJS
 
