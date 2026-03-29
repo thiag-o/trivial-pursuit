@@ -388,14 +388,14 @@ T16
 
 **Done when**:
 
-- [ ] Modal renders question with 4 answer options
-- [ ] Category name and color shown in header
-- [ ] Clicking answer calls `onAnswer(answerId)`
-- [ ] Correct answer shows green feedback
-- [ ] Incorrect answer shows red + reveals correct
-- [ ] Buttons disabled during loading and feedback
-- [ ] Semi-transparent overlay visible
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] Modal renders question with 4 answer options
+- [x] Category name and color shown in header
+- [x] Clicking answer calls `onAnswer(answerId)`
+- [x] Correct answer shows green feedback
+- [x] Incorrect answer shows red + reveals correct
+- [x] Buttons disabled during loading and feedback
+- [x] Semi-transparent overlay visible
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
