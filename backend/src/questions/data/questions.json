@@ -1,0 +1,146 @@
+[
+  {
+    "id": "geo-001",
+    "category": "geography",
+    "question": "What is the capital of France?",
+    "answers": [
+      { "id": "a", "text": "London" },
+      { "id": "b", "text": "Berlin" },
+      { "id": "c", "text": "Paris" },
+      { "id": "d", "text": "Madrid" }
+    ],
+    "correctAnswer": "c"
+  },
+  {
+    "id": "geo-002",
+    "category": "geography",
+    "question": "Which is the longest river in the world?",
+    "answers": [
+      { "id": "a", "text": "Amazon" },
+      { "id": "b", "text": "Nile" },
+      { "id": "c", "text": "Yangtze" },
+      { "id": "d", "text": "Mississippi" }
+    ],
+    "correctAnswer": "b"
+  },
+  {
+    "id": "ent-001",
+    "category": "entertainment",
+    "question": "Who directed the movie 'Jurassic Park'?",
+    "answers": [
+      { "id": "a", "text": "James Cameron" },
+      { "id": "b", "text": "Steven Spielberg" },
+      { "id": "c", "text": "Ridley Scott" },
+      { "id": "d", "text": "George Lucas" }
+    ],
+    "correctAnswer": "b"
+  },
+  {
+    "id": "ent-002",
+    "category": "entertainment",
+    "question": "Which band released the album 'Abbey Road'?",
+    "answers": [
+      { "id": "a", "text": "The Rolling Stones" },
+      { "id": "b", "text": "Led Zeppelin" },
+      { "id": "c", "text": "The Beatles" },
+      { "id": "d", "text": "Pink Floyd" }
+    ],
+    "correctAnswer": "c"
+  },
+  {
+    "id": "his-001",
+    "category": "history",
+    "question": "In which year did World War II end?",
+    "answers": [
+      { "id": "a", "text": "1943" },
+      { "id": "b", "text": "1944" },
+      { "id": "c", "text": "1945" },
+      { "id": "d", "text": "1946" }
+    ],
+    "correctAnswer": "c"
+  },
+  {
+    "id": "his-002",
+    "category": "history",
+    "question": "Who was the first President of the United States?",
+    "answers": [
+      { "id": "a", "text": "Thomas Jefferson" },
+      { "id": "b", "text": "George Washington" },
+      { "id": "c", "text": "John Adams" },
+      { "id": "d", "text": "Benjamin Franklin" }
+    ],
+    "correctAnswer": "b"
+  },
+  {
+    "id": "art-001",
+    "category": "art",
+    "question": "Who painted the Mona Lisa?",
+    "answers": [
+      { "id": "a", "text": "Michelangelo" },
+      { "id": "b", "text": "Raphael" },
+      { "id": "c", "text": "Leonardo da Vinci" },
+      { "id": "d", "text": "Donatello" }
+    ],
+    "correctAnswer": "c"
+  },
+  {
+    "id": "art-002",
+    "category": "art",
+    "question": "Who wrote 'Romeo and Juliet'?",
+    "answers": [
+      { "id": "a", "text": "Charles Dickens" },
+      { "id": "b", "text": "William Shakespeare" },
+      { "id": "c", "text": "Jane Austen" },
+      { "id": "d", "text": "Mark Twain" }
+    ],
+    "correctAnswer": "b"
+  },
+  {
+    "id": "sci-001",
+    "category": "science",
+    "question": "What is the chemical symbol for water?",
+    "answers": [
+      { "id": "a", "text": "O2" },
+      { "id": "b", "text": "H2O" },
+      { "id": "c", "text": "CO2" },
+      { "id": "d", "text": "NaCl" }
+    ],
+    "correctAnswer": "b"
+  },
+  {
+    "id": "sci-002",
+    "category": "science",
+    "question": "What planet is known as the Red Planet?",
+    "answers": [
+      { "id": "a", "text": "Venus" },
+      { "id": "b", "text": "Jupiter" },
+      { "id": "c", "text": "Mars" },
+      { "id": "d", "text": "Saturn" }
+    ],
+    "correctAnswer": "c"
+  },
+  {
+    "id": "spo-001",
+    "category": "sports",
+    "question": "In which sport is the term 'Grand Slam' used?",
+    "answers": [
+      { "id": "a", "text": "Football" },
+      { "id": "b", "text": "Tennis" },
+      { "id": "c", "text": "Basketball" },
+      { "id": "d", "text": "Cricket" }
+    ],
+    "correctAnswer": "b"
+  },
+  {
+    "id": "spo-002",
+    "category": "sports",
+    "question": "How many players are on a standard football (soccer) team?",
+    "answers": [
+      { "id": "a", "text": "9" },
+      { "id": "b", "text": "10" },
+      { "id": "c", "text": "11" },
+      { "id": "d", "text": "12" }
+    ],
+    "correctAnswer": "c"
+  }
+]
