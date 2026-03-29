@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-4: Lógica de Turno — Phase 2/6 done (T5-T6: advanceTurn bot skip, answer response players)
+**Current Work:** MVP-4: Lógica de Turno — Phase 3/6 done (T7-T9: BoardRenderer highlights/clicks, TokenRenderer animation, BoardCanvas props/ref)
 
 ---
 
