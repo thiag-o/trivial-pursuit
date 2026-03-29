@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-2: Frontend Base — implementação (Phase 2/4 done: T1-T5)
+**Current Work:** MVP-2: Frontend Base — implementação (Phase 3/4 done: T1-T10)
 
 ---
 

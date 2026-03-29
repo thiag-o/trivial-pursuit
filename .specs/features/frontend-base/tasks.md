@@ -221,10 +221,10 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] Componente exportado como default
-- [ ] Usa `Outlet` do React Router para renderizar children routes
-- [ ] Redireciona para `/login` quando não autenticado
-- [ ] Sem erros de TypeScript
+- [x] Componente exportado como default
+- [x] Usa `Outlet` do React Router para renderizar children routes
+- [x] Redireciona para `/login` quando não autenticado
+- [x] Sem erros de TypeScript
 
 **Verify**:
 
@@ -256,10 +256,10 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] 3 rotas definidas: `/login`, `/start`, `/game`
-- [ ] `/start` e `/game` são protegidas via `<ProtectedRoute>`
-- [ ] `/` e `*` redirecionam para `/start`
-- [ ] Sem erros de TypeScript
+- [x] 3 rotas definidas: `/login`, `/start`, `/game`
+- [x] `/start` e `/game` são protegidas via `<ProtectedRoute>`
+- [x] `/` e `*` redirecionam para `/start`
+- [x] Sem erros de TypeScript
 
 **Verify**:
 
@@ -292,17 +292,17 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] Form renderiza com input de nickname e botão submit
-- [ ] Validação bloqueia envio de campo vazio, whitespace-only e >30 chars
-- [ ] POST `/auth/login` é chamado com `{ nickname }` no submit válido
-- [ ] Token e nickname são salvos em localStorage após sucesso
-- [ ] Redirect para `/start` após login bem-sucedido
-- [ ] Redirect para `/start` se já autenticado (on mount)
-- [ ] Erro da API exibido inline no formulário
-- [ ] Erro de rede exibe mensagem amigável
-- [ ] Botão desabilitado durante loading
-- [ ] Layout centralizado com estilo card (Tailwind)
-- [ ] Sem erros de TypeScript
+- [x] Form renderiza com input de nickname e botão submit
+- [x] Validação bloqueia envio de campo vazio, whitespace-only e >30 chars
+- [x] POST `/auth/login` é chamado com `{ nickname }` no submit válido
+- [x] Token e nickname são salvos em localStorage após sucesso
+- [x] Redirect para `/start` após login bem-sucedido
+- [x] Redirect para `/start` se já autenticado (on mount)
+- [x] Erro da API exibido inline no formulário
+- [x] Erro de rede exibe mensagem amigável
+- [x] Botão desabilitado durante loading
+- [x] Layout centralizado com estilo card (Tailwind)
+- [x] Sem erros de TypeScript
 
 **Verify**:
 
@@ -336,14 +336,14 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] Exibe welcome message com nickname do jogador
-- [ ] Botão "Iniciar Jogo" envia POST `/game/start` com JWT
-- [ ] Redirect para `/game` após sucesso
-- [ ] Erro da API exibido na tela
-- [ ] Erro de rede exibe mensagem amigável
-- [ ] Botão desabilitado durante loading (previne double-click)
-- [ ] Layout centralizado com estilo consistente (Tailwind)
-- [ ] Sem erros de TypeScript
+- [x] Exibe welcome message com nickname do jogador
+- [x] Botão "Iniciar Jogo" envia POST `/game/start` com JWT
+- [x] Redirect para `/game` após sucesso
+- [x] Erro da API exibido na tela
+- [x] Erro de rede exibe mensagem amigável
+- [x] Botão desabilitado durante loading (previne double-click)
+- [x] Layout centralizado com estilo consistente (Tailwind)
+- [x] Sem erros de TypeScript
 
 **Verify**:
 
@@ -372,10 +372,10 @@ cd frontend && npx tsc --noEmit
 
 **Done when**:
 
-- [ ] Exibe placeholder text conforme spec
-- [ ] Exibe nickname do jogador
-- [ ] Layout centralizado e consistente
-- [ ] Sem erros de TypeScript
+- [x] Exibe placeholder text conforme spec
+- [x] Exibe nickname do jogador
+- [x] Layout centralizado e consistente
+- [x] Sem erros de TypeScript
 
 **Verify**:
 
