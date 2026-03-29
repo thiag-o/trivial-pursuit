@@ -1,5 +1,5 @@
-import { useEffect, useRef } from 'react';
-import type { PlayerToken } from '../game/types';
+import { useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
+import type { PlayerToken, BoardLayout } from '../game/types';
 import { usePixiApp } from '../game/pixi/usePixiApp';
 import { BoardRenderer } from '../game/pixi/BoardRenderer';
 import { TokenRenderer } from '../game/pixi/TokenRenderer';
@@ -9,49 +9,105 @@ import { CANVAS_SIZE } from '../game/constants';
 
 interface BoardCanvasProps {
   players: PlayerToken[];
+  onTileClick?: (position: number) => void;
+  validDestinations?: number[];
 }
 
-export default function BoardCanvas({ players }: BoardCanvasProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const { app, error } = usePixiApp(containerRef);
-  const renderersRef = useRef<{
-    board: BoardRenderer;
-    tokens: TokenRenderer;
-  } | null>(null);
+export interface BoardCanvasHandle {
+  animateToken: (
+    nickname: string,
+    fromPos: number,
+    toPos: number,
+    onComplete: () => void,
+  ) => void;
+}
 
-  useEffect(() => {
-    if (!app) return;
+const BoardCanvas = forwardRef<BoardCanvasHandle, BoardCanvasProps>(
+  function BoardCanvas({ players, onTileClick, validDestinations }, ref) {
+    const containerRef = useRef<HTMLDivElement>(null);
+    const { app, error } = usePixiApp(containerRef);
+    const renderersRef = useRef<{
+      board: BoardRenderer;
+      tokens: TokenRenderer;
+      layout: BoardLayout;
+    } | null>(null);
 
-    const layout = calculateBoardLayout(CANVAS_SIZE);
+    useEffect(() => {
+      if (!app) return;
 
-    const board = new BoardRenderer(app);
-    board.render(BOARD_TILES, layout);
+      const layout = calculateBoardLayout(CANVAS_SIZE);
 
-    const tokens = new TokenRenderer(app);
-    tokens.renderTokens(players, layout);
+      const board = new BoardRenderer(app);
+      board.render(BOARD_TILES, layout);
 
-    renderersRef.current = { board, tokens };
+      const tokens = new TokenRenderer(app);
+      tokens.renderTokens(players, layout);
 
-    return () => {
-      renderersRef.current?.board.destroy();
-      renderersRef.current?.tokens.destroy();
-      renderersRef.current = null;
-    };
-  }, [app, players]);
+      renderersRef.current = { board, tokens, layout };
 
-  if (error) {
+      return () => {
+        renderersRef.current?.board.destroy();
+        renderersRef.current?.tokens.destroy();
+        renderersRef.current = null;
+      };
+    }, [app, players]);
+
+    // Wire tile click callback
+    useEffect(() => {
+      if (!renderersRef.current) return;
+      if (onTileClick) {
+        renderersRef.current.board.setOnTileClick(onTileClick);
+      }
+    }, [onTileClick]);
+
+    // Wire highlight tiles
+    useEffect(() => {
+      if (!renderersRef.current) return;
+      if (validDestinations && validDestinations.length > 0) {
+        renderersRef.current.board.highlightTiles(validDestinations);
+      } else {
+        renderersRef.current.board.clearHighlights();
+      }
+    }, [validDestinations]);
+
+    // Expose imperative handle
+    useImperativeHandle(ref, () => ({
+      animateToken(
+        nickname: string,
+        fromPos: number,
+        toPos: number,
+        onComplete: () => void,
+      ) {
+        if (!renderersRef.current) {
+          onComplete();
+          return;
+        }
+        renderersRef.current.tokens.animateToken(
+          nickname,
+          fromPos,
+          toPos,
+          renderersRef.current.layout,
+          onComplete,
+        );
+      },
+    }));
+
+    if (error) {
+      return (
+        <div className="flex items-center justify-center h-full bg-gray-900 text-red-400 p-8 text-center">
+          <p>{error}</p>
+        </div>
+      );
+    }
+
     return (
-      <div className="flex items-center justify-center h-full bg-gray-900 text-red-400 p-8 text-center">
-        <p>{error}</p>
-      </div>
+      <div
+        ref={containerRef}
+        className="w-full overflow-hidden"
+        style={{ aspectRatio: '1' }}
+      />
     );
-  }
+  },
+);
 
-  return (
-    <div
-      ref={containerRef}
-      className="w-full overflow-hidden"
-      style={{ aspectRatio: '1' }}
-    />
-  );
-}
+export default BoardCanvas;

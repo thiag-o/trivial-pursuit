@@ -318,11 +318,11 @@ T16
 
 **Done when**:
 
-- [ ] Passing `validDestinations={[3,5]}` highlights those tiles on the canvas
-- [ ] Passing `onTileClick` receives click events from highlighted tiles
-- [ ] `ref.current.animateToken(...)` triggers token animation
-- [ ] Existing rendering (board + tokens) still works
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] Passing `validDestinations={[3,5]}` highlights those tiles on the canvas
+- [x] Passing `onTileClick` receives click events from highlighted tiles
+- [x] `ref.current.animateToken(...)` triggers token animation
+- [x] Existing rendering (board + tokens) still works
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
