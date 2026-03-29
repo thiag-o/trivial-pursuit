@@ -19,7 +19,7 @@ export class BoardRenderer {
     const scale = layout.ringRadius / 320;
 
     this.drawBackground(layout, scale);
-    this.drawSpokes(layout, tiles, scale);
+    this.drawSpokes(layout, scale);
     this.drawHub(layout, scale);
     this.drawRingTiles(tiles, layout, scale);
   }
@@ -31,7 +31,7 @@ export class BoardRenderer {
     this.container.addChild(bg);
   }
 
-  private drawSpokes(layout: BoardLayout, tiles: TileDef[], scale: number): void {
+  private drawSpokes(layout: BoardLayout, scale: number): void {
     const spokes = new Graphics();
     const hqPositions = [5, 10, 15, 20, 25, 30];
 
