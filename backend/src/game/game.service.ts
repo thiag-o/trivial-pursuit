@@ -121,7 +121,16 @@ export class GameService {
     const currentPlayer = game.players[game.currentPlayerIndex];
     const tile = this.board.getTile(currentPlayer.position);
 
-    if (correct) {
+    if (game.turnPhase === TurnPhase.WAITING_FINAL_ANSWER) {
+      if (correct) {
+        game.status = GameStatus.FINISHED;
+        game.winner = currentPlayer.nickname;
+      } else {
+        currentPlayer.mustLeaveHub = true;
+        this.advanceTurn(game);
+      }
+      game.finalChallengeCategory = null;
+    } else if (correct) {
       if (
         tile.type === TileType.HQ &&
         tile.category &&

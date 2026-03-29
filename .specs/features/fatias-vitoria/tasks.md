@@ -212,10 +212,10 @@ T16
 
 **Done when**:
 
-- [ ] Correct Final Challenge answer → `status=FINISHED`, `winner` set
-- [ ] Incorrect Final Challenge answer → `mustLeaveHub = true`, turn advanced
-- [ ] Normal HQ wedge flow unaffected
-- [ ] No TypeScript errors: `cd backend && npx tsc --noEmit`
+- [x] Correct Final Challenge answer → `status=FINISHED`, `winner` set
+- [x] Incorrect Final Challenge answer → `mustLeaveHub = true`, turn advanced
+- [x] Normal HQ wedge flow unaffected
+- [x] No TypeScript errors: `cd backend && npx tsc --noEmit`
 
 **Verify**: `cd backend && npx tsc --noEmit`
 
