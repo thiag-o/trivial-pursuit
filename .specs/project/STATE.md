@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-2: Frontend Base — completo (T1-T13 done, all 4 phases)
+**Current Work:** MVP-3: Tabuleiro PixiJS — design
 
 ---
 
@@ -41,6 +41,27 @@
 **Reason:** Projeto é tema fixo escuro (trivia/quiz vibe), sem necessidade de toggle claro/escuro.
 **Trade-off:** Sem suporte a tema claro.
 **Impact:** CSS mais simples, sem lógica de theme switching.
+
+### AD-007: Board layout — frontend mirrors backend tile data locally (2026-03-29)
+
+**Decision:** O frontend terá uma definição local de board layout (espelhando board.config.ts do backend) em vez de buscar via API. O backend não expõe um endpoint GET /board.
+**Reason:** O layout do tabuleiro é estático (73 tiles fixos). Criar um endpoint apenas para dados constantes é overengineering. Manter espelho local é mais simples e elimina uma chamada HTTP.
+**Trade-off:** Se o backend mudar a configuração de tiles, o frontend precisa ser atualizado manualmente.
+**Impact:** Uma constante/arquivo no frontend define os 73 tiles com posição, tipo e categoria.
+
+### AD-008: Color selection stored client-side only (2026-03-29)
+
+**Decision:** A cor escolhida pelo jogador e as cores atribuídas aos oponentes são armazenadas apenas no frontend (state React). O backend não conhece cores de tokens.
+**Reason:** A cor é puramente visual/cosmética. O backend gerencia lógica de jogo (posição, fatias, turnos). Enviar cores ao backend não agrega valor e complica a API.
+**Trade-off:** Se o jogador recarregar a página, a seleção de cor é perdida (precisa selecionar novamente).
+**Impact:** Nenhuma alteração no backend. Cor é estado local do componente GamePage.
+
+### AD-009: PixiJS como dependência direta, sem wrapper library (2026-03-29)
+
+**Decision:** Instalar PixiJS diretamente (`pixi.js`) sem usar libraries wrapper como `@pixi/react` ou `react-pixi`.
+**Reason:** Wrappers adicionam abstração desnecessária para um único canvas. Integração manual via `useRef` + `useEffect` é simples e dá controle total sobre lifecycle.
+**Trade-off:** Mais código boilerplate de integração React-PixiJS.
+**Impact:** Menos dependências, integração mais explícita e controlável.
 
 ### AD-002: Validar suposições S1-S8 com valores sugeridos (2026-03-29)
 
@@ -96,6 +117,10 @@ _Nenhuma lição registrada ainda._
 - [x] Design MVP-2: Frontend Base
 - [x] Tasks MVP-2: Frontend Base
 - [x] Implementar MVP-2: Frontend Base
+- [x] Especificar MVP-3: Tabuleiro PixiJS
+- [ ] Design MVP-3: Tabuleiro PixiJS
+- [ ] Tasks MVP-3: Tabuleiro PixiJS
+- [ ] Implementar MVP-3: Tabuleiro PixiJS
 
 ---
 
