@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-2: Frontend Base — tasks
+**Current Work:** MVP-2: Frontend Base — implementação
 
 ---
 
@@ -94,7 +94,7 @@ _Nenhuma lição registrada ainda._
 - [x] Implementar MVP-1: Backend Base (20 tasks, 5 fases)
 - [x] Especificar MVP-2: Frontend Base
 - [x] Design MVP-2: Frontend Base
-- [ ] Tasks MVP-2: Frontend Base
+- [x] Tasks MVP-2: Frontend Base
 - [ ] Implementar MVP-2: Frontend Base
 
 ---
