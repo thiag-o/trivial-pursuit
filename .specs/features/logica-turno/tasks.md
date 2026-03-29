@@ -350,11 +350,11 @@ T16
 
 **Done when**:
 
-- [ ] Button shows "🎲 Rolar Dado" when visible
-- [ ] Click triggers animation (cycling numbers) for ~500ms then shows result
-- [ ] Button disabled during roll and when `disabled=true`
-- [ ] Hidden when `visible=false`
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] Button shows "🎲 Rolar Dado" when visible
+- [x] Click triggers animation (cycling numbers) for ~500ms then shows result
+- [x] Button disabled during roll and when `disabled=true`
+- [x] Hidden when `visible=false`
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
