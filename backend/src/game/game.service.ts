@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { v4 as uuidv4 } from 'uuid';
-import { GameStatus, TurnPhase, TileType } from '../common/enums';
+import { Category, GameStatus, TurnPhase, TileType } from '../common/enums';
 import { GameState } from '../common/interfaces';
 import { GameStateStore } from './game-state.store';
 import { BoardConfig } from './board.config';
@@ -74,10 +74,14 @@ export class GameService {
     }
 
     const currentPlayer = game.players[game.currentPlayerIndex];
-    const validDestinations = this.board.getValidDestinations(
+    let validDestinations = this.board.getValidDestinations(
       currentPlayer.position,
       game.lastDiceRoll!,
     );
+
+    if (currentPlayer.mustLeaveHub) {
+      validDestinations = validDestinations.filter((d) => d !== 0);
+    }
 
     if (!validDestinations.includes(targetPosition)) {
       throw new BadRequestException(
@@ -85,11 +89,20 @@ export class GameService {
       );
     }
 
+    if (currentPlayer.mustLeaveHub && currentPlayer.position === 0) {
+      currentPlayer.mustLeaveHub = false;
+    }
+
     currentPlayer.position = targetPosition;
     const tile = this.board.getTile(targetPosition);
 
     if (tile.type === TileType.ROLL_AGAIN) {
       game.turnPhase = TurnPhase.WAITING_ROLL;
+    } else if (targetPosition === 0 && currentPlayer.wedges.length === 6) {
+      const categories = Object.values(Category);
+      game.finalChallengeCategory =
+        categories[Math.floor(Math.random() * categories.length)];
+      game.turnPhase = TurnPhase.WAITING_FINAL_ANSWER;
     } else {
       game.turnPhase = TurnPhase.WAITING_ANSWER;
     }

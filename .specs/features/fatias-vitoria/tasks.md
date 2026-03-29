@@ -184,10 +184,10 @@ T16
 
 **Done when**:
 
-- [ ] Landing on hub with 6 wedges sets `WAITING_FINAL_ANSWER` and picks random `finalChallengeCategory`
-- [ ] `mustLeaveHub = true` excludes position 0 from valid destinations
-- [ ] Moving away from hub resets `mustLeaveHub = false`
-- [ ] No TypeScript errors: `cd backend && npx tsc --noEmit`
+- [x] Landing on hub with 6 wedges sets `WAITING_FINAL_ANSWER` and picks random `finalChallengeCategory`
+- [x] `mustLeaveHub = true` excludes position 0 from valid destinations
+- [x] Moving away from hub resets `mustLeaveHub = false`
+- [x] No TypeScript errors: `cd backend && npx tsc --noEmit`
 
 **Verify**: `cd backend && npx tsc --noEmit`
 
