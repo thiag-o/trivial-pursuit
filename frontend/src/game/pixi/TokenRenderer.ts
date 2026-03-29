@@ -1,10 +1,11 @@
-import { Application, Container, Graphics } from 'pixi.js';
+import { Application, Container, Graphics, Ticker } from 'pixi.js';
 import type { PlayerToken, BoardLayout } from '../types';
 import { PLAYER_COLORS, TOKEN_RADIUS } from '../constants';
 
 export class TokenRenderer {
   private container: Container;
   private app: Application;
+  private tokenGraphics: Map<string, Graphics> = new Map();
 
   constructor(app: Application) {
     this.app = app;
@@ -14,6 +15,7 @@ export class TokenRenderer {
 
   renderTokens(players: PlayerToken[], layout: BoardLayout): void {
     this.container.removeChildren();
+    this.tokenGraphics.clear();
     const scale = layout.ringRadius / 320;
     const radius = TOKEN_RADIUS * scale;
 
@@ -51,8 +53,59 @@ export class TokenRenderer {
         }
 
         this.container.addChild(g);
+        this.tokenGraphics.set(player.nickname, g);
       }
     }
+  }
+
+  animateToken(
+    nickname: string,
+    fromPos: number,
+    toPos: number,
+    layout: BoardLayout,
+    onComplete: () => void,
+  ): void {
+    const g = this.tokenGraphics.get(nickname);
+    if (!g) {
+      onComplete();
+      return;
+    }
+
+    const fromTile = layout.tiles[fromPos];
+    const toTile = layout.tiles[toPos];
+    if (!fromTile || !toTile) {
+      onComplete();
+      return;
+    }
+
+    // Bring to front
+    const parent = g.parent;
+    if (parent) {
+      parent.removeChild(g);
+      parent.addChild(g);
+    }
+
+    const startX = g.x;
+    const startY = g.y;
+    const dx = (toTile.x - fromTile.x);
+    const dy = (toTile.y - fromTile.y);
+    const duration = 500;
+    let elapsed = 0;
+
+    const tickerFn = (ticker: Ticker) => {
+      elapsed += ticker.deltaMS;
+      const t = Math.min(elapsed / duration, 1);
+
+      g.x = startX + dx * t;
+      g.y = startY + dy * t;
+
+      if (t >= 1) {
+        this.app.ticker.remove(tickerFn);
+        onComplete();
+      }
+    };
+
+    this.app.ticker.add(tickerFn);
   }
 
   updateTokenPositions(players: PlayerToken[], layout: BoardLayout): void {

@@ -290,9 +290,9 @@ T16
 
 **Done when**:
 
-- [ ] `animateToken("Player1", 0, 5, layout, callback)` smoothly moves the token over ~500ms
-- [ ] `onComplete` callback is called after animation finishes
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] `animateToken("Player1", 0, 5, layout, callback)` smoothly moves the token over ~500ms
+- [x] `onComplete` callback is called after animation finishes
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
