@@ -28,7 +28,10 @@ export class QuestionsController {
   ) {
     const game = this.gameService.getActiveGame(nickname);
 
-    if (game.turnPhase !== TurnPhase.WAITING_ANSWER) {
+    if (
+      game.turnPhase !== TurnPhase.WAITING_ANSWER &&
+      game.turnPhase !== TurnPhase.WAITING_FINAL_ANSWER
+    ) {
       throw new BadRequestException('Not in answering phase');
     }
 
@@ -71,6 +74,7 @@ export class QuestionsController {
           updatedGame.players[updatedGame.currentPlayerIndex].nickname,
         turnPhase: updatedGame.turnPhase,
         status: updatedGame.status,
+        winner: updatedGame.winner,
         players: updatedGame.players.map((p) => ({
           nickname: p.nickname,
           position: p.position,

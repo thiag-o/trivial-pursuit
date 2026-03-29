@@ -238,9 +238,9 @@ T16
 
 **Done when**:
 
-- [ ] Questions can be fetched during `WAITING_FINAL_ANSWER` phase
-- [ ] `WAITING_ANSWER` still works as before
-- [ ] No TypeScript errors: `cd backend && npx tsc --noEmit`
+- [x] Questions can be fetched during `WAITING_FINAL_ANSWER` phase
+- [x] `WAITING_ANSWER` still works as before
+- [x] No TypeScript errors: `cd backend && npx tsc --noEmit`
 
 **Verify**: `cd backend && npx tsc --noEmit`
 
