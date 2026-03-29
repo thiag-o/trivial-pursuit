@@ -482,10 +482,10 @@ cd frontend && npm run dev -- --port 3000
 
 **Done when**:
 
-- [ ] Todos os bugs do T12 corrigidos
-- [ ] `npm run build` compila sem erros
-- [ ] `npx tsc --noEmit` zero erros
-- [ ] Fluxo completo login → start → game funciona end-to-end
+- [x] Todos os bugs do T12 corrigidos
+- [x] `npm run build` compila sem erros
+- [x] `npx tsc --noEmit` zero erros
+- [x] Fluxo completo login → start → game funciona end-to-end
 
 **Verify**:
 
