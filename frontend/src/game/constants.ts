@@ -9,6 +9,15 @@ export const CATEGORY_COLORS: Record<Category, string> = {
   sports: '#FFB74D',
 };
 
+export const CATEGORY_NAMES: Record<Category, string> = {
+  geography: 'Geografia',
+  entertainment: 'Entretenimento',
+  history: 'História',
+  art: 'Arte & Literatura',
+  science: 'Ciência & Natureza',
+  sports: 'Esportes & Lazer',
+};
+
 export const PLAYER_COLORS: Record<PlayerColor, string> = {
   red: '#EF4444',
   blue: '#3B82F6',
