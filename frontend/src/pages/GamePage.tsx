@@ -33,11 +33,11 @@ function buildPlayerTokens(
   let colorIndex = 0;
   return players.map((p) => {
     if (p.isHuman) {
-      return { nickname: p.nickname, position: p.position, color: selectedColor, isHuman: true };
+      return { nickname: p.nickname, position: p.position, color: selectedColor, isHuman: true, wedges: p.wedges };
     }
     const color = availableColors[colorIndex % availableColors.length];
     colorIndex++;
-    return { nickname: p.nickname, position: p.position, color, isHuman: false };
+    return { nickname: p.nickname, position: p.position, color, isHuman: false, wedges: p.wedges };
   });
 }
 

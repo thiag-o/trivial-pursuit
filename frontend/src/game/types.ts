@@ -27,6 +27,7 @@ export interface PlayerToken {
   position: number;
   color: PlayerColor;
   isHuman: boolean;
+  wedges: string[];
 }
 
 export interface TileLayout {
@@ -46,7 +47,7 @@ export interface BoardLayout {
 
 // --- Turn-related types (MVP-4) ---
 
-export type TurnPhase = 'waitingRoll' | 'waitingMove' | 'waitingAnswer';
+export type TurnPhase = 'waitingRoll' | 'waitingMove' | 'waitingAnswer' | 'waitingFinalAnswer';
 
 export interface PlayerData {
   nickname: string;
@@ -67,6 +68,12 @@ export interface AnswerResult {
   correctAnswer: string;
 }
 
+export interface GameOverState {
+  type: 'victory' | 'defeat';
+  winnerNickname: string;
+  winnerWedges: string[];
+}
+
 export interface GamePageState {
   gameId: string;
   players: PlayerData[];
@@ -81,6 +88,9 @@ export interface GamePageState {
   notification: string | null;
   showCategoryPicker: boolean;
   isLoading: boolean;
+  isFinalChallenge: boolean;
+  gameOverState: GameOverState | null;
+  earnedWedgeCategory: string | null;
 }
 
 export interface RollDiceResponse {
@@ -96,6 +106,8 @@ export interface MoveResponse {
   lastDiceRoll: number | null;
   tileType: TileType;
   tileCategory: Category | null;
+  isFinalChallenge: boolean;
+  finalCategory: string | null;
 }
 
 export interface AnswerResponse {
@@ -107,5 +119,6 @@ export interface AnswerResponse {
     currentPlayer: string;
     turnPhase: TurnPhase;
     status: string;
+    winner: string | null;
   };
 }
