@@ -444,12 +444,12 @@ cd frontend && npm run build
 
 **Done when**:
 
-- [ ] Login fluxo completo funciona (nickname → token → redirect)
-- [ ] Start game fluxo funciona (botão → POST com JWT → redirect)
-- [ ] GamePage placeholder exibido
-- [ ] Rotas protegidas redirecionam quando não autenticado
-- [ ] CORS não bloqueia requests
-- [ ] JWT header presente automaticamente
+- [x] Login fluxo completo funciona (nickname → token → redirect)
+- [x] Start game fluxo funciona (botão → POST com JWT → redirect)
+- [x] GamePage placeholder exibido
+- [x] Rotas protegidas redirecionam quando não autenticado
+- [x] CORS não bloqueia requests
+- [x] JWT header presente automaticamente
 
 **Verify**:
 
