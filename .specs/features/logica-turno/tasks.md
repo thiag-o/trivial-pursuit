@@ -196,9 +196,9 @@ T16
 
 **Done when**:
 
-- [ ] `advanceTurn` loops through bots until a human player is found
-- [ ] Backend builds: `cd backend && npx nest build`
-- [ ] Backend lint: `cd backend && npx eslint src/game/game.service.ts`
+- [x] `advanceTurn` loops through bots until a human player is found
+- [x] Backend builds: `cd backend && npx nest build`
+- [x] Backend lint: `cd backend && npx eslint src/game/game.service.ts`
 
 **Verify**: `cd backend && npx nest build && npx eslint src/game/game.service.ts`
 
@@ -222,9 +222,9 @@ T16
 
 **Done when**:
 
-- [ ] Answer response `gameState` includes `players[]` with wedges for each player
-- [ ] Backend builds: `cd backend && npx nest build`
-- [ ] Backend lint: `cd backend && npx eslint src/questions/questions.controller.ts`
+- [x] Answer response `gameState` includes `players[]` with wedges for each player
+- [x] Backend builds: `cd backend && npx nest build`
+- [x] Backend lint: `cd backend && npx eslint src/questions/questions.controller.ts`
 
 **Verify**: `cd backend && npx nest build && npx eslint src/questions/questions.controller.ts`
 

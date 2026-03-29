@@ -28,14 +28,14 @@
 - Axios com interceptor JWT
 - Redirect para login em caso de 401
 
-**MVP-3: Tabuleiro PixiJS** — IN PROGRESS
+**MVP-3: Tabuleiro PixiJS** — COMPLETE
 
 - Renderização do tabuleiro circular (hub central hexagonal, 6 raios, trilha circular)
 - Casas coloridas por categoria, 6 casas HQ, 12 casas Roll Again
 - Tokens dos jogadores posicionados no hub central
 - Seleção de peça/cor pelo jogador
 
-**MVP-4: Lógica de Turno** — PLANNED
+**MVP-4: Lógica de Turno** — IN PROGRESS
 
 - Rolagem de dado d6 com animação e resultado do backend
 - Cálculo de destinos válidos (grafo de adjacência: circular + raios + hub)
