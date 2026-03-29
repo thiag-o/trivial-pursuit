@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-5: Fatias e Vitória — Phase 1 (T1-T4) complete, Phase 2 next (T5-T8 backend logic)
+**Current Work:** MVP-5: Fatias e Vitória — Phase 2 (T5-T8) complete, Phase 3 next (T9-T11 frontend components)
 
 ---
 
@@ -204,6 +204,13 @@
   **Reason:** Valores razoáveis para um projeto de portfólio/estudo; timer fica para Fase 2.
   **Trade-off:** Nenhum significativo — decisões podem ser revisadas se necessário.
   **Impact:** Desbloqueia especificação e implementação do MVP sem ambiguidades.
+
+### AD-028: Add winner to answer response alongside T7 (2026-03-29)
+
+**Decision:** Added `winner: updatedGame.winner` to the answer endpoint response in `questions.controller.ts` as part of T7, even though no task explicitly required it.
+**Reason:** The design doc specifies `winner: string | null` in the answer response (`GameController` section), and frontend types (T3) expect `winner` in `AnswerResponse.gameState`. Without it, T12 (GamePage integration) would be blocked.
+**Trade-off:** Minor scope addition to T7 (one line), but prevents a gap between backend and frontend expectations.
+**Impact:** Frontend can detect victory directly from the answer response.
 
 ---
 
