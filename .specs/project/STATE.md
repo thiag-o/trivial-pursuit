@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-4: Lógica de Turno — COMPLETE (all 16 tasks done)
+**Current Work:** MVP-5: Fatias e Vitória — design
 
 ---
 
@@ -147,6 +147,27 @@
 **Trade-off:** Resposta levemente maior (inclui todos os jogadores), mas são apenas 4 objetos pequenos.
 **Impact:** Modificar `questions.controller.ts` para incluir `players` no `gameState` do response.
 
+### AD-022: mustLeaveHub re-roll policy (2026-03-29)
+
+**Decision:** When a player has `mustLeaveHub = true` and all valid destinations from dice roll include only position 0 (impossible in practice since hub exits to positions 1-6 and dice is 1-6, so at least one non-hub destination always exists), the scenario is effectively unreachable and no special handling is needed.
+**Reason:** From position 0 (hub), `getValidDestinations` returns positions forward on the ring (1-6 range). Since movement from hub goes to ring positions (never back to 0), the constraint "exclude position 0" never removes all destinations.
+**Trade-off:** None — edge case is unreachable with current board topology.
+**Impact:** No special re-roll logic needed. Simply filter out position 0 from valid destinations when `mustLeaveHub = true`.
+
+### AD-023: Defeat screen placeholder until MVP-6 (2026-03-29)
+
+**Decision:** The Defeat Screen is specified and implemented as a fully functional component, but it will only be triggered when MVP-6 (Oponentes Simulados) is complete, since only bots can trigger it by winning.
+**Reason:** Building it now ensures the game-over flow is complete end-to-end. The component will be ready for integration with no additional work in MVP-6.
+**Trade-off:** Component exists but cannot be naturally triggered until MVP-6.
+**Impact:** Defeat screen code is testable via manual state manipulation.
+
+### AD-024: TurnPhase extended with WAITING_FINAL_ANSWER (2026-03-29)
+
+**Decision:** Add a new `TurnPhase.WAITING_FINAL_ANSWER` to distinguish the Final Challenge answer phase from a normal `WAITING_ANSWER`. This allows the frontend to render the distinct "Desafio Final" UI and the backend to apply victory/defeat logic specifically.
+**Reason:** Reusing `WAITING_ANSWER` would require checking player wedges + position every time to determine if it's a final challenge, adding complexity. A dedicated phase makes the state machine explicit.
+**Trade-off:** One more enum value to handle in both frontend and backend.
+**Impact:** Backend `move()` must set `WAITING_FINAL_ANSWER` when player lands on hub with 6 wedges. Frontend renders gold-themed QuestionModal.
+
 ### AD-002: Validar suposições S1-S8 com valores sugeridos (2026-03-29)
 
 **Decision:** Todas as 8 suposições do PRD aceitas com os valores sugeridos:
@@ -209,6 +230,10 @@ _Nenhuma lição registrada ainda._
 - [x] Design MVP-4: Lógica de Turno
 - [x] Tasks MVP-4: Lógica de Turno
 - [x] Implementar MVP-4: Lógica de Turno
+- [x] Especificar MVP-5: Fatias e Vitória
+- [ ] Design MVP-5: Fatias e Vitória
+- [ ] Tasks MVP-5: Fatias e Vitória
+- [ ] Implementar MVP-5: Fatias e Vitória
 
 ---
 
