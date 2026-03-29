@@ -10,4 +10,5 @@ export interface GameState {
   lastDiceRoll: number | null;
   activeQuestionId: string | null;
   winner: string | null;
+  finalChallengeCategory: string | null;
 }

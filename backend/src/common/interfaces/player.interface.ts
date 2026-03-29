@@ -5,4 +5,5 @@ export interface Player {
   position: number;
   wedges: Category[];
   isHuman: boolean;
+  mustLeaveHub: boolean;
 }

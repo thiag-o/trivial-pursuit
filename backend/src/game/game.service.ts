@@ -18,13 +18,14 @@ export class GameService {
       throw new BadRequestException('Game already in progress');
     }
 
-    const players = [{ nickname, position: 0, wedges: [], isHuman: true }];
+    const players = [{ nickname, position: 0, wedges: [], isHuman: true, mustLeaveHub: false }];
     for (let i = 1; i <= opponents; i++) {
       players.push({
         nickname: `Bot ${i}`,
         position: 0,
         wedges: [],
         isHuman: false,
+        mustLeaveHub: false,
       });
     }
 
@@ -37,6 +38,7 @@ export class GameService {
       lastDiceRoll: null,
       activeQuestionId: null,
       winner: null,
+      finalChallengeCategory: null,
     };
 
     this.store.create(state);
