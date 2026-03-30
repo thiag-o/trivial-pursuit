@@ -63,23 +63,23 @@ graph TD
 
 ### Existing Components to Leverage
 
-| Component | Location | How to Use |
-| --- | --- | --- |
-| `auth.ts` helpers | `frontend/src/services/auth.ts` | `getNickname()` para HUD |
-| `api.ts` Axios | `frontend/src/services/api.ts` | Futura integração API (MVP-4); neste MVP, game state vem do StartPage redirect |
-| GamePage placeholder | `frontend/src/pages/GamePage.tsx` | Substituir conteúdo com lógica de seleção de cor + board canvas |
-| Tailwind classes | Projeto-wide | HUD e ColorPicker usam Tailwind (consistente com Login/Start) |
-| Backend tile data | `backend/src/game/board.config.ts` | Espelhar `buildTiles()` como constante local no frontend |
-| Backend enums | `backend/src/common/enums/` | Espelhar `TileType`, `Category` como string unions TypeScript |
+| Component            | Location                           | How to Use                                                                     |
+| -------------------- | ---------------------------------- | ------------------------------------------------------------------------------ |
+| `auth.ts` helpers    | `frontend/src/services/auth.ts`    | `getNickname()` para HUD                                                       |
+| `api.ts` Axios       | `frontend/src/services/api.ts`     | Futura integração API (MVP-4); neste MVP, game state vem do StartPage redirect |
+| GamePage placeholder | `frontend/src/pages/GamePage.tsx`  | Substituir conteúdo com lógica de seleção de cor + board canvas                |
+| Tailwind classes     | Projeto-wide                       | HUD e ColorPicker usam Tailwind (consistente com Login/Start)                  |
+| Backend tile data    | `backend/src/game/board.config.ts` | Espelhar `buildTiles()` como constante local no frontend                       |
+| Backend enums        | `backend/src/common/enums/`        | Espelhar `TileType`, `Category` como string unions TypeScript                  |
 
 ### Integration Points
 
-| System | Integration Method |
-| --- | --- |
-| React lifecycle | `useRef` para container div, `useEffect` para mount/unmount PixiJS App |
+| System             | Integration Method                                                                                     |
+| ------------------ | ------------------------------------------------------------------------------------------------------ |
+| React lifecycle    | `useRef` para container div, `useEffect` para mount/unmount PixiJS App                                 |
 | Backend game state | GameState retornado pelo `POST /game/start` (já feito no StartPage, precisa ser passado para GamePage) |
-| Browser resize | `ResizeObserver` no container div → atualiza PixiJS renderer scale |
-| WebGL availability | Try/catch na criação do PixiJS Application → fallback message |
+| Browser resize     | `ResizeObserver` no container div → atualiza PixiJS renderer scale                                     |
+| WebGL availability | Try/catch na criação do PixiJS Application → fallback message                                          |
 
 ### Key Integration Change: Passing Game State to GamePage
 
@@ -174,26 +174,26 @@ type PlayerColor = 'red' | 'blue' | 'green' | 'yellow' | 'purple' | 'orange';
 // Token de jogador para renderização
 interface PlayerToken {
   nickname: string;
-  position: number;        // tile position (0-72)
+  position: number; // tile position (0-72)
   color: PlayerColor;
   isHuman: boolean;
 }
 
 // Layout geométrico calculado para renderização
 interface TileLayout {
-  position: number;        // tile index
-  x: number;               // pixel X no canvas
-  y: number;               // pixel Y no canvas
+  position: number; // tile index
+  x: number; // pixel X no canvas
+  y: number; // pixel Y no canvas
 }
 
 // Resultado do cálculo de layout do board inteiro
 interface BoardLayout {
   centerX: number;
   centerY: number;
-  ringRadius: number;      // raio do anel circular
-  tileRadius: number;      // raio visual de cada tile
-  hubRadius: number;       // raio do hub hexagonal
-  tiles: TileLayout[];     // 73 posições (0=hub, 1-72=ring)
+  ringRadius: number; // raio do anel circular
+  tileRadius: number; // raio visual de cada tile
+  hubRadius: number; // raio do hub hexagonal
+  tiles: TileLayout[]; // 73 posições (0=hub, 1-72=ring)
 }
 ```
 
@@ -205,18 +205,18 @@ interface BoardLayout {
 // Constante estática espelhando backend/src/game/board.config.ts buildTiles()
 // 73 tiles: position 0 = hub, positions 1-72 = circular track
 
-const CATEGORY_CYCLE: Category[] = [
-  'geography', 'entertainment', 'history', 'art', 'science', 'sports'
-];
+const CATEGORY_CYCLE: Category[] = ['geography', 'entertainment', 'history', 'art', 'science', 'sports'];
 
 const HQ_POSITIONS: Record<number, Category> = {
-  5: 'geography', 10: 'entertainment', 15: 'history',
-  20: 'art', 25: 'science', 30: 'sports'
+  5: 'geography',
+  10: 'entertainment',
+  15: 'history',
+  20: 'art',
+  25: 'science',
+  30: 'sports',
 };
 
-const ROLL_AGAIN_POSITIONS = new Set([
-  3, 9, 14, 19, 24, 29, 35, 41, 47, 53, 59, 65
-]);
+const ROLL_AGAIN_POSITIONS = new Set([3, 9, 14, 19, 24, 29, 35, 41, 47, 53, 59, 65]);
 
 export const BOARD_TILES: TileDef[] = buildTiles(); // mesma lógica do backend
 ```
@@ -279,22 +279,22 @@ Hexágono desenhado com `Graphics.poly()` no centro do canvas. Cor distinta (bra
 
 ### Cores de Tiles por Categoria
 
-| Category | Hex Color | Cor Visual |
-| --- | --- | --- |
-| Geography | `#4FC3F7` | Azul claro |
-| Entertainment | `#F48FB1` | Rosa |
-| History | `#FFF176` | Amarelo |
-| Art | `#CE93D8` | Roxo/Lilás |
-| Science | `#81C784` | Verde |
-| Sports | `#FFB74D` | Laranja |
+| Category      | Hex Color | Cor Visual |
+| ------------- | --------- | ---------- |
+| Geography     | `#4FC3F7` | Azul claro |
+| Entertainment | `#F48FB1` | Rosa       |
+| History       | `#FFF176` | Amarelo    |
+| Art           | `#CE93D8` | Roxo/Lilás |
+| Science       | `#81C784` | Verde      |
+| Sports        | `#FFB74D` | Laranja    |
 
 ### Indicadores Visuais Especiais
 
-| Tile Type | Visual |
-| --- | --- |
-| HQ | Raio 20% maior que tile normal + borda dourada (2px) + estrela/diamante ícone |
-| Roll Again | Tile normal com ícone de seta circular (🔄) ou padrão listrado |
-| Hub | Hexágono branco/cinza com borda escura |
+| Tile Type  | Visual                                                                        |
+| ---------- | ----------------------------------------------------------------------------- |
+| HQ         | Raio 20% maior que tile normal + borda dourada (2px) + estrela/diamante ícone |
+| Roll Again | Tile normal com ícone de seta circular (🔄) ou padrão listrado                |
+| Hub        | Hexágono branco/cinza com borda escura                                        |
 
 ### Tokens dos Jogadores
 
@@ -426,10 +426,10 @@ No global state management needed (AD-004). Color selection and assignments are 
 ```typescript
 function assignColors(humanColor: PlayerColor, players: Player[]): Map<string, PlayerColor> {
   const allColors: PlayerColor[] = ['red', 'blue', 'green', 'yellow', 'purple', 'orange'];
-  const available = allColors.filter(c => c !== humanColor);
+  const available = allColors.filter((c) => c !== humanColor);
   const assignments = new Map<string, PlayerColor>();
 
-  players.forEach(player => {
+  players.forEach((player) => {
     if (player.isHuman) {
       assignments.set(player.nickname, humanColor);
     } else {
@@ -461,28 +461,28 @@ try {
 
 ## Error Handling Strategy
 
-| Error Scenario | Handling | User Impact |
-| --- | --- | --- |
-| WebGL not available | try/catch on PixiJS init | Mensagem "Navegador não suporta WebGL" |
-| No game state (direct /game nav) | Check `location.state` → redirect | Redirect para `/start` |
-| PixiJS init failure | try/catch, set error state | Mensagem fallback, board não renderiza |
-| Window too small (<800px) | Board scales down via CSS | Board legível mas apertado |
-| Multiple tokens same tile | Offset algorithm | Tokens separados visualmente |
+| Error Scenario                   | Handling                          | User Impact                            |
+| -------------------------------- | --------------------------------- | -------------------------------------- |
+| WebGL not available              | try/catch on PixiJS init          | Mensagem "Navegador não suporta WebGL" |
+| No game state (direct /game nav) | Check `location.state` → redirect | Redirect para `/start`                 |
+| PixiJS init failure              | try/catch, set error state        | Mensagem fallback, board não renderiza |
+| Window too small (<800px)        | Board scales down via CSS         | Board legível mas apertado             |
+| Multiple tokens same tile        | Offset algorithm                  | Tokens separados visualmente           |
 
 ---
 
 ## Tech Decisions
 
-| Decision | Choice | Rationale |
-| --- | --- | --- |
-| PixiJS version | v8.x (latest) | Current stable, modern API with `app.init()` async |
-| Canvas logical size | 800×800 fixed | Simplifica cálculos; resize via CSS scale, não re-render |
-| Tile shape | Circles (Graphics.circle) | Mais simples que hexágonos; visualmente OK para board game |
-| Token shape | Circles with color fill | Simples e distinto; borda branca extra para humano |
-| HQ indicator | Larger radius + gold border | Visualmente distinto sem precisar de sprites/assets |
-| Roll Again indicator | Striped pattern (alternating alpha) | Sutil mas visível; sem necessidade de ícones externos |
-| Game state passing | React Router location state | Evita estado global e re-fetch desnecessário |
-| Spoke rendering | Simple lines (Graphics.moveTo/lineTo) | Fiel ao layout clássico, zero complexity |
-| Hub shape | Hexágono via polygon | Clássico Trivial Pursuit, 6 lados = 6 categorias |
-| Resize strategy | CSS transform scale | Zero re-render PixiJS; máxima performance |
-| Player colors vs Category colors | Paletas separadas | Cores de tokens (red, blue...) são distintas das cores de categorias (geography=azul) para evitar confusão |
+| Decision                         | Choice                                | Rationale                                                                                                  |
+| -------------------------------- | ------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| PixiJS version                   | v8.x (latest)                         | Current stable, modern API with `app.init()` async                                                         |
+| Canvas logical size              | 800×800 fixed                         | Simplifica cálculos; resize via CSS scale, não re-render                                                   |
+| Tile shape                       | Circles (Graphics.circle)             | Mais simples que hexágonos; visualmente OK para board game                                                 |
+| Token shape                      | Circles with color fill               | Simples e distinto; borda branca extra para humano                                                         |
+| HQ indicator                     | Larger radius + gold border           | Visualmente distinto sem precisar de sprites/assets                                                        |
+| Roll Again indicator             | Striped pattern (alternating alpha)   | Sutil mas visível; sem necessidade de ícones externos                                                      |
+| Game state passing               | React Router location state           | Evita estado global e re-fetch desnecessário                                                               |
+| Spoke rendering                  | Simple lines (Graphics.moveTo/lineTo) | Fiel ao layout clássico, zero complexity                                                                   |
+| Hub shape                        | Hexágono via polygon                  | Clássico Trivial Pursuit, 6 lados = 6 categorias                                                           |
+| Resize strategy                  | CSS transform scale                   | Zero re-render PixiJS; máxima performance                                                                  |
+| Player colors vs Category colors | Paletas separadas                     | Cores de tokens (red, blue...) são distintas das cores de categorias (geography=azul) para evitar confusão |

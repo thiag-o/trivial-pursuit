@@ -60,7 +60,7 @@ export class QuestionsController {
     }
 
     const result = this.questionsService.checkAnswer(questionId, dto.answerId);
-    const updatedGame = this.gameService.processAnswer(
+    const { game: updatedGame, botTurns } = this.gameService.processAnswer(
       game.gameId,
       result.correct,
     );
@@ -82,6 +82,7 @@ export class QuestionsController {
           isHuman: p.isHuman,
         })),
       },
+      botTurns,
     };
   }
 }

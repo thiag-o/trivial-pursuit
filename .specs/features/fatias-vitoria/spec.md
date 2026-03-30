@@ -15,16 +15,16 @@ O fluxo de turno (MVP-4) permite rolar dado, mover, responder perguntas e recebe
 
 ## Out of Scope
 
-| Feature | Reason |
-| --- | --- |
-| Oponentes simulados jogando turnos | Pertence ao MVP-6 (Oponentes Simulados) |
-| Animação avançada de conquista de fatia (partículas, efeitos) | Pertence a Fase 2 (F2-2) |
-| Efeitos sonoros de vitória/derrota | Pertence a Fase 2 (F2-3) |
-| Timer de resposta no Desafio Final | Pertence a Fase 2 (F2-4) |
-| Ranking de jogadores na tela de vitória | Pode ser adicionado em Fase 2 |
-| Navegação via spokes para chegar ao hub | AD-013: movimento é circular-only |
-| Persistência de partida (replay, histórico) | Fora do escopo do MVP |
-| Múltiplos jogadores humanos | Fora do escopo do projeto |
+| Feature                                                       | Reason                                  |
+| ------------------------------------------------------------- | --------------------------------------- |
+| Oponentes simulados jogando turnos                            | Pertence ao MVP-6 (Oponentes Simulados) |
+| Animação avançada de conquista de fatia (partículas, efeitos) | Pertence a Fase 2 (F2-2)                |
+| Efeitos sonoros de vitória/derrota                            | Pertence a Fase 2 (F2-3)                |
+| Timer de resposta no Desafio Final                            | Pertence a Fase 2 (F2-4)                |
+| Ranking de jogadores na tela de vitória                       | Pode ser adicionado em Fase 2           |
+| Navegação via spokes para chegar ao hub                       | AD-013: movimento é circular-only       |
+| Persistência de partida (replay, histórico)                   | Fora do escopo do MVP                   |
+| Múltiplos jogadores humanos                                   | Fora do escopo do projeto               |
 
 ---
 
@@ -212,34 +212,34 @@ O fluxo de turno (MVP-4) permite rolar dado, mover, responder perguntas e recebe
 
 ## Requirement Traceability
 
-| Requirement ID | Story | Phase | Status |
-| --- | --- | --- | --- |
-| WEDGE-01 | P1: Conquista de Fatia em Casa HQ | Design | Pending |
-| WEDGE-02 | P1: Conquista de Fatia em Casa HQ (duplicata) | Design | Pending |
-| WEDGE-03 | P1: Conquista de Fatia em Casa HQ (visual HUD) | Design | Pending |
-| WEDGE-04 | P1: Conquista de Fatia em Casa HQ (visual token) | Design | Pending |
-| HUB-01 | P1: Hub Central sem 6 Fatias | Design | Pending |
-| HUB-02 | P1: Hub Central sem 6 Fatias (resposta) | Design | Pending |
-| FINAL-01 | P1: Hub Central com 6 Fatias — Desafio Final | Design | Pending |
-| FINAL-02 | P1: Desafio Final — categoria sistema | Design | Pending |
-| FINAL-03 | P1: Desafio Final — acerto = vitória | Design | Pending |
-| FINAL-04 | P1: Desafio Final — erro = sair hub | Design | Pending |
-| FINAL-05 | P1: Erro no Desafio Final — exclusão hub | Design | Pending |
-| FINAL-06 | P1: Erro no Desafio Final — retorno futuro | Design | Pending |
-| WIN-01 | P1: Tela de Vitória | Design | Pending |
-| WIN-02 | P1: Tela de Vitória — jogar novamente | Design | Pending |
-| LOSE-01 | P1: Tela de Derrota | Design | Pending |
-| LOSE-02 | P1: Tela de Derrota — jogar novamente | Design | Pending |
-| BACK-01 | P1: Backend — processAnswer vitória | Design | Pending |
-| BACK-02 | P1: Backend — processAnswer erro final | Design | Pending |
-| BACK-03 | P1: Backend — move excluir hub | Design | Pending |
-| BACK-04 | P1: Backend — fase desafio final | Design | Pending |
-| TOKEN-01 | P2: Fatia Visual no Token PixiJS | - | Pending |
-| TOKEN-02 | P2: Fatia Visual — animação | - | Pending |
-| NOTIF-01 | P2: Notificação de Fatia Conquistada | - | Pending |
-| NOTIF-02 | P2: Notificação — sem duplicata | - | Pending |
-| PROG-01 | P3: Indicador de Progresso | - | Pending |
-| PROG-02 | P3: Indicador — 6 fatias | - | Pending |
+| Requirement ID | Story                                            | Phase  | Status  |
+| -------------- | ------------------------------------------------ | ------ | ------- |
+| WEDGE-01       | P1: Conquista de Fatia em Casa HQ                | Design | Pending |
+| WEDGE-02       | P1: Conquista de Fatia em Casa HQ (duplicata)    | Design | Pending |
+| WEDGE-03       | P1: Conquista de Fatia em Casa HQ (visual HUD)   | Design | Pending |
+| WEDGE-04       | P1: Conquista de Fatia em Casa HQ (visual token) | Design | Pending |
+| HUB-01         | P1: Hub Central sem 6 Fatias                     | Design | Pending |
+| HUB-02         | P1: Hub Central sem 6 Fatias (resposta)          | Design | Pending |
+| FINAL-01       | P1: Hub Central com 6 Fatias — Desafio Final     | Design | Pending |
+| FINAL-02       | P1: Desafio Final — categoria sistema            | Design | Pending |
+| FINAL-03       | P1: Desafio Final — acerto = vitória             | Design | Pending |
+| FINAL-04       | P1: Desafio Final — erro = sair hub              | Design | Pending |
+| FINAL-05       | P1: Erro no Desafio Final — exclusão hub         | Design | Pending |
+| FINAL-06       | P1: Erro no Desafio Final — retorno futuro       | Design | Pending |
+| WIN-01         | P1: Tela de Vitória                              | Design | Pending |
+| WIN-02         | P1: Tela de Vitória — jogar novamente            | Design | Pending |
+| LOSE-01        | P1: Tela de Derrota                              | Design | Pending |
+| LOSE-02        | P1: Tela de Derrota — jogar novamente            | Design | Pending |
+| BACK-01        | P1: Backend — processAnswer vitória              | Design | Pending |
+| BACK-02        | P1: Backend — processAnswer erro final           | Design | Pending |
+| BACK-03        | P1: Backend — move excluir hub                   | Design | Pending |
+| BACK-04        | P1: Backend — fase desafio final                 | Design | Pending |
+| TOKEN-01       | P2: Fatia Visual no Token PixiJS                 | -      | Pending |
+| TOKEN-02       | P2: Fatia Visual — animação                      | -      | Pending |
+| NOTIF-01       | P2: Notificação de Fatia Conquistada             | -      | Pending |
+| NOTIF-02       | P2: Notificação — sem duplicata                  | -      | Pending |
+| PROG-01        | P3: Indicador de Progresso                       | -      | Pending |
+| PROG-02        | P3: Indicador — 6 fatias                         | -      | Pending |
 
 **ID format:** `WEDGE-NN`, `HUB-NN`, `FINAL-NN`, `WIN-NN`, `LOSE-NN`, `BACK-NN`, `TOKEN-NN`, `NOTIF-NN`, `PROG-NN`
 

@@ -1,7 +1,7 @@
 # State
 
 **Last Updated:** 2026-03-29
-**Current Work:** MVP-5: Fatias e Vitória — Phase 3/6 done (T9-T11 frontend components complete), Phase 4 next (T12-T13 GamePage integration)
+**Current Work:** MVP COMPLETE — all milestones done
 
 ---
 
@@ -261,8 +261,14 @@ _Nenhuma lição registrada ainda._
 - [x] Especificar MVP-5: Fatias e Vitória
 - [x] Design MVP-5: Fatias e Vitória
 - [x] Tasks MVP-5: Fatias e Vitória
-- [ ] Implementar MVP-5: Fatias e Vitória
-
+- [x] Implementar MVP-5: Fatias e Vitória- [x] Especificar MVP-6: Oponentes Simulados
+- [x] Design MVP-6: Oponentes Simulados
+- [x] Tasks MVP-6: Oponentes Simulados
+- [x] Implementar MVP-6: Oponentes Simulados
+- [x] Especificar MVP-7: Testes
+- [x] Design MVP-7: Testes (skipped — auto-sized)
+- [x] Tasks MVP-7: Testes
+- [x] Implementar MVP-7: Testes
 ---
 
 ## Preferences

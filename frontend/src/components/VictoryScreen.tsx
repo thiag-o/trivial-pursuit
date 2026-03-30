@@ -7,17 +7,11 @@ interface VictoryScreenProps {
   onPlayAgain: () => void;
 }
 
-export default function VictoryScreen({
-  nickname,
-  wedges,
-  onPlayAgain,
-}: VictoryScreenProps) {
+export default function VictoryScreen({ nickname, wedges, onPlayAgain }: VictoryScreenProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
       <div className="flex flex-col items-center gap-6 rounded-2xl bg-gray-800 px-10 py-8 shadow-2xl">
-        <h1 className="text-3xl font-bold text-yellow-300">
-          🏆 Parabéns, {nickname}! Você venceu!
-        </h1>
+        <h1 className="text-3xl font-bold text-yellow-300">🏆 Parabéns, {nickname}! Você venceu!</h1>
 
         <div className="flex gap-3">
           {wedges.map((wedge) => {

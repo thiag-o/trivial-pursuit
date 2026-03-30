@@ -90,30 +90,30 @@ stateDiagram-v2
 
 ### Existing Components to Leverage
 
-| Component | Location | How to Use |
-| --- | --- | --- |
-| `BoardRenderer` | `frontend/src/game/pixi/BoardRenderer.ts` | Extend: add highlight layer, tile click detection (interactive Graphics) |
-| `TokenRenderer` | `frontend/src/game/pixi/TokenRenderer.ts` | Extend: add `animateToken()` method using PixiJS ticker |
-| `BoardCanvas` | `frontend/src/components/BoardCanvas.tsx` | Extend: accept `onTileClick`, `validDestinations` props |
-| `GameHUD` | `frontend/src/components/GameHUD.tsx` | Extend: add turn phase indicator, wedge display |
-| `GamePage` | `frontend/src/pages/GamePage.tsx` | Refactor: lift `GamePageState` to orchestrate turn flow |
-| `api.ts` (Axios) | `frontend/src/services/api.ts` | Import for all API calls (JWT injection handled) |
-| `board-data.ts` | `frontend/src/game/board-data.ts` | Reuse for tile type/category lookup after move |
-| `board-layout.ts` | `frontend/src/game/board-layout.ts` | Reuse for tile position lookup (animation targets) |
-| `constants.ts` | `frontend/src/game/constants.ts` | Reuse CATEGORY_COLORS for question modal theming |
-| `types.ts` | `frontend/src/game/types.ts` | Extend with new turn-related types |
-| `GameService` | `backend/src/game/game.service.ts` | Modify: `advanceTurn` skips bot players |
-| `QuestionsController` | `backend/src/questions/questions.controller.ts` | Modify: enhance answer response to include player wedges |
+| Component             | Location                                        | How to Use                                                               |
+| --------------------- | ----------------------------------------------- | ------------------------------------------------------------------------ |
+| `BoardRenderer`       | `frontend/src/game/pixi/BoardRenderer.ts`       | Extend: add highlight layer, tile click detection (interactive Graphics) |
+| `TokenRenderer`       | `frontend/src/game/pixi/TokenRenderer.ts`       | Extend: add `animateToken()` method using PixiJS ticker                  |
+| `BoardCanvas`         | `frontend/src/components/BoardCanvas.tsx`       | Extend: accept `onTileClick`, `validDestinations` props                  |
+| `GameHUD`             | `frontend/src/components/GameHUD.tsx`           | Extend: add turn phase indicator, wedge display                          |
+| `GamePage`            | `frontend/src/pages/GamePage.tsx`               | Refactor: lift `GamePageState` to orchestrate turn flow                  |
+| `api.ts` (Axios)      | `frontend/src/services/api.ts`                  | Import for all API calls (JWT injection handled)                         |
+| `board-data.ts`       | `frontend/src/game/board-data.ts`               | Reuse for tile type/category lookup after move                           |
+| `board-layout.ts`     | `frontend/src/game/board-layout.ts`             | Reuse for tile position lookup (animation targets)                       |
+| `constants.ts`        | `frontend/src/game/constants.ts`                | Reuse CATEGORY_COLORS for question modal theming                         |
+| `types.ts`            | `frontend/src/game/types.ts`                    | Extend with new turn-related types                                       |
+| `GameService`         | `backend/src/game/game.service.ts`              | Modify: `advanceTurn` skips bot players                                  |
+| `QuestionsController` | `backend/src/questions/questions.controller.ts` | Modify: enhance answer response to include player wedges                 |
 
 ### Integration Points
 
-| System | Integration Method |
-| --- | --- |
-| Backend turn APIs | `api.ts` Axios instance → `game-api.ts` wrapper functions |
-| PixiJS interactivity | `Graphics.eventMode = 'static'` + `on('click')` on tile graphics |
-| PixiJS animation | `app.ticker.add()` for frame-by-frame token interpolation |
-| React ↔ PixiJS | Callbacks passed via `BoardCanvas` props; PixiJS fires, React handles |
-| Turn phase sync | Frontend tracks `turnPhase` locally, updates from every API response |
+| System               | Integration Method                                                    |
+| -------------------- | --------------------------------------------------------------------- |
+| Backend turn APIs    | `api.ts` Axios instance → `game-api.ts` wrapper functions             |
+| PixiJS interactivity | `Graphics.eventMode = 'static'` + `on('click')` on tile graphics      |
+| PixiJS animation     | `app.ticker.add()` for frame-by-frame token interpolation             |
+| React ↔ PixiJS       | Callbacks passed via `BoardCanvas` props; PixiJS fires, React handles |
+| Turn phase sync      | Frontend tracks `turnPhase` locally, updates from every API response  |
 
 ---
 
@@ -188,7 +188,7 @@ stateDiagram-v2
 - **Interfaces**:
   - Props adicionais: `onTileClick?: (position: number) => void`, `validDestinations?: number[]`
   - Passa `onTileClick` e `validDestinations` para `BoardRenderer`
-  - Quando `validDestinations` muda, chama `boardRenderer.highlightTiles(positions)` 
+  - Quando `validDestinations` muda, chama `boardRenderer.highlightTiles(positions)`
   - Quando volta a `[]`, chama `boardRenderer.clearHighlights()`
   - Expõe `animateToken(nickname, from, to)` via ref imperativo (`useImperativeHandle`)
 - **Dependencies**: Existentes + `TokenRenderer.animateToken()`
@@ -269,7 +269,7 @@ type TurnPhase = 'waitingRoll' | 'waitingMove' | 'waitingAnswer';
 interface PlayerData {
   nickname: string;
   position: number;
-  wedges: string[];   // category strings
+  wedges: string[]; // category strings
   isHuman: boolean;
 }
 
@@ -293,18 +293,18 @@ interface AnswerResult {
 ```typescript
 interface GamePageState {
   gameId: string;
-  players: PlayerData[];             // backend state of all players
-  playerTokens: PlayerToken[];       // players with color assignments (for rendering)
+  players: PlayerData[]; // backend state of all players
+  playerTokens: PlayerToken[]; // players with color assignments (for rendering)
   currentPlayerNickname: string;
   turnPhase: TurnPhase;
   lastDiceRoll: number | null;
-  validDestinations: number[];       // computed locally after dice roll
-  currentTile: TileDef | null;       // tile landed on after move
-  question: QuestionData | null;     // active question being answered
+  validDestinations: number[]; // computed locally after dice roll
+  currentTile: TileDef | null; // tile landed on after move
+  question: QuestionData | null; // active question being answered
   answerResult: AnswerResult | null; // answer feedback
-  notification: string | null;       // ephemeral notification text
-  showCategoryPicker: boolean;       // hub central category selection
-  isLoading: boolean;                // API call in-flight
+  notification: string | null; // ephemeral notification text
+  showCategoryPicker: boolean; // hub central category selection
+  isLoading: boolean; // API call in-flight
 }
 ```
 
@@ -331,7 +331,7 @@ interface AnswerResponse {
   correctAnswer: string;
   gameState: {
     gameId: string;
-    players: PlayerData[];        // enhanced to include full player data
+    players: PlayerData[]; // enhanced to include full player data
     currentPlayer: string;
     turnPhase: TurnPhase;
     status: string;
@@ -595,111 +595,111 @@ GamePage
 
 ### New Files
 
-| File | Purpose |
-| --- | --- |
-| `frontend/src/components/DiceRoller.tsx` | Botão + animação de dado |
-| `frontend/src/components/QuestionModal.tsx` | Modal de pergunta com 4 alternativas |
-| `frontend/src/components/CategoryPickerModal.tsx` | Seletor de categoria para Hub Central |
-| `frontend/src/components/TurnNotification.tsx` | Notificações breves |
-| `frontend/src/services/game-api.ts` | Wrapper functions para API de turno |
-| `frontend/src/game/turn-logic.ts` | Cálculo de destinos válidos (frontend) |
+| File                                              | Purpose                                |
+| ------------------------------------------------- | -------------------------------------- |
+| `frontend/src/components/DiceRoller.tsx`          | Botão + animação de dado               |
+| `frontend/src/components/QuestionModal.tsx`       | Modal de pergunta com 4 alternativas   |
+| `frontend/src/components/CategoryPickerModal.tsx` | Seletor de categoria para Hub Central  |
+| `frontend/src/components/TurnNotification.tsx`    | Notificações breves                    |
+| `frontend/src/services/game-api.ts`               | Wrapper functions para API de turno    |
+| `frontend/src/game/turn-logic.ts`                 | Cálculo de destinos válidos (frontend) |
 
 ### Modified Files
 
-| File | Changes |
-| --- | --- |
-| `frontend/src/pages/GamePage.tsx` | Refactor para orquestrador de turno com GamePageState |
-| `frontend/src/components/BoardCanvas.tsx` | Add `onTileClick`, `validDestinations` props, expose animateToken via ref |
-| `frontend/src/game/pixi/BoardRenderer.ts` | Add highlight layer, tile tracking, click events |
-| `frontend/src/game/pixi/TokenRenderer.ts` | Add `animateToken()` with ticker interpolation |
-| `frontend/src/components/GameHUD.tsx` | Add turn phase badge, wedge dots display |
-| `frontend/src/game/types.ts` | Add TurnPhase, PlayerData, QuestionData, AnswerResult types |
-| `frontend/src/game/constants.ts` | Add CATEGORY_NAMES (extract from GameHUD) |
-| `backend/src/game/game.service.ts` | Modify `advanceTurn` to skip bots |
-| `backend/src/questions/questions.controller.ts` | Enhance answer response to include full players data |
+| File                                            | Changes                                                                   |
+| ----------------------------------------------- | ------------------------------------------------------------------------- |
+| `frontend/src/pages/GamePage.tsx`               | Refactor para orquestrador de turno com GamePageState                     |
+| `frontend/src/components/BoardCanvas.tsx`       | Add `onTileClick`, `validDestinations` props, expose animateToken via ref |
+| `frontend/src/game/pixi/BoardRenderer.ts`       | Add highlight layer, tile tracking, click events                          |
+| `frontend/src/game/pixi/TokenRenderer.ts`       | Add `animateToken()` with ticker interpolation                            |
+| `frontend/src/components/GameHUD.tsx`           | Add turn phase badge, wedge dots display                                  |
+| `frontend/src/game/types.ts`                    | Add TurnPhase, PlayerData, QuestionData, AnswerResult types               |
+| `frontend/src/game/constants.ts`                | Add CATEGORY_NAMES (extract from GameHUD)                                 |
+| `backend/src/game/game.service.ts`              | Modify `advanceTurn` to skip bots                                         |
+| `backend/src/questions/questions.controller.ts` | Enhance answer response to include full players data                      |
 
 ---
 
 ## Error Handling Strategy
 
-| Error Scenario | Handling | User Impact |
-| --- | --- | --- |
-| roll-dice 400 "Not in rolling phase" | Catch, show notification, no state change | "Erro: não é fase de rolagem" (edge case — UI prevents) |
-| roll-dice 400 "Not your turn" | Catch, show notification | "Erro: não é sua vez" (edge case) |
-| move 400 "Invalid destination" | Catch, show notification, keep highlights active | "Destino inválido — escolha outro" (should not happen if frontend logic mirrors backend) |
-| move 400 "Not in moving phase" | Catch, show notification | "Erro: não é fase de movimento" |
-| questions GET 400 "Not in answering phase" | Catch, show notification | "Erro ao buscar pergunta" |
-| answer POST 400 "Question not active" | Catch, show notification | "Erro: pergunta expirada" |
-| Network error (any API call) | Catch, show notification, no state change | "Erro de conexão — tente novamente" |
-| API 401 | Existing interceptor handles (redirect login) | Redirect to /login |
-| Double-click prevention | `isLoading` state disables all action buttons/tiles | No action possible during API calls |
+| Error Scenario                             | Handling                                            | User Impact                                                                              |
+| ------------------------------------------ | --------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| roll-dice 400 "Not in rolling phase"       | Catch, show notification, no state change           | "Erro: não é fase de rolagem" (edge case — UI prevents)                                  |
+| roll-dice 400 "Not your turn"              | Catch, show notification                            | "Erro: não é sua vez" (edge case)                                                        |
+| move 400 "Invalid destination"             | Catch, show notification, keep highlights active    | "Destino inválido — escolha outro" (should not happen if frontend logic mirrors backend) |
+| move 400 "Not in moving phase"             | Catch, show notification                            | "Erro: não é fase de movimento"                                                          |
+| questions GET 400 "Not in answering phase" | Catch, show notification                            | "Erro ao buscar pergunta"                                                                |
+| answer POST 400 "Question not active"      | Catch, show notification                            | "Erro: pergunta expirada"                                                                |
+| Network error (any API call)               | Catch, show notification, no state change           | "Erro de conexão — tente novamente"                                                      |
+| API 401                                    | Existing interceptor handles (redirect login)       | Redirect to /login                                                                       |
+| Double-click prevention                    | `isLoading` state disables all action buttons/tiles | No action possible during API calls                                                      |
 
 ---
 
 ## Tech Decisions
 
-| Decision | Choice | Rationale |
-| --- | --- | --- |
-| Token animation engine | PixiJS Ticker (built-in) | Já disponível, sem dependência extra (GSAP seria overkill para lerp simples) — AD-015 |
-| Valid destination calculation | Frontend-side (mirrors backend) | Feedback imediato sem API call extra. Validação final no backend — AD-016 |
-| Bot turn handling | Backend auto-skip in `advanceTurn` + frontend visual sequence | Simples, 1 mudança backend; visual skip é animação local — AD-017 |
-| Game state management | `useState` em GamePage (local state) | Consistente com AD-004/AD-018; GamePage é o único consumidor de game state |
-| Dice component | React/Tailwind (not PixiJS) | Texto e botão são mais simples em HTML/CSS que em canvas — AD-019 |
-| Question modal | React overlay (not PixiJS) | Texto, botões, acessibilidade, i18n — tudo melhor em React/HTML — AD-020 |
-| Tile interactivity | PixiJS Graphics eventMode | API nativa do PixiJS v8 para interaction events |
-| Highlight effect | Pulsing alpha via Ticker | Simples, zero dependências, efeito visual claro |
-| Feedback timing | setTimeout (1.5s correct, 2s incorrect) | Spec-defined, controlável, simples |
-| Category picker | Separate modal component | Hub Central é caso especial; componente dedicado evita complexidade no QuestionModal |
-| Backend answer response | Include full `players[]` with wedges | Frontend precisa de wedges atualizados para HUD imediato |
+| Decision                      | Choice                                                        | Rationale                                                                             |
+| ----------------------------- | ------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| Token animation engine        | PixiJS Ticker (built-in)                                      | Já disponível, sem dependência extra (GSAP seria overkill para lerp simples) — AD-015 |
+| Valid destination calculation | Frontend-side (mirrors backend)                               | Feedback imediato sem API call extra. Validação final no backend — AD-016             |
+| Bot turn handling             | Backend auto-skip in `advanceTurn` + frontend visual sequence | Simples, 1 mudança backend; visual skip é animação local — AD-017                     |
+| Game state management         | `useState` em GamePage (local state)                          | Consistente com AD-004/AD-018; GamePage é o único consumidor de game state            |
+| Dice component                | React/Tailwind (not PixiJS)                                   | Texto e botão são mais simples em HTML/CSS que em canvas — AD-019                     |
+| Question modal                | React overlay (not PixiJS)                                    | Texto, botões, acessibilidade, i18n — tudo melhor em React/HTML — AD-020              |
+| Tile interactivity            | PixiJS Graphics eventMode                                     | API nativa do PixiJS v8 para interaction events                                       |
+| Highlight effect              | Pulsing alpha via Ticker                                      | Simples, zero dependências, efeito visual claro                                       |
+| Feedback timing               | setTimeout (1.5s correct, 2s incorrect)                       | Spec-defined, controlável, simples                                                    |
+| Category picker               | Separate modal component                                      | Hub Central é caso especial; componente dedicado evita complexidade no QuestionModal  |
+| Backend answer response       | Include full `players[]` with wedges                          | Frontend precisa de wedges atualizados para HUD imediato                              |
 
 ---
 
 ## Requirement Traceability
 
-| Requirement (Story) | Component(s) | How Addressed |
-| --- | --- | --- |
-| P1: Rolagem de Dado AC-1 (botão visível) | DiceRoller, GamePage | DiceRoller visible when turnPhase=waitingRoll + human turn |
-| P1: Rolagem de Dado AC-2 (API + animação) | DiceRoller, game-api.ts | onRoll calls rollDice(), 500ms number cycling animation |
-| P1: Rolagem de Dado AC-3 (resultado) | DiceRoller | diceValue prop displayed prominently |
-| P1: Rolagem de Dado AC-4 (disabled) | DiceRoller | disabled prop + isRolling internal state |
-| P1: Rolagem de Dado AC-5 (transição) | GamePage | handleRollDice computes validDestinations, updates state |
-| P1: Destinos AC-1 (highlight) | BoardRenderer, BoardCanvas | highlightTiles(validDestinations) called on state change |
-| P1: Destinos AC-2 (efeito visual) | BoardRenderer | Pulsing glow effect (alpha oscillation) |
-| P1: Destinos AC-3 (mesma lógica) | turn-logic.ts | getValidDestinations mirrors BoardConfig |
-| P1: Destinos AC-4 (1 destino) | GamePage | No auto-move; always highlights and waits for click |
-| P1: Destinos AC-5 (não-válidos) | BoardRenderer | Only highlighted tiles get eventMode='static' |
-| P1: Seleção AC-1 (clickable) | BoardRenderer | Interactive tile graphics with cursor=pointer |
-| P1: Seleção AC-2 (API move) | GamePage, game-api.ts | handleTileClick calls moveToPosition() |
-| P1: Seleção AC-3 (animação) | TokenRenderer | animateToken() with ticker interpolation |
-| P1: Seleção AC-4 (avaliar tile) | GamePage | Reads tileType/tileCategory from MoveResponse |
-| P1: Seleção AC-5 (disable clicks) | GamePage | isLoading disables tile click handler |
-| P1: Seleção AC-6 (ignore invalid) | BoardRenderer | Only highlighted tiles have event listeners |
-| P1: Avaliação AC-1 (category→question) | GamePage | tileType=category → fetchQuestion(tileCategory) |
-| P1: Avaliação AC-2 (hq→question) | GamePage | tileType=hq → fetchQuestion(tileCategory) |
-| P1: Avaliação AC-3 (rollAgain) | GamePage, TurnNotification | tileType=rollAgain → notify + waitingRoll |
-| P1: Avaliação AC-4 (hub→picker) | GamePage, CategoryPickerModal | tileType=hub → showCategoryPicker=true |
-| P1: Avaliação AC-5 (hub→question) | GamePage | onCategorySelect → fetchQuestion(selected) |
-| P1: Avaliação AC-6 (rollAgain auto) | GamePage | Set turnPhase=waitingRoll, show DiceRoller |
-| P1: Modal AC-1 (4 answers) | QuestionModal | Renders question.answers as 4 buttons |
-| P1: Modal AC-2 (category color) | QuestionModal | Category name + CATEGORY_COLORS[category] bar |
-| P1: Modal AC-3 (submit answer) | QuestionModal, game-api.ts | onAnswer calls submitAnswer() |
-| P1: Modal AC-4 (correct feedback) | QuestionModal | Green highlight + "Correto!" for 1.5s |
-| P1: Modal AC-5 (incorrect feedback) | QuestionModal | Red highlight + "Incorreto!" + correct answer for 2s |
-| P1: Modal AC-6 (disable during feedback) | QuestionModal | answerResult !== null → buttons disabled |
-| P1: Modal AC-7 (disable during API) | QuestionModal | isLoading from GamePage → disabled |
-| P1: Modal AC-8 (overlay) | QuestionModal | bg-black/60 overlay, board visible behind |
-| P1: Continuação AC-1 (correct→waitingRoll) | GamePage | If correct: close modal, set waitingRoll, same player |
-| P1: Continuação AC-2 (incorrect→next) | GamePage | If incorrect: close modal, update from gameState |
-| P1: Continuação AC-3 (bot turn display) | TurnNotification | Show bot names in sequence |
-| P1: Continuação AC-4 (skip bots) | game.service.ts (advanceTurn) | Loop skips non-human players |
-| P1: Continuação AC-5 (human turn) | TurnNotification, DiceRoller | "Sua vez!" + enable DiceRoller |
-| P1: Integração AC-1 (roll sync) | GamePage | Store diceValue, set turnPhase=waitingMove |
-| P1: Integração AC-2 (move sync) | GamePage | Update all state from MoveResponse |
-| P1: Integração AC-3 (answer sync) | GamePage | Update from AnswerResponse.gameState |
-| P1: Integração AC-4 (400 error) | GamePage (error handlers) | Show notification, no state change |
-| P1: Integração AC-5 (currentPlayer) | GamePage, GameHUD | Update currentPlayerNickname from responses |
-| P1: Integração AC-6 (frontend mirrors) | turn-logic.ts | getValidDestinations mirrors BoardConfig |
-| P2: Turn Phase HUD AC-1..3 | GameHUD | Turn phase badge with translated text |
-| P2: Wedges HUD AC-1..2 | GameHUD | Colored dots per player showing wedges |
+| Requirement (Story)                        | Component(s)                  | How Addressed                                              |
+| ------------------------------------------ | ----------------------------- | ---------------------------------------------------------- |
+| P1: Rolagem de Dado AC-1 (botão visível)   | DiceRoller, GamePage          | DiceRoller visible when turnPhase=waitingRoll + human turn |
+| P1: Rolagem de Dado AC-2 (API + animação)  | DiceRoller, game-api.ts       | onRoll calls rollDice(), 500ms number cycling animation    |
+| P1: Rolagem de Dado AC-3 (resultado)       | DiceRoller                    | diceValue prop displayed prominently                       |
+| P1: Rolagem de Dado AC-4 (disabled)        | DiceRoller                    | disabled prop + isRolling internal state                   |
+| P1: Rolagem de Dado AC-5 (transição)       | GamePage                      | handleRollDice computes validDestinations, updates state   |
+| P1: Destinos AC-1 (highlight)              | BoardRenderer, BoardCanvas    | highlightTiles(validDestinations) called on state change   |
+| P1: Destinos AC-2 (efeito visual)          | BoardRenderer                 | Pulsing glow effect (alpha oscillation)                    |
+| P1: Destinos AC-3 (mesma lógica)           | turn-logic.ts                 | getValidDestinations mirrors BoardConfig                   |
+| P1: Destinos AC-4 (1 destino)              | GamePage                      | No auto-move; always highlights and waits for click        |
+| P1: Destinos AC-5 (não-válidos)            | BoardRenderer                 | Only highlighted tiles get eventMode='static'              |
+| P1: Seleção AC-1 (clickable)               | BoardRenderer                 | Interactive tile graphics with cursor=pointer              |
+| P1: Seleção AC-2 (API move)                | GamePage, game-api.ts         | handleTileClick calls moveToPosition()                     |
+| P1: Seleção AC-3 (animação)                | TokenRenderer                 | animateToken() with ticker interpolation                   |
+| P1: Seleção AC-4 (avaliar tile)            | GamePage                      | Reads tileType/tileCategory from MoveResponse              |
+| P1: Seleção AC-5 (disable clicks)          | GamePage                      | isLoading disables tile click handler                      |
+| P1: Seleção AC-6 (ignore invalid)          | BoardRenderer                 | Only highlighted tiles have event listeners                |
+| P1: Avaliação AC-1 (category→question)     | GamePage                      | tileType=category → fetchQuestion(tileCategory)            |
+| P1: Avaliação AC-2 (hq→question)           | GamePage                      | tileType=hq → fetchQuestion(tileCategory)                  |
+| P1: Avaliação AC-3 (rollAgain)             | GamePage, TurnNotification    | tileType=rollAgain → notify + waitingRoll                  |
+| P1: Avaliação AC-4 (hub→picker)            | GamePage, CategoryPickerModal | tileType=hub → showCategoryPicker=true                     |
+| P1: Avaliação AC-5 (hub→question)          | GamePage                      | onCategorySelect → fetchQuestion(selected)                 |
+| P1: Avaliação AC-6 (rollAgain auto)        | GamePage                      | Set turnPhase=waitingRoll, show DiceRoller                 |
+| P1: Modal AC-1 (4 answers)                 | QuestionModal                 | Renders question.answers as 4 buttons                      |
+| P1: Modal AC-2 (category color)            | QuestionModal                 | Category name + CATEGORY_COLORS[category] bar              |
+| P1: Modal AC-3 (submit answer)             | QuestionModal, game-api.ts    | onAnswer calls submitAnswer()                              |
+| P1: Modal AC-4 (correct feedback)          | QuestionModal                 | Green highlight + "Correto!" for 1.5s                      |
+| P1: Modal AC-5 (incorrect feedback)        | QuestionModal                 | Red highlight + "Incorreto!" + correct answer for 2s       |
+| P1: Modal AC-6 (disable during feedback)   | QuestionModal                 | answerResult !== null → buttons disabled                   |
+| P1: Modal AC-7 (disable during API)        | QuestionModal                 | isLoading from GamePage → disabled                         |
+| P1: Modal AC-8 (overlay)                   | QuestionModal                 | bg-black/60 overlay, board visible behind                  |
+| P1: Continuação AC-1 (correct→waitingRoll) | GamePage                      | If correct: close modal, set waitingRoll, same player      |
+| P1: Continuação AC-2 (incorrect→next)      | GamePage                      | If incorrect: close modal, update from gameState           |
+| P1: Continuação AC-3 (bot turn display)    | TurnNotification              | Show bot names in sequence                                 |
+| P1: Continuação AC-4 (skip bots)           | game.service.ts (advanceTurn) | Loop skips non-human players                               |
+| P1: Continuação AC-5 (human turn)          | TurnNotification, DiceRoller  | "Sua vez!" + enable DiceRoller                             |
+| P1: Integração AC-1 (roll sync)            | GamePage                      | Store diceValue, set turnPhase=waitingMove                 |
+| P1: Integração AC-2 (move sync)            | GamePage                      | Update all state from MoveResponse                         |
+| P1: Integração AC-3 (answer sync)          | GamePage                      | Update from AnswerResponse.gameState                       |
+| P1: Integração AC-4 (400 error)            | GamePage (error handlers)     | Show notification, no state change                         |
+| P1: Integração AC-5 (currentPlayer)        | GamePage, GameHUD             | Update currentPlayerNickname from responses                |
+| P1: Integração AC-6 (frontend mirrors)     | turn-logic.ts                 | getValidDestinations mirrors BoardConfig                   |
+| P2: Turn Phase HUD AC-1..3                 | GameHUD                       | Turn phase badge with translated text                      |
+| P2: Wedges HUD AC-1..2                     | GameHUD                       | Colored dots per player showing wedges                     |
 
 **Coverage:** All P1 and P2 acceptance criteria mapped ✅

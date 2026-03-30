@@ -1,6 +1,18 @@
 import { GameStatus, TurnPhase } from '../enums';
 import { Player } from './player.interface';
 
+export interface BotTurnResult {
+  botNickname: string;
+  diceValue: number;
+  fromPosition: number;
+  toPosition: number;
+  tileType: string;
+  tileCategory: string | null;
+  answerCorrect: boolean | null;
+  wedgeEarned: string | null;
+  isFinalChallenge: boolean;
+}
+
 export interface GameState {
   gameId: string;
   players: Player[];

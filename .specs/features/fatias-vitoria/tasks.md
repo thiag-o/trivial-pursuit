@@ -381,12 +381,12 @@ T16
 
 **Done when**:
 
-- [ ] Final Challenge flow works: hub + 6 wedges → system category → gold QuestionModal
-- [ ] Victory triggers VictoryScreen overlay
-- [ ] Defeat triggers DefeatScreen overlay (testable via manual state)
-- [ ] mustLeaveHub filters hub from destinations
-- [ ] Wedge changes detected for notification
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] Final Challenge flow works: hub + 6 wedges → system category → gold QuestionModal
+- [x] Victory triggers VictoryScreen overlay
+- [x] Defeat triggers DefeatScreen overlay (testable via manual state)
+- [x] mustLeaveHub filters hub from destinations
+- [x] Wedge changes detected for notification
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
@@ -413,11 +413,11 @@ T16
 
 **Done when**:
 
-- [ ] Notification renders with correct category name and color
-- [ ] Auto-dismisses after 2 seconds
-- [ ] Renders nothing when `category === null`
-- [ ] Integrated into GamePage
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] Notification renders with correct category name and color
+- [x] Auto-dismisses after 2 seconds
+- [x] Renders nothing when `category === null`
+- [x] Integrated into GamePage
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
@@ -443,10 +443,10 @@ T16
 
 **Done when**:
 
-- [ ] Tokens with wedges show colored arc segments
-- [ ] 0 wedges → plain token; 6 wedges → full ring
-- [ ] Colors match category colors
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] Tokens with wedges show colored arc segments
+- [x] 0 wedges → plain token; 6 wedges → full ring
+- [x] Colors match category colors
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
@@ -471,10 +471,10 @@ T16
 
 **Done when**:
 
-- [ ] 5 wedges shows "Falta 1 fatia!" hint
-- [ ] 6 wedges shows "go to hub" hint
-- [ ] < 5 wedges shows no hint
-- [ ] No TypeScript errors: `cd frontend && npx tsc --noEmit`
+- [x] 5 wedges shows "Falta 1 fatia!" hint
+- [x] 6 wedges shows "go to hub" hint
+- [x] < 5 wedges shows no hint
+- [x] No TypeScript errors: `cd frontend && npx tsc --noEmit`
 
 **Verify**: `cd frontend && npx tsc --noEmit`
 
@@ -499,11 +499,11 @@ T16
 
 **Done when**:
 
-- [ ] Backend TypeScript compilation passes
-- [ ] Backend lint passes
-- [ ] Frontend TypeScript compilation passes
-- [ ] Frontend lint passes
-- [ ] Frontend Vite build succeeds
+- [x] Backend TypeScript compilation passes
+- [x] Backend lint passes
+- [x] Frontend TypeScript compilation passes
+- [x] Frontend lint passes
+- [x] Frontend Vite build succeeds
 
 **Verify**: Run all 5 commands above — all exit code 0
 

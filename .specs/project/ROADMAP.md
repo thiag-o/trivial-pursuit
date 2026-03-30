@@ -44,7 +44,7 @@
 - Avaliação do tipo de casa (colorida, HQ, Roll Again, Hub Central)
 - Modal de pergunta com 4 alternativas, feedback acerto/erro
 
-**MVP-5: Fatias e Vitória** — IN PROGRESS
+**MVP-5: Fatias e Vitória** — COMPLETE
 
 - Conquista de fatia ao acertar em casa HQ (sem duplicata)
 - Hub Central sem 6 fatias: escolha de categoria
@@ -52,14 +52,14 @@
 - Acerto no Desafio Final = vitória; erro = sai do hub
 - Tela de vitória e tela de derrota
 
-**MVP-6: Oponentes Simulados** — PLANNED
+**MVP-6: Oponentes Simulados** — COMPLETE
 
 - 1 a 5 oponentes com turnos automáticos
 - Lógica simplificada: movimento aleatório + probabilidade fixa de acerto (~50%)
 - Exibição breve das ações dos oponentes no tabuleiro
 - Oponente pode vencer (Desafio Final) → tela de derrota para jogador humano
 
-**MVP-7: Testes** — PLANNED
+**MVP-7: Testes** — COMPLETE
 
 - Testes unitários Jest: lógica de estado do jogo, validação de respostas (backend)
 - Testes unitários Jest: componentes React críticos (login, modal de perguntas)

@@ -51,8 +51,7 @@ export class GameController {
       lastDiceRoll: state.lastDiceRoll,
       tileType: tile.type,
       tileCategory: tile.category,
-      isFinalChallenge:
-        state.turnPhase === TurnPhase.WAITING_FINAL_ANSWER,
+      isFinalChallenge: state.turnPhase === TurnPhase.WAITING_FINAL_ANSWER,
       finalCategory: state.finalChallengeCategory,
     };
   }

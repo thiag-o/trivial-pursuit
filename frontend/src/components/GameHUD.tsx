@@ -19,6 +19,7 @@ function TurnPhaseBadge({
       color: 'bg-yellow-600',
     },
     waitingAnswer: { text: '❓ Responder Pergunta', color: 'bg-purple-600' },
+    waitingFinalAnswer: { text: '🏆 Desafio Final', color: 'bg-yellow-500' },
   };
 
   const { text, color } = config[turnPhase];
@@ -92,6 +93,26 @@ export default function GameHUD({
           <TurnPhaseBadge turnPhase={turnPhase} diceValue={diceValue} />
         </div>
       )}
+
+      {/* Progress hints */}
+      {(() => {
+        const humanWedges = playerWedges?.[humanNickname] ?? [];
+        if (humanWedges.length === 5) {
+          return (
+            <p className="text-yellow-300 text-sm font-semibold">
+              Falta 1 fatia! Conquiste e volte ao Hub Central.
+            </p>
+          );
+        }
+        if (humanWedges.length === 6) {
+          return (
+            <p className="text-yellow-300 text-sm font-semibold">
+              Todas as fatias! Vá ao Hub Central para o Desafio Final.
+            </p>
+          );
+        }
+        return null;
+      })()}
 
       <div>
         <p className="text-gray-400 text-xs uppercase tracking-wide mb-2">

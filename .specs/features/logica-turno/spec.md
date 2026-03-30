@@ -15,17 +15,17 @@ O tabuleiro PixiJS está renderizado (MVP-3), mas o jogador não pode interagir 
 
 ## Out of Scope
 
-| Feature | Reason |
-| --- | --- |
-| Conquista de fatia visual no token | Pertence ao MVP-5 (Fatias e Vitória) |
-| Desafio Final no Hub Central (com 6 fatias) | Pertence ao MVP-5 |
-| Tela de vitória / derrota | Pertence ao MVP-5 |
-| Turnos automáticos de oponentes (bots) | Pertence ao MVP-6 (Oponentes Simulados) |
-| Animação avançada de dado (física simulada) | Pertence a Fase 2 (F2-2) |
-| Efeitos sonoros (rolagem, acerto, erro) | Pertence a Fase 2 (F2-3) |
-| Timer de resposta com contagem regressiva | Pertence a Fase 2 (F2-4) |
-| Seleção de número de oponentes pelo jogador | Pode ser adicionado no MVP-6; por ora usa default 3 |
-| Navegação via spokes (raios) no movimento | Backend atual usa anel circular simples (forward/backward); spokes são visuais apenas (AD-013) |
+| Feature                                     | Reason                                                                                         |
+| ------------------------------------------- | ---------------------------------------------------------------------------------------------- |
+| Conquista de fatia visual no token          | Pertence ao MVP-5 (Fatias e Vitória)                                                           |
+| Desafio Final no Hub Central (com 6 fatias) | Pertence ao MVP-5                                                                              |
+| Tela de vitória / derrota                   | Pertence ao MVP-5                                                                              |
+| Turnos automáticos de oponentes (bots)      | Pertence ao MVP-6 (Oponentes Simulados)                                                        |
+| Animação avançada de dado (física simulada) | Pertence a Fase 2 (F2-2)                                                                       |
+| Efeitos sonoros (rolagem, acerto, erro)     | Pertence a Fase 2 (F2-3)                                                                       |
+| Timer de resposta com contagem regressiva   | Pertence a Fase 2 (F2-4)                                                                       |
+| Seleção de número de oponentes pelo jogador | Pode ser adicionado no MVP-6; por ora usa default 3                                            |
+| Navegação via spokes (raios) no movimento   | Backend atual usa anel circular simples (forward/backward); spokes são visuais apenas (AD-013) |
 
 ---
 
@@ -224,55 +224,55 @@ O tabuleiro PixiJS está renderizado (MVP-3), mas o jogador não pode interagir 
 
 ## Requirement Traceability
 
-| Requirement ID | Story | Phase | Status |
-| --- | --- | --- | --- |
-| TURN-01 | P1: Rolagem de Dado | Design | Pending |
-| TURN-02 | P1: Rolagem de Dado | Design | Pending |
-| TURN-03 | P1: Rolagem de Dado | Design | Pending |
-| TURN-04 | P1: Rolagem de Dado | Design | Pending |
-| TURN-05 | P1: Rolagem de Dado | Design | Pending |
-| DEST-01 | P1: Destinos Válidos Destacados | Design | Pending |
-| DEST-02 | P1: Destinos Válidos Destacados | Design | Pending |
-| DEST-03 | P1: Destinos Válidos Destacados | Design | Pending |
-| DEST-04 | P1: Destinos Válidos Destacados | Design | Pending |
-| DEST-05 | P1: Destinos Válidos Destacados | Design | Pending |
-| MOVE-01 | P1: Seleção de Destino e Movimentação | Design | Pending |
-| MOVE-02 | P1: Seleção de Destino e Movimentação | Design | Pending |
-| MOVE-03 | P1: Seleção de Destino e Movimentação | Design | Pending |
-| MOVE-04 | P1: Seleção de Destino e Movimentação | Design | Pending |
-| MOVE-05 | P1: Seleção de Destino e Movimentação | Design | Pending |
-| MOVE-06 | P1: Seleção de Destino e Movimentação | Design | Pending |
-| TILE-01 | P1: Avaliação de Tipo de Casa | Design | Pending |
-| TILE-02 | P1: Avaliação de Tipo de Casa | Design | Pending |
-| TILE-03 | P1: Avaliação de Tipo de Casa | Design | Pending |
-| TILE-04 | P1: Avaliação de Tipo de Casa | Design | Pending |
-| TILE-05 | P1: Avaliação de Tipo de Casa | Design | Pending |
-| TILE-06 | P1: Avaliação de Tipo de Casa | Design | Pending |
-| QST-01 | P1: Modal de Pergunta com 4 Alternativas | Design | Pending |
-| QST-02 | P1: Modal de Pergunta com 4 Alternativas | Design | Pending |
-| QST-03 | P1: Modal de Pergunta com 4 Alternativas | Design | Pending |
-| QST-04 | P1: Modal de Pergunta com 4 Alternativas | Design | Pending |
-| QST-05 | P1: Modal de Pergunta com 4 Alternativas | Design | Pending |
-| QST-06 | P1: Modal de Pergunta com 4 Alternativas | Design | Pending |
-| QST-07 | P1: Modal de Pergunta com 4 Alternativas | Design | Pending |
-| QST-08 | P1: Modal de Pergunta com 4 Alternativas | Design | Pending |
-| FLOW-01 | P1: Continuação ou Fim de Turno | Design | Pending |
-| FLOW-02 | P1: Continuação ou Fim de Turno | Design | Pending |
-| FLOW-03 | P1: Continuação ou Fim de Turno | Design | Pending |
-| FLOW-04 | P1: Continuação ou Fim de Turno | Design | Pending |
-| FLOW-05 | P1: Continuação ou Fim de Turno | Design | Pending |
-| SYNC-01 | P1: Integração com Estado do Jogo | Design | Pending |
-| SYNC-02 | P1: Integração com Estado do Jogo | Design | Pending |
-| SYNC-03 | P1: Integração com Estado do Jogo | Design | Pending |
-| SYNC-04 | P1: Integração com Estado do Jogo | Design | Pending |
-| SYNC-05 | P1: Integração com Estado do Jogo | Design | Pending |
-| SYNC-06 | P1: Integração com Estado do Jogo | Design | Pending |
-| HUD-P01 | P2: Indicador de Fase do Turno no HUD | - | Pending |
-| HUD-P02 | P2: Indicador de Fase do Turno no HUD | - | Pending |
-| HUD-P03 | P2: Indicador de Fase do Turno no HUD | - | Pending |
-| WEDGE-01 | P2: Exibição de Fatias no HUD | - | Pending |
-| WEDGE-02 | P2: Exibição de Fatias no HUD | - | Pending |
-| ANIM-01 | P3: Animação Suave de Token | - | Pending |
+| Requirement ID | Story                                    | Phase  | Status  |
+| -------------- | ---------------------------------------- | ------ | ------- |
+| TURN-01        | P1: Rolagem de Dado                      | Design | Pending |
+| TURN-02        | P1: Rolagem de Dado                      | Design | Pending |
+| TURN-03        | P1: Rolagem de Dado                      | Design | Pending |
+| TURN-04        | P1: Rolagem de Dado                      | Design | Pending |
+| TURN-05        | P1: Rolagem de Dado                      | Design | Pending |
+| DEST-01        | P1: Destinos Válidos Destacados          | Design | Pending |
+| DEST-02        | P1: Destinos Válidos Destacados          | Design | Pending |
+| DEST-03        | P1: Destinos Válidos Destacados          | Design | Pending |
+| DEST-04        | P1: Destinos Válidos Destacados          | Design | Pending |
+| DEST-05        | P1: Destinos Válidos Destacados          | Design | Pending |
+| MOVE-01        | P1: Seleção de Destino e Movimentação    | Design | Pending |
+| MOVE-02        | P1: Seleção de Destino e Movimentação    | Design | Pending |
+| MOVE-03        | P1: Seleção de Destino e Movimentação    | Design | Pending |
+| MOVE-04        | P1: Seleção de Destino e Movimentação    | Design | Pending |
+| MOVE-05        | P1: Seleção de Destino e Movimentação    | Design | Pending |
+| MOVE-06        | P1: Seleção de Destino e Movimentação    | Design | Pending |
+| TILE-01        | P1: Avaliação de Tipo de Casa            | Design | Pending |
+| TILE-02        | P1: Avaliação de Tipo de Casa            | Design | Pending |
+| TILE-03        | P1: Avaliação de Tipo de Casa            | Design | Pending |
+| TILE-04        | P1: Avaliação de Tipo de Casa            | Design | Pending |
+| TILE-05        | P1: Avaliação de Tipo de Casa            | Design | Pending |
+| TILE-06        | P1: Avaliação de Tipo de Casa            | Design | Pending |
+| QST-01         | P1: Modal de Pergunta com 4 Alternativas | Design | Pending |
+| QST-02         | P1: Modal de Pergunta com 4 Alternativas | Design | Pending |
+| QST-03         | P1: Modal de Pergunta com 4 Alternativas | Design | Pending |
+| QST-04         | P1: Modal de Pergunta com 4 Alternativas | Design | Pending |
+| QST-05         | P1: Modal de Pergunta com 4 Alternativas | Design | Pending |
+| QST-06         | P1: Modal de Pergunta com 4 Alternativas | Design | Pending |
+| QST-07         | P1: Modal de Pergunta com 4 Alternativas | Design | Pending |
+| QST-08         | P1: Modal de Pergunta com 4 Alternativas | Design | Pending |
+| FLOW-01        | P1: Continuação ou Fim de Turno          | Design | Pending |
+| FLOW-02        | P1: Continuação ou Fim de Turno          | Design | Pending |
+| FLOW-03        | P1: Continuação ou Fim de Turno          | Design | Pending |
+| FLOW-04        | P1: Continuação ou Fim de Turno          | Design | Pending |
+| FLOW-05        | P1: Continuação ou Fim de Turno          | Design | Pending |
+| SYNC-01        | P1: Integração com Estado do Jogo        | Design | Pending |
+| SYNC-02        | P1: Integração com Estado do Jogo        | Design | Pending |
+| SYNC-03        | P1: Integração com Estado do Jogo        | Design | Pending |
+| SYNC-04        | P1: Integração com Estado do Jogo        | Design | Pending |
+| SYNC-05        | P1: Integração com Estado do Jogo        | Design | Pending |
+| SYNC-06        | P1: Integração com Estado do Jogo        | Design | Pending |
+| HUD-P01        | P2: Indicador de Fase do Turno no HUD    | -      | Pending |
+| HUD-P02        | P2: Indicador de Fase do Turno no HUD    | -      | Pending |
+| HUD-P03        | P2: Indicador de Fase do Turno no HUD    | -      | Pending |
+| WEDGE-01       | P2: Exibição de Fatias no HUD            | -      | Pending |
+| WEDGE-02       | P2: Exibição de Fatias no HUD            | -      | Pending |
+| ANIM-01        | P3: Animação Suave de Token              | -      | Pending |
 
 **ID format:** `TURN/DEST/MOVE/TILE/QST/FLOW/SYNC/HUD-P/WEDGE/ANIM-NN`
 

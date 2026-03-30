@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { getNickname } from '../services/auth';
 import ColorPicker from '../components/ColorPicker';
 import BoardCanvas from '../components/BoardCanvas';
@@ -9,14 +9,12 @@ import DiceRoller from '../components/DiceRoller';
 import QuestionModal from '../components/QuestionModal';
 import CategoryPickerModal from '../components/CategoryPickerModal';
 import TurnNotification from '../components/TurnNotification';
+import VictoryScreen from '../components/VictoryScreen';
+import DefeatScreen from '../components/DefeatScreen';
+import WedgeNotification from '../components/WedgeNotification';
 import { rollDice, moveToPosition, fetchQuestion, submitAnswer } from '../services/game-api';
-import { getValidDestinations, getBotsToSkip } from '../game/turn-logic';
-import type {
-  PlayerColor,
-  PlayerToken,
-  GamePageState,
-  PlayerData,
-} from '../game/types';
+import { getValidDestinations, filterHubIfMustLeave } from '../game/turn-logic';
+import type { PlayerColor, PlayerToken, GamePageState, PlayerData, BotTurnResult } from '../game/types';
 import { PLAYER_COLOR_LIST } from '../game/constants';
 
 interface LocationGameState {
@@ -25,10 +23,7 @@ interface LocationGameState {
   currentPlayerNickname: string;
 }
 
-function buildPlayerTokens(
-  players: PlayerData[],
-  selectedColor: PlayerColor,
-): PlayerToken[] {
+function buildPlayerTokens(players: PlayerData[], selectedColor: PlayerColor): PlayerToken[] {
   const availableColors = PLAYER_COLOR_LIST.filter((c) => c !== selectedColor);
   let colorIndex = 0;
   return players.map((p) => {
@@ -57,6 +52,7 @@ export default function GamePage() {
   const [notifKey, setNotifKey] = useState(0);
 
   const [state, setState] = useState<GamePageState | null>(null);
+  const navigate = useNavigate();
 
   if (!locState) {
     return <Navigate to="/start" replace />;
@@ -74,8 +70,7 @@ export default function GamePage() {
       gameId: locState!.gameId,
       players,
       playerTokens: buildPlayerTokens(players, color),
-      currentPlayerNickname:
-        locState!.currentPlayerNickname ?? locState!.players[0]?.nickname ?? '',
+      currentPlayerNickname: locState!.currentPlayerNickname ?? locState!.players[0]?.nickname ?? '',
       turnPhase: 'waitingRoll',
       lastDiceRoll: null,
       validDestinations: [],
@@ -85,6 +80,10 @@ export default function GamePage() {
       notification: null,
       showCategoryPicker: false,
       isLoading: false,
+      mustLeaveHub: false,
+      isFinalChallenge: false,
+      gameOverState: null,
+      earnedWedgeCategory: null,
     });
   }
 
@@ -96,11 +95,10 @@ export default function GamePage() {
   const handleRollDice = async (): Promise<number> => {
     try {
       const res = await rollDice();
-      const currentPlayer = state.players.find(
-        (p) => p.nickname === state.currentPlayerNickname,
-      );
+      const currentPlayer = state.players.find((p) => p.nickname === state.currentPlayerNickname);
       const from = currentPlayer?.position ?? 0;
-      const dests = getValidDestinations(from, res.value);
+      const rawDests = getValidDestinations(from, res.value);
+      const dests = filterHubIfMustLeave(rawDests, state.mustLeaveHub);
 
       setState((prev) =>
         prev
@@ -134,10 +132,19 @@ export default function GamePage() {
       const updatedTokens = buildPlayerTokens(updatedPlayers, selectedColor);
 
       // Find previous position to animate from
-      const prevPlayer = state.players.find(
-        (p) => p.nickname === state.currentPlayerNickname,
-      );
+      const prevPlayer = state.players.find((p) => p.nickname === state.currentPlayerNickname);
       const fromPos = prevPlayer?.position ?? 0;
+
+      // Animate token movement BEFORE updating playerTokens state.
+      // Updating playerTokens causes BoardCanvas to destroy/recreate the
+      // PixiJS Graphics object being animated, crashing the ticker.
+      await new Promise<void>((resolve) => {
+        if (boardRef.current) {
+          boardRef.current.animateToken(state.currentPlayerNickname, fromPos, position, resolve);
+        } else {
+          resolve();
+        }
+      });
 
       setState((prev) =>
         prev
@@ -151,19 +158,12 @@ export default function GamePage() {
           : prev,
       );
 
-      // Animate token movement
-      await new Promise<void>((resolve) => {
-        if (boardRef.current) {
-          boardRef.current.animateToken(
-            state.currentPlayerNickname,
-            fromPos,
-            position,
-            resolve,
-          );
-        } else {
-          resolve();
-        }
-      });
+      // Check for Final Challenge (hub + 6 wedges)
+      if (res.isFinalChallenge) {
+        setState((prev) => (prev ? { ...prev, isFinalChallenge: true, mustLeaveHub: false, isLoading: false } : prev));
+        await loadQuestion(res.finalCategory!, true);
+        return;
+      }
 
       // Evaluate tile type
       if (res.tileType === 'rollAgain') {
@@ -173,6 +173,7 @@ export default function GamePage() {
                 ...prev,
                 turnPhase: 'waitingRoll',
                 lastDiceRoll: null,
+                mustLeaveHub: false,
                 isLoading: false,
               }
             : prev,
@@ -180,14 +181,10 @@ export default function GamePage() {
         showNotification('🎲 Role Novamente!');
       } else if (res.tileType === 'hub') {
         // Hub Central — show category picker
-        setState((prev) =>
-          prev ? { ...prev, showCategoryPicker: true, isLoading: false } : prev,
-        );
-      } else if (
-        (res.tileType === 'category' || res.tileType === 'hq') &&
-        res.tileCategory
-      ) {
+        setState((prev) => (prev ? { ...prev, showCategoryPicker: true, mustLeaveHub: false, isLoading: false } : prev));
+      } else if ((res.tileType === 'category' || res.tileType === 'hq') && res.tileCategory) {
         // Fetch question for this category
+        setState((prev) => (prev ? { ...prev, mustLeaveHub: false } : prev));
         await loadQuestion(res.tileCategory);
       }
     } catch {
@@ -198,14 +195,12 @@ export default function GamePage() {
 
   // --- Handler: Category select (hub) ---
   const handleCategorySelect = async (category: string) => {
-    setState((prev) =>
-      prev ? { ...prev, showCategoryPicker: false, isLoading: true } : prev,
-    );
+    setState((prev) => (prev ? { ...prev, showCategoryPicker: false, isLoading: true } : prev));
     await loadQuestion(category);
   };
 
   // --- Load question helper ---
-  const loadQuestion = async (category: string) => {
+  const loadQuestion = async (category: string, isFinal = false) => {
     try {
       const q = await fetchQuestion(category);
       setState((prev) =>
@@ -214,17 +209,13 @@ export default function GamePage() {
               ...prev,
               question: q,
               answerResult: null,
-              turnPhase: 'waitingAnswer',
+              turnPhase: isFinal ? 'waitingFinalAnswer' : 'waitingAnswer',
               isLoading: false,
             }
           : prev,
       );
     } catch {
-      setState((prev) =>
-        prev
-          ? { ...prev, turnPhase: 'waitingRoll', isLoading: false }
-          : prev,
-      );
+      setState((prev) => (prev ? { ...prev, turnPhase: 'waitingRoll', isLoading: false } : prev));
       showNotification('Erro ao carregar pergunta');
     }
   };
@@ -260,6 +251,37 @@ export default function GamePage() {
       const updatedPlayers = gs.players;
       const updatedTokens = buildPlayerTokens(updatedPlayers, selectedColor);
 
+      // Check for human victory (Final Challenge correct)
+      if (gs.status === 'finished' && gs.winner === humanNickname) {
+        const winnerPlayer = updatedPlayers.find((p) => p.nickname === gs.winner);
+        setState((prev) =>
+          prev
+            ? {
+                ...prev,
+                players: updatedPlayers,
+                playerTokens: updatedTokens,
+                question: null,
+                answerResult: null,
+                isFinalChallenge: false,
+                gameOverState: {
+                  type: 'victory',
+                  winnerNickname: gs.winner!,
+                  winnerWedges: winnerPlayer?.wedges ?? [],
+                },
+              }
+            : prev,
+        );
+        return;
+      }
+
+      // Detect wedge change for notification
+      const humanBefore = state.players.find((p) => p.nickname === humanNickname);
+      const humanAfter = updatedPlayers.find((p) => p.nickname === humanNickname);
+      let earnedWedge: string | null = null;
+      if (humanBefore && humanAfter && humanAfter.wedges.length > humanBefore.wedges.length) {
+        earnedWedge = humanAfter.wedges.find((w) => !humanBefore.wedges.includes(w)) ?? null;
+      }
+
       if (res.correct) {
         // Same player continues
         setState((prev) =>
@@ -273,12 +295,14 @@ export default function GamePage() {
                 lastDiceRoll: null,
                 question: null,
                 answerResult: null,
+                isFinalChallenge: false,
+                earnedWedgeCategory: earnedWedge,
               }
             : prev,
         );
       } else {
         // Wrong answer: backend already advanced to next human
-        // Show bot-skip sequence
+        const wasFinalChallenge = state.isFinalChallenge;
         setState((prev) =>
           prev
             ? {
@@ -286,37 +310,86 @@ export default function GamePage() {
                 question: null,
                 answerResult: null,
                 isLoading: true,
+                isFinalChallenge: false,
+                mustLeaveHub: wasFinalChallenge ? true : prev.mustLeaveHub,
               }
             : prev,
         );
 
-        await runBotSkipSequence(updatedPlayers, gs.currentPlayer, updatedTokens);
+        await runBotTurnSequence(res.botTurns ?? [], updatedPlayers, gs.currentPlayer, updatedTokens, gs);
       }
     } catch {
-      setState((prev) =>
-        prev
-          ? { ...prev, isLoading: false, question: null, answerResult: null }
-          : prev,
-      );
+      setState((prev) => (prev ? { ...prev, isLoading: false, question: null, answerResult: null } : prev));
       showNotification('Erro ao enviar resposta');
     }
   };
 
-  // --- Bot skip visual sequence ---
-  const runBotSkipSequence = async (
+  // --- Bot turn animation sequence ---
+  const runBotTurnSequence = async (
+    botTurns: BotTurnResult[],
     updatedPlayers: PlayerData[],
     newCurrentPlayer: string,
     updatedTokens: PlayerToken[],
+    gs: { status: string; winner: string | null },
   ) => {
-    // Find the index of the old current human player
-    const oldIdx = state.players.findIndex(
-      (p) => p.nickname === state.currentPlayerNickname,
-    );
-    const bots = getBotsToSkip(state.players, oldIdx);
-
-    for (const botName of bots) {
-      showNotification(`Vez de ${botName}`);
+    for (const turn of botTurns) {
+      showNotification(`\ud83c\udfb2 ${turn.botNickname} tirou ${turn.diceValue}`);
       await sleep(500);
+
+      // Animate token movement
+      await new Promise<void>((resolve) => {
+        if (boardRef.current) {
+          boardRef.current.animateToken(turn.botNickname, turn.fromPosition, turn.toPosition, resolve);
+        } else {
+          resolve();
+        }
+      });
+
+      // Update position in state for visual correctness on re-render
+      setState((prev) => {
+        if (!prev) return prev;
+        return {
+          ...prev,
+          playerTokens: prev.playerTokens.map((t) => (t.nickname === turn.botNickname ? { ...t, position: turn.toPosition } : t)),
+          players: prev.players.map((p) => (p.nickname === turn.botNickname ? { ...p, position: turn.toPosition } : p)),
+        };
+      });
+
+      // Show result
+      if (turn.answerCorrect === null) {
+        showNotification(`\ud83c\udfb2 ${turn.botNickname} joga novamente!`);
+        await sleep(300);
+      } else if (turn.answerCorrect) {
+        const wedgeMsg = turn.wedgeEarned ? ' \ud83c\udfc5' : '';
+        showNotification(`\u2705 ${turn.botNickname} acertou!${wedgeMsg}`);
+        await sleep(700);
+      } else {
+        showNotification(`\u274c ${turn.botNickname} errou!`);
+        await sleep(500);
+      }
+    }
+
+    // Check game over (bot won)
+    if (gs.status === 'finished' && gs.winner && gs.winner !== humanNickname) {
+      const winnerPlayer = updatedPlayers.find((p) => p.nickname === gs.winner);
+      setState((prev) =>
+        prev
+          ? {
+              ...prev,
+              players: updatedPlayers,
+              playerTokens: buildPlayerTokens(updatedPlayers, selectedColor),
+              question: null,
+              answerResult: null,
+              isLoading: false,
+              gameOverState: {
+                type: 'defeat',
+                winnerNickname: gs.winner!,
+                winnerWedges: winnerPlayer?.wedges ?? [],
+              },
+            }
+          : prev,
+      );
+      return;
     }
 
     showNotification('Sua vez!');
@@ -327,7 +400,7 @@ export default function GamePage() {
         ? {
             ...prev,
             players: updatedPlayers,
-            playerTokens: updatedTokens,
+            playerTokens: buildPlayerTokens(updatedPlayers, selectedColor),
             currentPlayerNickname: newCurrentPlayer,
             turnPhase: 'waitingRoll',
             lastDiceRoll: null,
@@ -341,9 +414,7 @@ export default function GamePage() {
   // --- Notification helper ---
   const showNotification = (message: string) => {
     setNotifKey((k) => k + 1);
-    setState((prev) =>
-      prev ? { ...prev, notification: message } : prev,
-    );
+    setState((prev) => (prev ? { ...prev, notification: message } : prev));
   };
 
   // Derived values
@@ -366,12 +437,7 @@ export default function GamePage() {
           onTileClick={handleTileClick}
           validDestinations={state.validDestinations}
         />
-        <DiceRoller
-          onRoll={handleRollDice}
-          disabled={diceDisabled}
-          diceValue={state.lastDiceRoll}
-          visible={diceVisible}
-        />
+        <DiceRoller onRoll={handleRollDice} disabled={diceDisabled} diceValue={state.lastDiceRoll} visible={diceVisible} />
       </div>
 
       {/* HUD */}
@@ -393,14 +459,23 @@ export default function GamePage() {
         onAnswer={handleAnswer}
         answerResult={state.answerResult}
         isLoading={state.isLoading}
+        isFinalChallenge={state.isFinalChallenge}
       />
-      <CategoryPickerModal
-        onSelect={handleCategorySelect}
-        visible={state.showCategoryPicker}
-      />
-      <TurnNotification
-        key={notifKey}
-        message={state.notification}
+      <CategoryPickerModal onSelect={handleCategorySelect} visible={state.showCategoryPicker} />
+      <TurnNotification key={notifKey} message={state.notification} />
+      {state.gameOverState?.type === 'victory' && (
+        <VictoryScreen nickname={humanNickname} wedges={state.gameOverState.winnerWedges} onPlayAgain={() => navigate('/start')} />
+      )}
+      {state.gameOverState?.type === 'defeat' && (
+        <DefeatScreen
+          winnerNickname={state.gameOverState.winnerNickname}
+          winnerWedges={state.gameOverState.winnerWedges}
+          onPlayAgain={() => navigate('/start')}
+        />
+      )}
+      <WedgeNotification
+        category={state.earnedWedgeCategory}
+        onDismiss={() => setState((prev) => (prev ? { ...prev, earnedWedgeCategory: null } : prev))}
       />
     </div>
   );

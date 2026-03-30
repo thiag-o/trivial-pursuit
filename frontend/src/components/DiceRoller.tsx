@@ -7,12 +7,7 @@ interface DiceRollerProps {
   visible: boolean;
 }
 
-export default function DiceRoller({
-  onRoll,
-  disabled,
-  diceValue,
-  visible,
-}: DiceRollerProps) {
+export default function DiceRoller({ onRoll, disabled, diceValue, visible }: DiceRollerProps) {
   const [isRolling, setIsRolling] = useState(false);
   const [displayValue, setDisplayValue] = useState<number | null>(null);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -56,9 +51,7 @@ export default function DiceRoller({
 
   return (
     <div className="flex flex-col items-center gap-3">
-      {shownValue !== null && (
-        <span className="text-5xl font-bold text-white">{shownValue}</span>
-      )}
+      {shownValue !== null && <span className="text-5xl font-bold text-white">{shownValue}</span>}
       <button
         onClick={handleClick}
         disabled={isRolling || disabled}

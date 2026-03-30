@@ -88,35 +88,35 @@ stateDiagram-v2
 
 ### Existing Components to Leverage
 
-| Component | Location | How to Use |
-| --- | --- | --- |
-| `GameService.processAnswer()` | `backend/src/game/game.service.ts` | Extend: add Final Challenge logic, victory, mustLeaveHub |
-| `GameService.move()` | `backend/src/game/game.service.ts` | Extend: set WAITING_FINAL_ANSWER for hub+6wedges, filter pos 0 for mustLeaveHub |
-| `Player` interface | `backend/src/common/interfaces/player.interface.ts` | Extend: add `mustLeaveHub: boolean` field |
-| `GameState` interface | `backend/src/common/interfaces/game-state.interface.ts` | Already has `winner` and `status` — no changes needed |
-| `TurnPhase` enum | `backend/src/common/enums/turn-phase.enum.ts` | Extend: add `WAITING_FINAL_ANSWER` |
-| `GameStatus` enum | `backend/src/common/enums/game-status.enum.ts` | Already has `FINISHED` — no changes needed |
-| `QuestionModal` | `frontend/src/components/QuestionModal.tsx` | Extend: accept `isFinalChallenge` prop for gold theme |
-| `CategoryPickerModal` | `frontend/src/components/CategoryPickerModal.tsx` | Reuse as-is for hub without 6 wedges |
-| `GameHUD` | `frontend/src/components/GameHUD.tsx` | Extend: add progress hints (P3) |
-| `GamePage` | `frontend/src/pages/GamePage.tsx` | Extend: add final challenge flow, victory/defeat handling, wedge notification |
-| `game-api.ts` | `frontend/src/services/game-api.ts` | No changes — existing endpoints suffice |
-| `turn-logic.ts` | `frontend/src/game/turn-logic.ts` | Extend: add `getValidDestinationsWithHubExclusion()` |
-| `types.ts` | `frontend/src/game/types.ts` | Extend: add new types and GamePageState fields |
-| `constants.ts` | `frontend/src/game/constants.ts` | Reuse CATEGORY_COLORS for wedge visuals |
-| `TokenRenderer` | `frontend/src/game/pixi/TokenRenderer.ts` | Extend: add wedge segments rendering on tokens |
-| `QuestionsController` | `backend/src/questions/questions.controller.ts` | Extend: support WAITING_FINAL_ANSWER phase check |
-| `GameController.move()` | `backend/src/game/game.controller.ts` | Extend: return `finalCategory` and `isFinalChallenge` in response |
+| Component                     | Location                                                | How to Use                                                                      |
+| ----------------------------- | ------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| `GameService.processAnswer()` | `backend/src/game/game.service.ts`                      | Extend: add Final Challenge logic, victory, mustLeaveHub                        |
+| `GameService.move()`          | `backend/src/game/game.service.ts`                      | Extend: set WAITING_FINAL_ANSWER for hub+6wedges, filter pos 0 for mustLeaveHub |
+| `Player` interface            | `backend/src/common/interfaces/player.interface.ts`     | Extend: add `mustLeaveHub: boolean` field                                       |
+| `GameState` interface         | `backend/src/common/interfaces/game-state.interface.ts` | Already has `winner` and `status` — no changes needed                           |
+| `TurnPhase` enum              | `backend/src/common/enums/turn-phase.enum.ts`           | Extend: add `WAITING_FINAL_ANSWER`                                              |
+| `GameStatus` enum             | `backend/src/common/enums/game-status.enum.ts`          | Already has `FINISHED` — no changes needed                                      |
+| `QuestionModal`               | `frontend/src/components/QuestionModal.tsx`             | Extend: accept `isFinalChallenge` prop for gold theme                           |
+| `CategoryPickerModal`         | `frontend/src/components/CategoryPickerModal.tsx`       | Reuse as-is for hub without 6 wedges                                            |
+| `GameHUD`                     | `frontend/src/components/GameHUD.tsx`                   | Extend: add progress hints (P3)                                                 |
+| `GamePage`                    | `frontend/src/pages/GamePage.tsx`                       | Extend: add final challenge flow, victory/defeat handling, wedge notification   |
+| `game-api.ts`                 | `frontend/src/services/game-api.ts`                     | No changes — existing endpoints suffice                                         |
+| `turn-logic.ts`               | `frontend/src/game/turn-logic.ts`                       | Extend: add `getValidDestinationsWithHubExclusion()`                            |
+| `types.ts`                    | `frontend/src/game/types.ts`                            | Extend: add new types and GamePageState fields                                  |
+| `constants.ts`                | `frontend/src/game/constants.ts`                        | Reuse CATEGORY_COLORS for wedge visuals                                         |
+| `TokenRenderer`               | `frontend/src/game/pixi/TokenRenderer.ts`               | Extend: add wedge segments rendering on tokens                                  |
+| `QuestionsController`         | `backend/src/questions/questions.controller.ts`         | Extend: support WAITING_FINAL_ANSWER phase check                                |
+| `GameController.move()`       | `backend/src/game/game.controller.ts`                   | Extend: return `finalCategory` and `isFinalChallenge` in response               |
 
 ### Integration Points
 
-| System | Integration Method |
-| --- | --- |
-| Victory detection | Backend `processAnswer` sets `status=FINISHED` + `winner`; frontend reads from `AnswerResponse.gameState` |
-| mustLeaveHub | Backend stores on `Player`, filters in `move()`; frontend reads from `MoveResponse` |
-| Final Challenge category | Backend selects random category in `move()` when hub+6wedges; returns in `MoveResponse` |
-| Wedge notification | Frontend detects new wedge by comparing `players.wedges` before/after answer response |
-| PixiJS wedge segments | `TokenRenderer` reads `PlayerToken.wedges` and draws pie slices |
+| System                   | Integration Method                                                                                        |
+| ------------------------ | --------------------------------------------------------------------------------------------------------- |
+| Victory detection        | Backend `processAnswer` sets `status=FINISHED` + `winner`; frontend reads from `AnswerResponse.gameState` |
+| mustLeaveHub             | Backend stores on `Player`, filters in `move()`; frontend reads from `MoveResponse`                       |
+| Final Challenge category | Backend selects random category in `move()` when hub+6wedges; returns in `MoveResponse`                   |
+| Wedge notification       | Frontend detects new wedge by comparing `players.wedges` before/after answer response                     |
+| PixiJS wedge segments    | `TokenRenderer` reads `PlayerToken.wedges` and draws pie slices                                           |
 
 ---
 
@@ -259,7 +259,7 @@ export interface Player {
   position: number;
   wedges: Category[];
   isHuman: boolean;
-  mustLeaveHub: boolean;  // NEW: set true after failed Final Challenge
+  mustLeaveHub: boolean; // NEW: set true after failed Final Challenge
 }
 ```
 
@@ -276,7 +276,7 @@ export interface GameState {
   lastDiceRoll: number | null;
   activeQuestionId: string | null;
   winner: string | null;
-  finalChallengeCategory: string | null;  // NEW: system-chosen category for Final Challenge
+  finalChallengeCategory: string | null; // NEW: system-chosen category for Final Challenge
 }
 ```
 
@@ -288,7 +288,7 @@ export enum TurnPhase {
   WAITING_ROLL = 'waitingRoll',
   WAITING_MOVE = 'waitingMove',
   WAITING_ANSWER = 'waitingAnswer',
-  WAITING_FINAL_ANSWER = 'waitingFinalAnswer',  // NEW
+  WAITING_FINAL_ANSWER = 'waitingFinalAnswer', // NEW
 }
 ```
 
@@ -311,7 +311,7 @@ interface PlayerToken {
   position: number;
   color: PlayerColor;
   isHuman: boolean;
-  wedges: string[];  // NEW: for wedge segment rendering on token
+  wedges: string[]; // NEW: for wedge segment rendering on token
 }
 
 // MoveResponse — extend with Final Challenge info
@@ -324,8 +324,8 @@ interface MoveResponse {
   lastDiceRoll: number | null;
   tileType: TileType;
   tileCategory: Category | null;
-  isFinalChallenge: boolean;     // NEW
-  finalCategory: string | null;  // NEW: system-chosen category
+  isFinalChallenge: boolean; // NEW
+  finalCategory: string | null; // NEW: system-chosen category
 }
 
 // AnswerResponse — extend with winner
@@ -338,16 +338,16 @@ interface AnswerResponse {
     currentPlayer: string;
     turnPhase: TurnPhase;
     status: string;
-    winner: string | null;  // NEW
+    winner: string | null; // NEW
   };
 }
 
 // GamePageState — extend with MVP-5 fields
 interface GamePageState {
   // ... existing fields ...
-  isFinalChallenge: boolean;         // NEW: true during Final Challenge flow
+  isFinalChallenge: boolean; // NEW: true during Final Challenge flow
   gameOverState: GameOverState | null; // NEW: non-null when game ended
-  earnedWedgeCategory: string | null;  // NEW: triggers WedgeNotification
+  earnedWedgeCategory: string | null; // NEW: triggers WedgeNotification
 }
 ```
 
@@ -458,8 +458,8 @@ interface GamePageState {
 // Added fields:
 {
   // ... existing fields ...
-  isFinalChallenge: boolean;     // true when hub + 6 wedges
-  finalCategory: string | null;  // system-chosen category for Final Challenge
+  isFinalChallenge: boolean; // true when hub + 6 wedges
+  finalCategory: string | null; // system-chosen category for Final Challenge
 }
 ```
 
@@ -471,7 +471,7 @@ interface GamePageState {
   // ... existing fields ...
   gameState: {
     // ... existing fields ...
-    winner: string | null;  // non-null when game is finished
+    winner: string | null; // non-null when game is finished
   }
 }
 ```
@@ -500,39 +500,39 @@ Arc start angles: 0°, 60°, 120°, 180°, 240°, 300° (starting from top)
 
 **Category-to-arc mapping** (fixed order for consistency):
 
-| Slot | Category | Start Angle | End Angle | Color |
-| --- | --- | --- | --- | --- |
-| 0 | Geography | -90° | -30° | #4FC3F7 |
-| 1 | Entertainment | -30° | 30° | #F48FB1 |
-| 2 | History | 30° | 90° | #FFF176 |
-| 3 | Art | 90° | 150° | #CE93D8 |
-| 4 | Science | 150° | 210° | #81C784 |
-| 5 | Sports | 210° | 270° | #FFB74D |
+| Slot | Category      | Start Angle | End Angle | Color   |
+| ---- | ------------- | ----------- | --------- | ------- |
+| 0    | Geography     | -90°        | -30°      | #4FC3F7 |
+| 1    | Entertainment | -30°        | 30°       | #F48FB1 |
+| 2    | History       | 30°         | 90°       | #FFF176 |
+| 3    | Art           | 90°         | 150°      | #CE93D8 |
+| 4    | Science       | 150°        | 210°      | #81C784 |
+| 5    | Sports        | 210°        | 270°      | #FFB74D |
 
 ---
 
 ## Error Handling Strategy
 
-| Error Scenario | Handling | User Impact |
-| --- | --- | --- |
-| processAnswer fails during Final Challenge | Backend rolls back (no state change), returns error | Frontend shows error notification, stays in current phase |
-| Move to hub with mustLeaveHub (impossible in practice — see AD-022) | Backend validates position 0 is excluded from valid destinations | API returns 400, frontend showed no valid pos 0 anyway |
-| Game already finished, player tries action | Backend checks `status !== FINISHED` at start of rollDice/move | API returns 400 "Game is finished" |
-| Network error during Final Challenge answer | Frontend catches, resets isLoading | Player can re-submit (activeQuestionId still set) |
+| Error Scenario                                                      | Handling                                                         | User Impact                                               |
+| ------------------------------------------------------------------- | ---------------------------------------------------------------- | --------------------------------------------------------- |
+| processAnswer fails during Final Challenge                          | Backend rolls back (no state change), returns error              | Frontend shows error notification, stays in current phase |
+| Move to hub with mustLeaveHub (impossible in practice — see AD-022) | Backend validates position 0 is excluded from valid destinations | API returns 400, frontend showed no valid pos 0 anyway    |
+| Game already finished, player tries action                          | Backend checks `status !== FINISHED` at start of rollDice/move   | API returns 400 "Game is finished"                        |
+| Network error during Final Challenge answer                         | Frontend catches, resets isLoading                               | Player can re-submit (activeQuestionId still set)         |
 
 ---
 
 ## Tech Decisions
 
-| Decision | Choice | Rationale |
-| --- | --- | --- |
-| AD-024: New TurnPhase for Final Challenge | `WAITING_FINAL_ANSWER` enum value | Explicit state machine — avoids checking wedges+position on every answer |
-| AD-022: mustLeaveHub filtering | Filter pos 0 in backend `move()` valid destinations | Hub exit always goes to ring (1-6), so filtering is redundant in practice, but adds safety |
-| AD-023: Defeat screen ready but dormant | Build DefeatScreen now, triggers on `winner !== human` | Zero rework in MVP-6 when bots can win |
-| Wedge diff detection on frontend | Compare `players.wedges.length` before/after answer response | Simple, reliable — no extra backend field needed |
-| Random category via `Math.random()` | Backend picks category in `move()`, stores in `finalChallengeCategory` | Per AD-002/S4 — system chooses, not player |
-| Gold theme via prop, not new component | `QuestionModal` accepts `isFinalChallenge` prop | Reuse > duplication — only styling differs |
-| VictoryScreen and DefeatScreen as separate components | New files, not merged into one | Clearer separation of concerns; different messages, different styling |
-| Wedge ring on token (P2) vs HUD only (P1) | Both — HUD is P1, token ring is P2 | HUD is essential info; token ring is visual enhancement |
-| `finalChallengeCategory` stored in GameState | New field on backend `GameState` interface | Needed for question fetch — frontend needs to know which category to request |
-| PlayerToken extended with wedges | Add `wedges: string[]` to frontend `PlayerToken` type | TokenRenderer needs wedge data for PixiJS rendering |
+| Decision                                              | Choice                                                                 | Rationale                                                                                  |
+| ----------------------------------------------------- | ---------------------------------------------------------------------- | ------------------------------------------------------------------------------------------ |
+| AD-024: New TurnPhase for Final Challenge             | `WAITING_FINAL_ANSWER` enum value                                      | Explicit state machine — avoids checking wedges+position on every answer                   |
+| AD-022: mustLeaveHub filtering                        | Filter pos 0 in backend `move()` valid destinations                    | Hub exit always goes to ring (1-6), so filtering is redundant in practice, but adds safety |
+| AD-023: Defeat screen ready but dormant               | Build DefeatScreen now, triggers on `winner !== human`                 | Zero rework in MVP-6 when bots can win                                                     |
+| Wedge diff detection on frontend                      | Compare `players.wedges.length` before/after answer response           | Simple, reliable — no extra backend field needed                                           |
+| Random category via `Math.random()`                   | Backend picks category in `move()`, stores in `finalChallengeCategory` | Per AD-002/S4 — system chooses, not player                                                 |
+| Gold theme via prop, not new component                | `QuestionModal` accepts `isFinalChallenge` prop                        | Reuse > duplication — only styling differs                                                 |
+| VictoryScreen and DefeatScreen as separate components | New files, not merged into one                                         | Clearer separation of concerns; different messages, different styling                      |
+| Wedge ring on token (P2) vs HUD only (P1)             | Both — HUD is P1, token ring is P2                                     | HUD is essential info; token ring is visual enhancement                                    |
+| `finalChallengeCategory` stored in GameState          | New field on backend `GameState` interface                             | Needed for question fetch — frontend needs to know which category to request               |
+| PlayerToken extended with wedges                      | Add `wedges: string[]` to frontend `PlayerToken` type                  | TokenRenderer needs wedge data for PixiJS rendering                                        |

@@ -1,12 +1,6 @@
 export type TileType = 'hub' | 'category' | 'hq' | 'rollAgain';
 
-export type Category =
-  | 'geography'
-  | 'entertainment'
-  | 'history'
-  | 'art'
-  | 'science'
-  | 'sports';
+export type Category = 'geography' | 'entertainment' | 'history' | 'art' | 'science' | 'sports';
 
 export interface TileDef {
   position: number;
@@ -14,13 +8,7 @@ export interface TileDef {
   category: Category | null;
 }
 
-export type PlayerColor =
-  | 'red'
-  | 'blue'
-  | 'green'
-  | 'yellow'
-  | 'purple'
-  | 'orange';
+export type PlayerColor = 'red' | 'blue' | 'green' | 'yellow' | 'purple' | 'orange';
 
 export interface PlayerToken {
   nickname: string;
@@ -36,6 +24,17 @@ export interface TileLayout {
   y: number;
 }
 
+export interface SpokeDef {
+  hqPosition: number;
+  category: Category;
+  fromX: number;
+  fromY: number;
+  toX: number;
+  toY: number;
+  sectorAngleStart: number;
+  sectorAngleEnd: number;
+}
+
 export interface BoardLayout {
   centerX: number;
   centerY: number;
@@ -43,6 +42,7 @@ export interface BoardLayout {
   tileRadius: number;
   hubRadius: number;
   tiles: TileLayout[];
+  spokes: SpokeDef[];
 }
 
 // --- Turn-related types (MVP-4) ---
@@ -88,6 +88,7 @@ export interface GamePageState {
   notification: string | null;
   showCategoryPicker: boolean;
   isLoading: boolean;
+  mustLeaveHub: boolean;
   isFinalChallenge: boolean;
   gameOverState: GameOverState | null;
   earnedWedgeCategory: string | null;
@@ -121,4 +122,17 @@ export interface AnswerResponse {
     status: string;
     winner: string | null;
   };
+  botTurns: BotTurnResult[];
+}
+
+export interface BotTurnResult {
+  botNickname: string;
+  diceValue: number;
+  fromPosition: number;
+  toPosition: number;
+  tileType: TileType;
+  tileCategory: Category | null;
+  answerCorrect: boolean | null;
+  wedgeEarned: string | null;
+  isFinalChallenge: boolean;
 }
