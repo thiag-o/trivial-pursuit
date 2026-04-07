@@ -18,7 +18,9 @@ export class GameService {
       throw new BadRequestException('Game already in progress');
     }
 
-    const players = [{ nickname, position: 0, wedges: [], isHuman: true, mustLeaveHub: false }];
+    const players = [
+      { nickname, position: 0, wedges: [], isHuman: true, mustLeaveHub: false },
+    ];
     for (let i = 1; i <= opponents; i++) {
       players.push({
         nickname: `Bot ${i}`,
@@ -74,14 +76,13 @@ export class GameService {
     }
 
     const currentPlayer = game.players[game.currentPlayerIndex];
-    let validDestinations = this.board.getValidDestinations(
+    const canAccessHub =
+      currentPlayer.wedges.length === 6 && !currentPlayer.mustLeaveHub;
+    const validDestinations = this.board.getValidDestinations(
       currentPlayer.position,
       game.lastDiceRoll!,
+      canAccessHub,
     );
-
-    if (currentPlayer.mustLeaveHub) {
-      validDestinations = validDestinations.filter((d) => d !== 0);
-    }
 
     if (!validDestinations.includes(targetPosition)) {
       throw new BadRequestException(
@@ -89,11 +90,11 @@ export class GameService {
       );
     }
 
-    if (currentPlayer.mustLeaveHub && currentPlayer.position === 0) {
+    const wasAtHub = currentPlayer.mustLeaveHub && currentPlayer.position === 0;
+    currentPlayer.position = targetPosition;
+    if (wasAtHub && targetPosition !== 0) {
       currentPlayer.mustLeaveHub = false;
     }
-
-    currentPlayer.position = targetPosition;
     const tile = this.board.getTile(targetPosition);
 
     if (tile.type === TileType.ROLL_AGAIN) {
@@ -191,13 +192,12 @@ export class GameService {
       while (continueRolling && rollCount < 10) {
         rollCount++;
         const diceValue = Math.floor(Math.random() * 6) + 1;
+        const canAccessHub = bot.wedges.length === 6 && !bot.mustLeaveHub;
         let validDests = this.board.getValidDestinations(
           bot.position,
           diceValue,
+          canAccessHub,
         );
-        if (bot.mustLeaveHub) {
-          validDests = validDests.filter((d) => d !== 0);
-        }
         if (validDests.length === 0) break;
 
         const fromPosition = bot.position;
@@ -205,7 +205,7 @@ export class GameService {
           validDests[Math.floor(Math.random() * validDests.length)];
         bot.position = targetPos;
 
-        if (bot.mustLeaveHub && fromPosition === 0) {
+        if (bot.mustLeaveHub && fromPosition === 0 && targetPos !== 0) {
           bot.mustLeaveHub = false;
         }
 

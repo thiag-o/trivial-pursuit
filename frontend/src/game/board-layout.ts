@@ -1,7 +1,7 @@
 import type { BoardLayout, SpokeDef, TileLayout } from './types';
 import type { Category } from './types';
 import { RING_RADIUS, HUB_RADIUS, TILE_RADIUS } from './constants';
-import { HQ_POSITIONS } from './board-data';
+import { HQ_POSITIONS, SPOKES } from './board-data';
 
 export function calculateBoardLayout(canvasSize: number): BoardLayout {
   const center = canvasSize / 2;
@@ -15,9 +15,10 @@ export function calculateBoardLayout(canvasSize: number): BoardLayout {
   // Tile 0: hub at center
   tiles.push({ position: 0, x: center, y: center });
 
-  // Tiles 1-72: evenly distributed on circle, starting at top (-90°)
-  const angleStep = (2 * Math.PI) / 72;
-  for (let i = 1; i <= 72; i++) {
+  // Tiles 1–42: evenly distributed on circle, starting at top (-90°)
+  const RING_SIZE = 42;
+  const angleStep = (2 * Math.PI) / RING_SIZE;
+  for (let i = 1; i <= RING_SIZE; i++) {
     const angle = -Math.PI / 2 + (i - 1) * angleStep;
     tiles.push({
       position: i,
@@ -26,17 +27,28 @@ export function calculateBoardLayout(canvasSize: number): BoardLayout {
     });
   }
 
+  // Spoke tiles (positions 43–72): linearly interpolated between HQ and center
+  for (const spoke of SPOKES) {
+    const hqTile = tiles[spoke.hq];
+    for (let t = 0; t < spoke.tiles.length; t++) {
+      // frac: 1/6 (adjacent to HQ) … 5/6 (adjacent to hub)
+      const frac = (t + 1) / (spoke.tiles.length + 1);
+      tiles.push({
+        position: spoke.tiles[t],
+        x: hqTile.x + (center - hqTile.x) * frac,
+        y: hqTile.y + (center - hqTile.y) * frac,
+      });
+    }
+  }
+
   // Build spoke definitions for each HQ position
   const hqEntries = Object.entries(HQ_POSITIONS) as [string, Category][];
-  // Sort by position so sectors are ordered
   hqEntries.sort((a, b) => Number(a[0]) - Number(b[0]));
 
   const spokes: SpokeDef[] = hqEntries.map(([posStr, category], idx) => {
     const hqPosition = Number(posStr);
     const hqTile = tiles[hqPosition];
-    // Angle from center to HQ tile
     const spokeAngle = -Math.PI / 2 + (hqPosition - 1) * angleStep;
-    // Sector spans from midpoint between previous spoke to midpoint between next spoke
     const prevIdx = (idx - 1 + hqEntries.length) % hqEntries.length;
     const nextIdx = (idx + 1) % hqEntries.length;
     const prevHqPos = Number(hqEntries[prevIdx][0]);
@@ -44,7 +56,6 @@ export function calculateBoardLayout(canvasSize: number): BoardLayout {
     const prevAngle = -Math.PI / 2 + (prevHqPos - 1) * angleStep;
     const nextAngle = -Math.PI / 2 + (nextHqPos - 1) * angleStep;
     const sectorAngleStart = (spokeAngle + prevAngle) / 2;
-    // Wrap: next sector angle might be "less than" current if it wraps around circle
     let sectorAngleEnd = (spokeAngle + nextAngle) / 2;
     if (sectorAngleEnd <= sectorAngleStart) {
       sectorAngleEnd += 2 * Math.PI;

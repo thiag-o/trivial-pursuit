@@ -1,7 +1,7 @@
 import { Application, Container, Graphics, Ticker } from 'pixi.js';
 import type { TileDef, BoardLayout } from '../types';
 import { CATEGORY_COLORS, HQ_TILE_RADIUS, TILE_RADIUS } from '../constants';
-import { HQ_POSITIONS, ROLL_AGAIN_POSITIONS } from '../board-data';
+import { HQ_POSITIONS, SPOKES } from '../board-data';
 
 const CATEGORY_HEX: Record<string, number> = {
   geography: 0x4fc3f7,
@@ -41,6 +41,7 @@ export class BoardRenderer {
     this.drawSpokes(layout, scale);
     this.drawHub(layout, scale);
     this.drawRingTiles(tiles, layout, scale);
+    this.drawSpokeTiles(tiles, layout, scale);
   }
 
   // ── Background ────────────────────────────────────────────────────────────
@@ -92,7 +93,7 @@ export class BoardRenderer {
     if (!layout.spokes || layout.spokes.length === 0) {
       // Fallback: plain grey spokes to HQ positions
       const spokes = new Graphics();
-      for (const pos of [5, 10, 15, 20, 25, 30]) {
+      for (const pos of [7, 14, 21, 28, 35, 42]) {
         const tile = layout.tiles[pos];
         if (!tile) continue;
         spokes.moveTo(layout.centerX, layout.centerY);
@@ -168,20 +169,26 @@ export class BoardRenderer {
 
   // ── Ring tiles ─────────────────────────────────────────────────────────────
   private drawRingTiles(tiles: TileDef[], layout: BoardLayout, scale: number): void {
-    for (let i = 1; i <= 72; i++) {
-      const tileDef = tiles[i];
-      const tilePos = layout.tiles[i];
+    for (let i = 1; i <= 42; i++) {
+      const tileDef = tiles.find((t) => t.position === i);
+      const tilePos = layout.tiles.find((t) => t.position === i);
       if (!tileDef || !tilePos) continue;
 
-      const isHQ = HQ_POSITIONS[i] !== undefined;
-      const isRollAgain = ROLL_AGAIN_POSITIONS.has(i);
-
-      if (isHQ) {
+      if (HQ_POSITIONS[i] !== undefined) {
         this.drawHQTile(i, tileDef, tilePos, scale);
-      } else if (isRollAgain) {
-        this.drawRollAgainTile(i, tilePos, scale);
       } else {
         this.drawCategoryTile(i, tileDef, tilePos, scale);
+      }
+    }
+  }
+
+  private drawSpokeTiles(tiles: TileDef[], layout: BoardLayout, scale: number): void {
+    for (const spoke of SPOKES) {
+      for (const pos of spoke.tiles) {
+        const tileDef = tiles.find((t) => t.position === pos);
+        const tilePos = layout.tiles.find((t) => t.position === pos);
+        if (!tileDef || !tilePos) continue;
+        this.drawCategoryTile(pos, tileDef, tilePos, scale);
       }
     }
   }
@@ -257,27 +264,6 @@ export class BoardRenderer {
 
     // Star/wedge label in center using a small star shape
     this.drawStar(g, tilePos.x, tilePos.y, 5 * scale, 2.5 * scale, 5);
-
-    this.container.addChild(g);
-    this.tileGraphics.set(index, g);
-  }
-
-  private drawRollAgainTile(index: number, tilePos: { x: number; y: number }, scale: number): void {
-    const radius = TILE_RADIUS * scale;
-
-    const g = new Graphics();
-    // Shadow
-    g.circle(tilePos.x + 1 * scale, tilePos.y + 1 * scale, radius);
-    g.fill({ color: 0x000000, alpha: 0.3 });
-    // White background
-    g.circle(tilePos.x, tilePos.y, radius);
-    g.fill({ color: 0xffffff });
-    // Colored ring
-    g.circle(tilePos.x, tilePos.y, radius);
-    g.stroke({ color: 0xffcc00, width: 2 * scale });
-    // Inner colored circle
-    g.circle(tilePos.x, tilePos.y, radius * 0.5);
-    g.fill({ color: 0xffcc00 });
 
     this.container.addChild(g);
     this.tileGraphics.set(index, g);

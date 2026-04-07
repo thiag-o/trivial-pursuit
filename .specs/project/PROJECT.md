@@ -45,6 +45,8 @@
 - Modo equipes
 - Edições temáticas alternativas
 - Responsividade mobile completa
+- Casas Roll Again (removidas no redesign do tabuleiro)
+- Movimento passo-a-passo (step-by-step): modelo "jump to destination" é mantido
 
 ## Constraints
 

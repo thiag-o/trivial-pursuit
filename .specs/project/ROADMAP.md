@@ -35,6 +35,23 @@
 - Tokens dos jogadores posicionados no hub central
 - Seleção de peça/cor pelo jogador
 
+**MVP-8: Redesenho do Tabuleiro** — COMPLETE
+
+- Anel reduzido de 72 para 42 tiles
+- HQs reposicionadas uniformemente: posições 7, 14, 21, 28, 35, 42 (uma por categoria a cada 7 tiles)
+- 6 raios com 5 spoke tiles navegáveis cada (posições 43–72), conectando HQ ao hub
+- Movimento spoke-aware: hub → spoke, spoke → anel, HQ → spoke, ring wrap ajustado
+- Backend e frontend sincronizados com nova topologia
+- Remoção dos 12 tiles Roll Again
+
+**MVP-9: Regras do Tabuleiro** — COMPLETE
+
+- Spoke tiles com categorias variadas: padrão rotacional `CATEGORY_CYCLE[(S+T+1)%6]` — cada raio tem os 5 tiles em categorias diferentes (não mais todos iguais à HQ)
+- Hub central bloqueado até o jogador ter 6 fatias (canAccessHub = wedges===6 && !mustLeaveHub)
+- Extensão de movimento raio→anel: quando dado ultrapassa a HQ no raio, os passos restantes continuam no anel (forward e backward)
+- Extensão de movimento anel→raio: quando jogador passa por uma HQ no anel sem parar, pode escolher entrar no raio com os passos restantes
+- Correção de bug: mustLeaveHub resetado corretamente após sair do hub
+
 **MVP-4: Lógica de Turno** — COMPLETE
 
 - Rolagem de dado d6 com animação e resultado do backend

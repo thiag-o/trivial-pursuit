@@ -13,7 +13,7 @@ import VictoryScreen from '../components/VictoryScreen';
 import DefeatScreen from '../components/DefeatScreen';
 import WedgeNotification from '../components/WedgeNotification';
 import { rollDice, moveToPosition, fetchQuestion, submitAnswer } from '../services/game-api';
-import { getValidDestinations, filterHubIfMustLeave } from '../game/turn-logic';
+import { getValidDestinations } from '../game/turn-logic';
 import type { PlayerColor, PlayerToken, GamePageState, PlayerData, BotTurnResult } from '../game/types';
 import { PLAYER_COLOR_LIST } from '../game/constants';
 
@@ -97,8 +97,8 @@ export default function GamePage() {
       const res = await rollDice();
       const currentPlayer = state.players.find((p) => p.nickname === state.currentPlayerNickname);
       const from = currentPlayer?.position ?? 0;
-      const rawDests = getValidDestinations(from, res.value);
-      const dests = filterHubIfMustLeave(rawDests, state.mustLeaveHub);
+      const canAccessHub = (currentPlayer?.wedges.length ?? 0) === 6 && !state.mustLeaveHub;
+      const dests = getValidDestinations(from, res.value, canAccessHub);
 
       setState((prev) =>
         prev
@@ -329,7 +329,7 @@ export default function GamePage() {
     botTurns: BotTurnResult[],
     updatedPlayers: PlayerData[],
     newCurrentPlayer: string,
-    updatedTokens: PlayerToken[],
+    _updatedTokens: PlayerToken[],
     gs: { status: string; winner: string | null },
   ) => {
     for (const turn of botTurns) {

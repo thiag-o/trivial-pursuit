@@ -1,7 +1,27 @@
 # State
 
-**Last Updated:** 2026-03-29
-**Current Work:** MVP COMPLETE — all milestones done
+**Last Updated:** 2026-03-30
+**Current Work:** SPOKE-NAV-RULES — In Progress (spec + design + tasks prontos; implementação pendente)
+
+---
+
+## Recent Decisions (Last 60 days)
+
+### AD-033: Spoke overshoot toward hub → opposite spoke (2026-03-30)
+
+**Decision:** Quando o dado de um spoke tile ultrapassa o hub na direção do hub (`idx + D > 5`), o destino é o tile correspondente do **raio oposto** (`SPOKES[(spokeIndex + 3) % 6].tiles[5 - k]`, onde `k = idx + D - 5`). Hub é um _waypoint_ neste caso, não um tile de destino — `canAccessHub` não bloqueia o trânsito.
+**Reason:** Dead-end na direção do hub é ilógico jogo. Diâmetro completo (próprio raio + hub + raio oposto) é o eixo natural de movimentação. Hub só bloqueia pouso (destino), não trânsito.
+**Trade-off:** Jogador pode chegar no raio oposto por overshoot sem ter as 6 fatias (sem acessar o hub como destino). Aceito — é movimento legítimo por um eixo diametral.
+**Impact:** `board.config.ts` (T1), `turn-logic.ts` (T2), `board.config.spec.ts` (T3). Nenhuma mudança de interface ou API.
+
+### AD-034: Hub como tile de pouso × hub como waypoint (2026-03-30)
+
+**Decision:** `canAccessHub` controla APENAS o pouso no hub (posição 0 como destino final). Quando o dado faz overshoot através do hub em um raio, o hub é um waypoint e o destino é o raio oposto — sem bloqueio por `canAccessHub`.
+**Reason:** Separação clara entre "aterrissar no hub" (requer 6 fatias → desafio final → vitória) e "transitar pelo hub" (movimento diametral, não requer 6 fatias). Regra mais intuitiva e justa.
+**Trade-off:** Nenhum — a distinção é semanticamente clara.
+**Impact:** Apenas o branch `idx + D > 5` de `getValidDestinations` (inaltera SDN-02/03).
+
+---
 
 ---
 
@@ -147,6 +167,34 @@
 **Trade-off:** Resposta levemente maior (inclui todos os jogadores), mas são apenas 4 objetos pequenos.
 **Impact:** Modificar `questions.controller.ts` para incluir `players` no `gameState` do response.
 
+### AD-030: Board Rules — spoke categories rotating pattern (2026-03-30)
+
+**Decision:** Spoke tiles usam `CATEGORY_CYCLE[(spokeIndex + tileIndex + 1) % 6]` em vez de todos da categoria da HQ do raio.
+**Reason:** Spoke tiles todos da mesma categoria tornam os raios redundantes estrategicamente. O padrão rotacional garante 5 categorias distintas por raio (todas exceto a própria HQ), maximizando variedade. A linha (cor) do raio continua sendo da cor da HQ para clareza visual.
+**Trade-off:** Spoke tiles não indicam visualmente em qual raio você está pela cor. Mas a linha do raio e a HQ no final mantêm essa orientação.
+**Impact:** T1 (`board.config.ts`) e T4 (`board-data.ts`) alterados. Nenhuma mudança de interface ou API.
+
+### AD-031: Hub bloqueado até 6 fatias — parâmetro canAccessHub (2026-03-30)
+
+**Decision:** `getValidDestinations` recebe `canAccessHub = false` como 3º parâmetro; hub excluído de todos os destinos quando `false`. Callers computam `canAccessHub = wedges.length === 6 && !mustLeaveHub`.
+**Reason:** Unifica o bloqueio do hub (antes: filtro separado para `mustLeaveHub`) com a nova regra de progressão (6 fatias necessárias). Uma única flag, computada uma vez, é passada para a função.
+**Trade-off:** Lógica de `mustLeaveHub` e `wedges < 6` agora fundidas — simplifica o código mas requer que callers computem `canAccessHub` corretamente (bots e humanos).
+**Impact:** T1 (`board.config.ts`), T2 (`game.service.ts`), T5 (`turn-logic.ts`), T6 (`GamePage.tsx`).
+
+### AD-032: Extensão de movimento raio↔anel — somente overshoots (2026-03-30)
+
+**Decision:** Quando o dado ultrapassa a HQ saindo do raio (overshoot spoke→anel), os passos restantes continuam no anel (fwd e bwd). Quando o dado passa por uma HQ no anel sem parar (passagem anel→raio), o jogador pode também entrar no raio com os passos restantes. Overshoot além do hub é descartado (hub é terminal).
+**Reason:** Movimento passo-a-passo (step-by-step completo) exigiria refatoração arquitetural significativa. O modelo de overshoot preserva o paradigma "jump to destination" com destinos múltiplos e mantém compatibilidade com backend/frontend atuais.
+**Trade-off:** Não é idêntico ao jogo físico (onde mudança de direção ocorre passo-a-passo), mas captura a essência estratégica da conexão raio-anel sem mudança de arquitetura.
+**Impact:** T1 (`board.config.ts`), T5 (`turn-logic.ts`).
+
+### AD-029: Board Redesign — 42-tile ring + navigable spokes (2026-03-30)
+
+**Decision:** Redesenhar o tabuleiro de 72 para 42 tiles no anel, colocar 6 HQs uniformemente (posições 7/14/21/28/35/42), e adicionar 5 spoke tiles navegáveis por raio (posições 43–72). Total de posições inalterado: 73 (0–72).
+**Reason:** Distribuição mais equilibrada entre as 6 categorias; raios como caminhos estratégicos reais (não apenas decorativos). anel de 42 = 6 seções × 7 tiles (6 regulares + 1 HQ), spokes de 5 tiles = HQ a 6 passos do hub com d6.
+**Trade-off:** Remove Roll Again tiles. Navegação de spokes exige algoritmo mais complexo (SPOKE_TILE_MAP, adjacência bidirecional). Frontend e backend precisam espelhar a mesma topologia (AD-007 se mantém).
+**Impact:** T1 (board.config.ts), T2 (spec.ts), T3 (board-data.ts), T4 (board-layout.ts), T5 (turn-logic.ts), T6 (BoardRenderer.ts).
+
 ### AD-025: Wedge diff detection via frontend comparison (2026-03-29)
 
 **Decision:** Frontend detects newly earned wedges by comparing `players[].wedges.length` before and after the answer API response, rather than adding a dedicated `wedgeEarned` field to the backend response.
@@ -269,6 +317,31 @@ _Nenhuma lição registrada ainda._
 - [x] Design MVP-7: Testes (skipped — auto-sized)
 - [x] Tasks MVP-7: Testes
 - [x] Implementar MVP-7: Testes
+- [x] Especificar BOARD-REDESIGN: Redesenho do Tabuleiro
+- [x] Design BOARD-REDESIGN: Redesenho do Tabuleiro
+- [x] Tasks BOARD-REDESIGN: Redesenho do Tabuleiro
+- [x] Implementar T1: backend board.config.ts
+- [x] Implementar T2: backend board.config.spec.ts
+- [x] Implementar T3: frontend board-data.ts
+- [x] Implementar T4: frontend board-layout.ts
+- [x] Implementar T5: frontend turn-logic.ts
+- [x] Implementar T6: frontend BoardRenderer.ts
+- [x] Especificar BOARD-RULES: Regras do Tabuleiro
+- [x] Design BOARD-RULES: Regras do Tabuleiro
+- [x] Tasks BOARD-RULES: Regras do Tabuleiro
+- [x] Implementar T1: backend board.config.ts (spoke categories + hub guard + ring-spoke extension)
+- [x] Implementar T2: backend game.service.ts (canAccessHub param + mustLeaveHub bug fix)
+- [x] Implementar T3: backend board.config.spec.ts (tests for BR-1, BR-2, BR-3)
+- [x] Implementar T4: frontend board-data.ts (spoke categories)
+- [x] Implementar T5: frontend turn-logic.ts (hub guard + ring-spoke extension)
+- [x] Implementar T6: frontend GamePage.tsx (canAccessHub param)
+- [x] Especificar SPOKE-NAV-RULES: Regras de navegação por diâmetro
+- [x] Design SPOKE-NAV-RULES: Regras de navegação por diâmetro
+- [x] Tasks SPOKE-NAV-RULES: Regras de navegação por diâmetro
+- [ ] Implementar T1: backend board.config.ts (spoke overshoot → raio oposto)
+- [ ] Implementar T2: frontend turn-logic.ts (espelhar overshoot → raio oposto)
+- [ ] Implementar T3: backend board.config.spec.ts (testes SDN-01 + SDN-02/03 verificação)
+
 ---
 
 ## Preferences
