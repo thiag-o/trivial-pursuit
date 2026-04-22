@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { Navigate, useLocation, useNavigate } from 'react-router-dom';
-import { getNickname } from '../services/auth';
+import { getNickname, clearAuth } from '../services/auth';
 import ColorPicker from '../components/ColorPicker';
 import BoardCanvas from '../components/BoardCanvas';
 import type { BoardCanvasHandle } from '../components/BoardCanvas';
@@ -14,7 +14,7 @@ import DefeatScreen from '../components/DefeatScreen';
 import WedgeNotification from '../components/WedgeNotification';
 import { rollDice, moveToPosition, fetchQuestion, submitAnswer } from '../services/game-api';
 import { getValidDestinations } from '../game/turn-logic';
-import type { PlayerColor, PlayerToken, GamePageState, PlayerData, BotTurnResult } from '../game/types';
+import type { TurnPhase, PlayerColor, PlayerToken, GamePageState, PlayerData, BotTurnResult } from '../game/types';
 import { PLAYER_COLOR_LIST } from '../game/constants';
 
 interface LocationGameState {
@@ -92,9 +92,9 @@ export default function GamePage() {
   }
 
   // --- Handler: Roll Dice ---
-  const handleRollDice = async (): Promise<number> => {
+  const handleRollDice = async (fixedValue?: number): Promise<number> => {
     try {
-      const res = await rollDice();
+      const res = await rollDice(fixedValue);
       const currentPlayer = state.players.find((p) => p.nickname === state.currentPlayerNickname);
       const from = currentPlayer?.position ?? 0;
       const canAccessHub = (currentPlayer?.wedges.length ?? 0) === 6 && !state.mustLeaveHub;
@@ -302,7 +302,6 @@ export default function GamePage() {
         );
       } else {
         // Wrong answer: backend already advanced to next human
-        const wasFinalChallenge = state.isFinalChallenge;
         setState((prev) =>
           prev
             ? {
@@ -311,7 +310,6 @@ export default function GamePage() {
                 answerResult: null,
                 isLoading: true,
                 isFinalChallenge: false,
-                mustLeaveHub: wasFinalChallenge ? true : prev.mustLeaveHub,
               }
             : prev,
         );
@@ -330,20 +328,27 @@ export default function GamePage() {
     updatedPlayers: PlayerData[],
     newCurrentPlayer: string,
     _updatedTokens: PlayerToken[],
-    gs: { status: string; winner: string | null },
+    gs: { status: string; winner: string | null; turnPhase: TurnPhase; finalChallengeCategory: string | null },
   ) => {
     for (const turn of botTurns) {
-      showNotification(`\ud83c\udfb2 ${turn.botNickname} tirou ${turn.diceValue}`);
+      // Bot retrying final challenge without moving
+      if (turn.isFinalChallenge && turn.fromPosition === 0 && turn.toPosition === 0) {
+        showNotification(`🎯 ${turn.botNickname} tenta o desafio final novamente!`);
+      } else {
+        showNotification(`🎲 ${turn.botNickname} tirou ${turn.diceValue}`);
+      }
       await sleep(500);
 
-      // Animate token movement
-      await new Promise<void>((resolve) => {
-        if (boardRef.current) {
-          boardRef.current.animateToken(turn.botNickname, turn.fromPosition, turn.toPosition, resolve);
-        } else {
-          resolve();
-        }
-      });
+      // Animate token movement (skip if staying at hub)
+      if (turn.fromPosition !== turn.toPosition) {
+        await new Promise<void>((resolve) => {
+          if (boardRef.current) {
+            boardRef.current.animateToken(turn.botNickname, turn.fromPosition, turn.toPosition, resolve);
+          } else {
+            resolve();
+          }
+        });
+      }
 
       // Update position in state for visual correctness on re-render
       setState((prev) => {
@@ -357,14 +362,14 @@ export default function GamePage() {
 
       // Show result
       if (turn.answerCorrect === null) {
-        showNotification(`\ud83c\udfb2 ${turn.botNickname} joga novamente!`);
+        showNotification(`🎲 ${turn.botNickname} joga novamente!`);
         await sleep(300);
       } else if (turn.answerCorrect) {
-        const wedgeMsg = turn.wedgeEarned ? ' \ud83c\udfc5' : '';
-        showNotification(`\u2705 ${turn.botNickname} acertou!${wedgeMsg}`);
+        const wedgeMsg = turn.wedgeEarned ? ' 🏅' : '';
+        showNotification(`✅ ${turn.botNickname} acertou!${wedgeMsg}`);
         await sleep(700);
       } else {
-        showNotification(`\u274c ${turn.botNickname} errou!`);
+        showNotification(`❌ ${turn.botNickname} errou!`);
         await sleep(500);
       }
     }
@@ -394,6 +399,27 @@ export default function GamePage() {
 
     showNotification('Sua vez!');
     await sleep(1000);
+
+    // If human is back at hub with 6 wedges, skip dice roll and show final challenge directly
+    if (gs.turnPhase === 'waitingFinalAnswer' && gs.finalChallengeCategory) {
+      setState((prev) =>
+        prev
+          ? {
+              ...prev,
+              players: updatedPlayers,
+              playerTokens: buildPlayerTokens(updatedPlayers, selectedColor),
+              currentPlayerNickname: newCurrentPlayer,
+              turnPhase: 'waitingFinalAnswer',
+              lastDiceRoll: null,
+              isLoading: false,
+              isFinalChallenge: true,
+              notification: null,
+            }
+          : prev,
+      );
+      await loadQuestion(gs.finalChallengeCategory, true);
+      return;
+    }
 
     setState((prev) =>
       prev
@@ -464,13 +490,13 @@ export default function GamePage() {
       <CategoryPickerModal onSelect={handleCategorySelect} visible={state.showCategoryPicker} />
       <TurnNotification key={notifKey} message={state.notification} />
       {state.gameOverState?.type === 'victory' && (
-        <VictoryScreen nickname={humanNickname} wedges={state.gameOverState.winnerWedges} onPlayAgain={() => navigate('/start')} />
+        <VictoryScreen nickname={humanNickname} wedges={state.gameOverState.winnerWedges} onPlayAgain={() => { clearAuth(); navigate('/login'); }} />
       )}
       {state.gameOverState?.type === 'defeat' && (
         <DefeatScreen
           winnerNickname={state.gameOverState.winnerNickname}
           winnerWedges={state.gameOverState.winnerWedges}
-          onPlayAgain={() => navigate('/start')}
+          onPlayAgain={() => { clearAuth(); navigate('/login'); }}
         />
       )}
       <WedgeNotification

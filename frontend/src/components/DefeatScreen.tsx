@@ -38,7 +38,7 @@ export default function DefeatScreen({
           onClick={onPlayAgain}
           className="rounded-lg bg-gray-600 px-6 py-3 text-lg font-bold text-white transition-colors hover:bg-gray-500"
         >
-          Jogar Novamente
+          Voltar para o menu principal
         </button>
       </div>
     </div>

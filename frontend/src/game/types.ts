@@ -121,6 +121,7 @@ export interface AnswerResponse {
     turnPhase: TurnPhase;
     status: string;
     winner: string | null;
+    finalChallengeCategory: string | null;
   };
   botTurns: BotTurnResult[];
 }

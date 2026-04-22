@@ -165,6 +165,13 @@ export class BoardRenderer {
     dot.circle(cx, cy, 4 * scale);
     dot.fill({ color: 0xffffff });
     this.container.addChild(dot);
+
+    // Invisible hit area so position 0 can be highlighted and clicked
+    const hubHit = new Graphics();
+    hubHit.circle(cx, cy, r);
+    hubHit.fill({ color: 0xffffff, alpha: 0 });
+    this.container.addChild(hubHit);
+    this.tileGraphics.set(0, hubHit);
   }
 
   // ── Ring tiles ─────────────────────────────────────────────────────────────

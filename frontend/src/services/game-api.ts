@@ -1,39 +1,25 @@
 import api from './api';
-import type {
-  RollDiceResponse,
-  MoveResponse,
-  QuestionData,
-  AnswerResponse,
-} from '../game/types';
+import type { RollDiceResponse, MoveResponse, QuestionData, AnswerResponse } from '../game/types';
 
-export async function rollDice(): Promise<RollDiceResponse> {
-  const { data } = await api.post<RollDiceResponse>('/game/roll-dice');
+export async function rollDice(fixedValue?: number): Promise<RollDiceResponse> {
+  const body = fixedValue !== undefined ? { value: fixedValue } : {};
+  const { data } = await api.post<RollDiceResponse>('/game/roll-dice', body);
   return data;
 }
 
-export async function moveToPosition(
-  targetPosition: number,
-): Promise<MoveResponse> {
+export async function moveToPosition(targetPosition: number): Promise<MoveResponse> {
   const { data } = await api.post<MoveResponse>('/game/move', {
     targetPosition,
   });
   return data;
 }
 
-export async function fetchQuestion(
-  category: string,
-): Promise<QuestionData> {
+export async function fetchQuestion(category: string): Promise<QuestionData> {
   const { data } = await api.get<QuestionData>(`/questions/${category}`);
   return data;
 }
 
-export async function submitAnswer(
-  questionId: string,
-  answerId: string,
-): Promise<AnswerResponse> {
-  const { data } = await api.post<AnswerResponse>(
-    `/questions/${questionId}/answer`,
-    { answerId },
-  );
+export async function submitAnswer(questionId: string, answerId: string): Promise<AnswerResponse> {
+  const { data } = await api.post<AnswerResponse>(`/questions/${questionId}/answer`, { answerId });
   return data;
 }

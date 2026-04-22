@@ -19,7 +19,19 @@ export class GameService {
     }
 
     const players = [
-      { nickname, position: 0, wedges: [], isHuman: true, mustLeaveHub: false },
+      {
+        nickname,
+        position: 0,
+        wedges: [
+          Category.ART,
+          Category.ENTERTAINMENT,
+          Category.GEOGRAPHY,
+          Category.HISTORY,
+          Category.SCIENCE,
+        ],
+        isHuman: true,
+        mustLeaveHub: false,
+      },
     ];
     for (let i = 1; i <= opponents; i++) {
       players.push({
@@ -47,7 +59,10 @@ export class GameService {
     return state;
   }
 
-  rollDice(nickname: string): { value: number; gameState: GameState } {
+  rollDice(
+    nickname: string,
+    fixedValue?: number,
+  ): { value: number; gameState: GameState } {
     const game = this.getActiveGame(nickname);
     this.validateCurrentPlayer(game, nickname);
 
@@ -55,7 +70,7 @@ export class GameService {
       throw new BadRequestException('Not in rolling phase');
     }
 
-    const value = Math.floor(Math.random() * 6) + 1;
+    const value = fixedValue ?? Math.floor(Math.random() * 6) + 1;
     game.lastDiceRoll = value;
     game.turnPhase = TurnPhase.WAITING_MOVE;
     this.store.update(game.gameId, game);
@@ -90,11 +105,7 @@ export class GameService {
       );
     }
 
-    const wasAtHub = currentPlayer.mustLeaveHub && currentPlayer.position === 0;
     currentPlayer.position = targetPosition;
-    if (wasAtHub && targetPosition !== 0) {
-      currentPlayer.mustLeaveHub = false;
-    }
     const tile = this.board.getTile(targetPosition);
 
     if (tile.type === TileType.ROLL_AGAIN) {
@@ -130,12 +141,12 @@ export class GameService {
       if (correct) {
         game.status = GameStatus.FINISHED;
         game.winner = currentPlayer.nickname;
+        game.finalChallengeCategory = null;
       } else {
-        currentPlayer.mustLeaveHub = true;
+        game.finalChallengeCategory = null;
         this.advanceTurn(game);
         botTurns = this.playBotTurns(game);
       }
-      game.finalChallengeCategory = null;
     } else if (correct) {
       if (
         tile.type === TileType.HQ &&
@@ -173,8 +184,16 @@ export class GameService {
   private advanceTurn(game: GameState): void {
     game.currentPlayerIndex =
       (game.currentPlayerIndex + 1) % game.players.length;
-    game.turnPhase = TurnPhase.WAITING_ROLL;
     game.lastDiceRoll = null;
+    const nextPlayer = game.players[game.currentPlayerIndex];
+    if (nextPlayer.position === 0 && nextPlayer.wedges.length === 6) {
+      const categories = Object.values(Category);
+      game.finalChallengeCategory =
+        categories[Math.floor(Math.random() * categories.length)];
+      game.turnPhase = TurnPhase.WAITING_FINAL_ANSWER;
+    } else {
+      game.turnPhase = TurnPhase.WAITING_ROLL;
+    }
   }
 
   playBotTurns(game: GameState): BotTurnResult[] {
@@ -186,6 +205,32 @@ export class GameService {
       game.status !== GameStatus.FINISHED
     ) {
       const bot = game.players[game.currentPlayerIndex];
+
+      // Bot is already at hub with 6 wedges from a previous failed attempt
+      if (bot.position === 0 && bot.wedges.length === 6) {
+        const answerCorrect = Math.random() < 0.5;
+        results.push({
+          botNickname: bot.nickname,
+          diceValue: 0,
+          fromPosition: 0,
+          toPosition: 0,
+          tileType: TileType.HUB,
+          tileCategory:
+            categories[Math.floor(Math.random() * categories.length)],
+          answerCorrect,
+          wedgeEarned: null,
+          isFinalChallenge: true,
+        });
+        if (answerCorrect) {
+          game.status = GameStatus.FINISHED;
+          game.winner = bot.nickname;
+          this.store.update(game.gameId, game);
+          return results;
+        }
+        this.advanceTurn(game);
+        continue;
+      }
+
       let continueRolling = true;
       let rollCount = 0;
 

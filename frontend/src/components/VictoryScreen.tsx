@@ -32,7 +32,7 @@ export default function VictoryScreen({ nickname, wedges, onPlayAgain }: Victory
           onClick={onPlayAgain}
           className="rounded-lg bg-yellow-500 px-6 py-3 text-lg font-bold text-gray-900 transition-colors hover:bg-yellow-400"
         >
-          Jogar Novamente
+          Voltar para o menu principal
         </button>
       </div>
     </div>
